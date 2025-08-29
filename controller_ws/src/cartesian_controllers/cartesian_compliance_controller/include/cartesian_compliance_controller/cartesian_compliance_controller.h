@@ -104,10 +104,6 @@ private:
   ctrl::Matrix6D m_stiffness;
   std::string m_compliance_ref_link;
 
-  // Subscripción y almacenamiento de datos del sensor de fuerza/torque
-  rclcpp::Subscription<geometry_msgs::msg::WrenchStamped>::SharedPtr ft_sensor_sub_;
-  geometry_msgs::msg::WrenchStamped::SharedPtr latest_wrench_;
-  std::string ft_sensor_topic_;
 };
 
 }  // namespace cartesian_compliance_controller

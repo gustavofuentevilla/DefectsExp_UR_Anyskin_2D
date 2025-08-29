@@ -1,0 +1,172 @@
+[0.018s] Invoking command in '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PS1=(venv) VIRTUAL_ENV_PROMPT=(venv) /usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin/cmake /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/src/custom_interfaces -DCMAKE_BUILD_TYPE=Release -DCMAKE_SHARED_LINKER_FLAGS=-Wl,-no-as-needed -DBUILD_TESTING=OFF -DALIAS_ROS2_TF2=1 -DCMAKE_CXX_FLAGS_RELEASE=-O0 -G Ninja -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -DCMAKE_INSTALL_PREFIX=/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install
+[0.112s] -- The C compiler identification is GNU 12.3.0
+[0.204s] -- The CXX compiler identification is GNU 12.3.0
+[0.224s] -- Detecting C compiler ABI info
+[0.295s] -- Detecting C compiler ABI info - done
+[0.305s] -- Check for working C compiler: /usr/bin/gcc - skipped
+[0.306s] -- Detecting C compile features
+[0.306s] -- Detecting C compile features - done
+[0.311s] -- Detecting CXX compiler ABI info
+[0.391s] -- Detecting CXX compiler ABI info - done
+[0.404s] -- Check for working CXX compiler: /usr/bin/g++ - skipped
+[0.404s] -- Detecting CXX compile features
+[0.405s] -- Detecting CXX compile features - done
+[0.405s] -- Building for ROS 2 Jazzy
+[0.410s] -- Found ament_cmake: 2.5.2 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/ament_cmake/cmake)
+[0.681s] -- Found Python3: /home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/bin/python3 (found version "3.10.18") found components: Interpreter 
+[0.773s] -- Found ament_cmake_ros: 0.12.0 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/ament_cmake_ros/cmake)
+[0.784s] -- Found rosidl_typesupport_c: 3.2.2 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rosidl_typesupport_c/cmake)
+[0.785s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.863s] -- Found rosidl_typesupport_cpp: 3.2.2 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rosidl_typesupport_cpp/cmake)
+[0.864s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.899s] -- Found rosidl_default_generators: 1.6.0 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rosidl_default_generators/cmake)
+[0.904s] -- Found rosidl_adapter: 4.8.1 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rosidl_adapter/cmake)
+[0.906s] -- Found builtin_interfaces: 2.0.2 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/builtin_interfaces/cmake)
+[0.916s] -- Found class_loader: 2.7.0 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/class_loader/cmake)
+[0.919s] -- Found geometry_msgs: 5.3.5 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/geometry_msgs/cmake)
+[0.939s] -- Found rclcpp: 28.1.3 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rclcpp/cmake)
+[0.980s] -- Found rmw_implementation_cmake: 7.3.1 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rmw_implementation_cmake/cmake)
+[0.982s] -- Found rmw_fastrtps_cpp: 9.0.0 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rmw_fastrtps_cpp/cmake)
+[1.008s] -- Found FastRTPS: /usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/include (Required is at least version "2.13") 
+[1.014s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.484s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.759s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.766s] -- Configuring done
+[1.793s] -- Generating done
+[1.805s] -- Build files have been written to: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces
+[1.816s] Invoked command in '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PS1=(venv) VIRTUAL_ENV_PROMPT=(venv) /usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin/cmake /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/src/custom_interfaces -DCMAKE_BUILD_TYPE=Release -DCMAKE_SHARED_LINKER_FLAGS=-Wl,-no-as-needed -DBUILD_TESTING=OFF -DALIAS_ROS2_TF2=1 -DCMAKE_CXX_FLAGS_RELEASE=-O0 -G Ninja -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -DCMAKE_INSTALL_PREFIX=/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install
+[1.818s] Invoking command in '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PS1=(venv) VIRTUAL_ENV_PROMPT=(venv) /usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin/cmake --build /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces -- -j24 -l24
+[1.952s] [1/27] Generating type hashes for ROS interfaces
+[2.084s] [2/27] Generating C++ code for ROS interfaces
+[2.096s] [3/27] Generating C code for ROS interfaces
+[2.128s] [4/27] Building C object CMakeFiles/custom_interfaces__rosidl_generator_c.dir/rosidl_generator_c/custom_interfaces/msg/detail/sync_data__type_support.c.o
+[2.146s] [5/27] Building C object CMakeFiles/custom_interfaces__rosidl_generator_c.dir/rosidl_generator_c/custom_interfaces/msg/detail/sync_data__description.c.o
+[2.170s] [6/27] Building C object CMakeFiles/custom_interfaces__rosidl_generator_c.dir/rosidl_generator_c/custom_interfaces/msg/detail/sync_data__functions.c.o
+[2.189s] [7/27] Linking C shared library libcustom_interfaces__rosidl_generator_c.so
+[2.325s] [8/27] Generating C type support dispatch for ROS interfaces
+[2.325s] [9/27] Generating C++ type support dispatch for ROS interfaces
+[2.332s] [10/27] Generating C++ introspection for ROS interfaces
+[2.334s] [11/27] Generating C introspection for ROS interfaces
+[2.347s] [12/27] Generating C++ type support for eProsima Fast-RTPS
+[2.349s] [13/27] Generating C type support for eProsima Fast-RTPS
+[2.372s] [14/27] Building C object CMakeFiles/custom_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/custom_interfaces/msg/detail/sync_data__type_support.c.o
+[2.372s] [15/27] Building CXX object CMakeFiles/custom_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/custom_interfaces/msg/sync_data__type_support.cpp.o
+[2.395s] [16/27] Linking C shared library libcustom_interfaces__rosidl_typesupport_introspection_c.so
+[2.420s] [17/27] Linking CXX shared library libcustom_interfaces__rosidl_typesupport_c.so
+[2.594s] [18/27] Building CXX object CMakeFiles/custom_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/custom_interfaces/msg/sync_data__type_support.cpp.o
+[2.623s] [19/27] Building CXX object CMakeFiles/custom_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/custom_interfaces/msg/detail/sync_data__type_support.cpp.o
+[2.642s] [20/27] Linking CXX shared library libcustom_interfaces__rosidl_typesupport_cpp.so
+[2.671s] [21/27] Linking CXX shared library libcustom_interfaces__rosidl_typesupport_introspection_cpp.so
+[2.715s] [22/27] Building CXX object CMakeFiles/custom_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/custom_interfaces/msg/detail/sync_data__type_support_c.cpp.o
+[2.716s] [23/27] Building CXX object CMakeFiles/custom_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/custom_interfaces/msg/detail/dds_fastrtps/sync_data__type_support.cpp.o
+[2.762s] [24/27] Linking CXX shared library libcustom_interfaces__rosidl_typesupport_fastrtps_cpp.so
+[2.762s] [25/27] Linking CXX shared library libcustom_interfaces__rosidl_typesupport_fastrtps_c.so
+[8.150s] [26/27] Building CXX object CMakeFiles/custom_interfaces_matlab.dir/src/custom_interfaces_SyncData_message.cpp.o
+[8.302s] [27/27] Linking CXX shared library libcustom_interfaces_matlab.so
+[8.304s] Invoked command in '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PS1=(venv) VIRTUAL_ENV_PROMPT=(venv) /usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin/cmake --build /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces -- -j24 -l24
+[8.318s] Invoking command in '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PS1=(venv) VIRTUAL_ENV_PROMPT=(venv) /usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin/cmake --install /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces
+[8.321s] -- Install configuration: "Release"
+[8.321s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/ament_index/resource_index/rosidl_interfaces/custom_interfaces
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/msg/SyncData.json
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/sync_data.h
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/rosidl_generator_c__visibility_control.h
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__functions.h
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__type_support.c
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__functions.c
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__type_support.h
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__struct.h
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__description.c
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/environment/library_path.sh
+[8.322s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/environment/library_path.dsv
+[8.323s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_generator_c.so
+[8.323s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces
+[8.323s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg
+[8.323s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[8.323s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail
+[8.323s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__rosidl_typesupport_fastrtps_c.h
+[8.323s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_typesupport_fastrtps_c.so
+[8.323s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces
+[8.323s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg
+[8.323s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[8.323s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail
+[8.323s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__type_support.c
+[8.323s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__rosidl_typesupport_introspection_c.h
+[8.323s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_typesupport_introspection_c.so
+[8.324s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_typesupport_c.so
+[8.324s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces
+[8.324s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg
+[8.324s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/sync_data.hpp
+[8.324s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
+[8.324s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail
+[8.324s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__struct.hpp
+[8.324s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__builder.hpp
+[8.324s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__type_support.hpp
+[8.324s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__traits.hpp
+[8.324s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces
+[8.324s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg
+[8.324s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail
+[8.324s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/dds_fastrtps
+[8.325s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__rosidl_typesupport_fastrtps_cpp.hpp
+[8.325s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[8.325s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_typesupport_fastrtps_cpp.so
+[8.325s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces
+[8.325s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg
+[8.325s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail
+[8.325s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__type_support.cpp
+[8.325s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__rosidl_typesupport_introspection_cpp.hpp
+[8.325s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_typesupport_introspection_cpp.so
+[8.325s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_typesupport_cpp.so
+[8.325s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/msg/SyncData.idl
+[8.325s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/msg/SyncData.msg
+[8.325s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include
+[8.325s] -- Up-to-date: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces
+[8.325s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/visibility_control.h
+[8.325s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces_matlab.so
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/m/
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/m//+ros
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/m//+ros/+internal
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/m//+ros/+internal/+ros2
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/m//+ros/+internal/+ros2/+custommessages
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/m//+ros/+internal/+ros2/+custommessages/+custom_interfaces
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/m//+ros/+internal/+ros2/+custommessages/+custom_interfaces/syncData.m
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/ament_index/resource_index/package_run_dependencies/custom_interfaces
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/ament_index/resource_index/parent_prefix_path/custom_interfaces
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/environment/ament_prefix_path.sh
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/environment/ament_prefix_path.dsv
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/environment/path.sh
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/environment/path.dsv
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/local_setup.bash
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/local_setup.sh
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/local_setup.zsh
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/local_setup.dsv
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/package.dsv
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/ament_index/resource_index/packages/custom_interfaces
+[8.329s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_generator_cExport.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_generator_cExport-release.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_typesupport_fastrtps_cExport.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_typesupport_fastrtps_cExport-release.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_introspection_cExport.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_introspection_cExport-release.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_cExport.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_cExport-release.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_generator_cppExport.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_typesupport_fastrtps_cppExport-release.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_introspection_cppExport.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_introspection_cppExport-release.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_cppExport.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_cppExport-release.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/rosidl_cmake-extras.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/ament_cmake_export_libraries-extras.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/ament_cmake_export_targets-extras.cmake
+[8.330s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[8.331s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[8.331s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfacesConfig.cmake
+[8.331s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfacesConfig-version.cmake
+[8.331s] -- Installing: /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/package.xml
+[8.332s] Invoked command in '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PS1=(venv) VIRTUAL_ENV_PROMPT=(venv) /usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin/cmake --install /home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces

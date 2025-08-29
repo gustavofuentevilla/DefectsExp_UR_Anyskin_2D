@@ -120,6 +120,7 @@ private:
      * intuitive for tele-manipulation.
      */
   bool m_hand_frame_control;
+
 };
 
 }  // namespace cartesian_force_controller

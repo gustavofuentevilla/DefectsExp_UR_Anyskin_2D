@@ -65,7 +65,7 @@ CartesianComplianceController::on_init()
   }
 
   auto_declare<std::string>("compliance_ref_link", "");
-  auto_declare<std::string>("ft_sensor_topic", "");
+  // auto_declare<std::string>("ft_sensor_topic", "");
 
   constexpr double default_lin_stiff = 500.0;
   constexpr double default_rot_stiff = 50.0;
@@ -102,18 +102,6 @@ CartesianComplianceController::on_configure(const rclcpp_lifecycle::State & prev
 
   // Make sure sensor wrenches are interpreted correctly
   ForceBase::setFtSensorReferenceFrame(m_compliance_ref_link);
-
-  // Configurar el subscriber del sensor de fuerza/torque
-  get_node()->get_parameter("ft_sensor_topic", ft_sensor_topic_);
-  if (!ft_sensor_topic_.empty()) {
-    ft_sensor_sub_ = get_node()->create_subscription<geometry_msgs::msg::WrenchStamped>(
-      ft_sensor_topic_, 10,
-      [this](const geometry_msgs::msg::WrenchStamped::SharedPtr msg) {
-        latest_wrench_ = msg;
-      });
-    RCLCPP_INFO(get_node()->get_logger(),
-                "Using external wrench topic: %s", ft_sensor_topic_.c_str());
-  }
 
   return TYPE::SUCCESS;
 }
@@ -182,32 +170,6 @@ ctrl::Vector6D CartesianComplianceController::computeComplianceError()
   tmp[5] = get_node()->get_parameter("stiffness.rot_z").as_double();
 
   m_stiffness = tmp.asDiagonal();
-
-
-  // Usar la fuente de fuerza según el parámetro ft_sensor_topic
-  if (!ft_sensor_topic_.empty() && latest_wrench_) {
-    Eigen::Vector3d force(
-      latest_wrench_->wrench.force.x,
-      latest_wrench_->wrench.force.y,
-      latest_wrench_->wrench.force.z);
-    Eigen::Vector3d torque(
-      latest_wrench_->wrench.torque.x,
-      latest_wrench_->wrench.torque.y,
-      latest_wrench_->wrench.torque.z);
-    ctrl::Vector6D ext_wrench;
-    ext_wrench[0] = force.x();
-    ext_wrench[1] = force.y();
-    ext_wrench[2] = force.z();
-    ext_wrench[3] = torque.x();
-    ext_wrench[4] = torque.y();
-    ext_wrench[5] = torque.z();
-    // Transformar al marco de referencia base
-    ctrl::Vector6D ext_wrench_base = Base::displayInBaseLink(ext_wrench, latest_wrench_->header.frame_id);
-    ctrl::Vector6D net_force =
-      Base::displayInBaseLink(m_stiffness, m_compliance_ref_link) * MotionBase::computeMotionError()
-      + ext_wrench_base;
-    return net_force;
-  }
 
   ctrl::Vector6D net_force =
 

@@ -258,15 +258,15 @@ cartesian_compliance_controller:
       - position
         #- velocity
 
-    ft_sensor_topic: "/force_torque_sensor_broadcaster/wrench"
+    # ft_sensor_topic: "/force_torque_sensor_broadcaster/wrench"
 
     stiffness:  # w.r.t. compliance_ref_link coordinates
-        trans_x: 500.0
-        trans_y: 500.0
-        trans_z: 500.0
-        rot_x: 20.0
-        rot_y: 20.0
-        rot_z: 20.0
+        trans_x: 700.0
+        trans_y: 700.0
+        trans_z: 700.0
+        rot_x: 50.0
+        rot_y: 50.0
+        rot_z: 50.0
 
     solver:
         error_scale: 0.5
@@ -286,7 +286,6 @@ cartesian_compliance_controller:
 
 cartesian_force_controller:
   ros__parameters:
-
     # See the cartesian_compliance_controller
     end_effector_link: "ur5e_tool0"
     robot_base_link: "ur5e_base_link"

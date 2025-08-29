@@ -1,9 +1,9 @@
 {
   "package_name": "custom_interfaces",
-  "output_dir": "/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces/rosidl_generator_cpp/custom_interfaces",
+  "output_dir": "/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces/rosidl_generator_cpp/custom_interfaces",
   "template_dir": "/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rosidl_generator_cpp/cmake/../resource",
   "idl_tuples": [
-    "/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces/rosidl_adapter/custom_interfaces:msg/SyncData.idl"
+    "/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces/rosidl_adapter/custom_interfaces:msg/SyncData.idl"
   ],
   "ros_interface_dependencies": [
     "builtin_interfaces:/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/builtin_interfaces/msg/Duration.idl",
@@ -91,7 +91,7 @@
     "/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rosidl_generator_cpp/cmake/../resource/srv__struct.hpp.em",
     "/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rosidl_generator_cpp/cmake/../resource/srv__traits.hpp.em",
     "/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rosidl_generator_cpp/cmake/../resource/srv__type_support.hpp.em",
-    "/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces/rosidl_adapter/custom_interfaces/msg/SyncData.idl",
+    "/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces/rosidl_adapter/custom_interfaces/msg/SyncData.idl",
     "/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/builtin_interfaces/msg/Duration.idl",
     "/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/builtin_interfaces/msg/Time.idl",
     "/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/geometry_msgs/msg/Accel.idl",
@@ -158,6 +158,6 @@
     "/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/std_msgs/msg/UInt8MultiArray.idl"
   ],
   "type_description_tuples": [
-    "msg/SyncData.idl:/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces/rosidl_generator_type_description/custom_interfaces/msg/SyncData.json"
+    "msg/SyncData.idl:/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/build/custom_interfaces/rosidl_generator_type_description/custom_interfaces/msg/SyncData.json"
   ]
 }

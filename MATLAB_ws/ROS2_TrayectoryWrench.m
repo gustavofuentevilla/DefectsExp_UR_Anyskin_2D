@@ -12,7 +12,7 @@ nodeMATLAB = ros2node("/MATLAB_Node", 0);
 
 % Create publisher for PoseStamped messages
 pub_pose = ros2publisher(nodeMATLAB,...
-                    "/target_frame",...
+                    "/cartesian_compliance_controller/target_frame",...
                     "geometry_msgs/PoseStamped");
 pub_wrench = ros2publisher(nodeMATLAB,...
                     "/cartesian_compliance_controller/target_wrench",...
@@ -49,10 +49,6 @@ while t < 10
     msg_pose.pose.position.x = 0.395;
     msg_pose.pose.position.y = 0.115;
     msg_pose.pose.position.z = 0.0;
-    % Circular trajectory
-    % msg_pose.pose.position.x = x_c + radius * cos(theta);
-    % msg_pose.pose.position.y = y_c - radius * sin(theta);
-    % msg_pose.pose.position.z = 0.0;
 
     msg_pose.pose.orientation.x = sqrt(2)/2;
     msg_pose.pose.orientation.y = sqrt(2)/2;
@@ -77,7 +73,7 @@ while t < 10
     t = t + 1/rate;
 end
 
-% Send circular trajectory with a desired force in Z
+%% Send circular trajectory with a desired force in Z
 t = 0;
 reset(loop_rate);
 while t < duration
@@ -90,12 +86,6 @@ while t < duration
     msg_wrench.header.stamp.nanosec = uint32(now.nanosec);
     msg_wrench.header.frame_id = 'ee_link'; % 'ur5e_tool0';  % reference frame
 
-    % Circular trajectory (x = r*cos(θ), y = r*sin(θ))
-    theta = angular_speed * t;
-    % Initial pose for circular trajectory
-    % msg_pose.pose.position.x = 0.395;
-    % msg_pose.pose.position.y = 0.115;
-    % msg_pose.pose.position.z = 0.0;
     % Circular trajectory
     delta = 2*pi*t/duration - sin(2*pi*t/duration);
     msg_pose.pose.position.x = x_c + radius * cos(delta);
@@ -138,16 +128,10 @@ while t < duration
     msg_wrench.header.stamp.nanosec = uint32(now.nanosec);
     msg_wrench.header.frame_id = 'ee_link'; % 'ur5e_tool0';  % reference frame
 
-    % Circular trajectory (x = r*cos(θ), y = r*sin(θ))
-    theta = angular_speed * t;
-    % Initial pose for circular trajectory
+    % Initial pose
     msg_pose.pose.position.x = 0.395;
     msg_pose.pose.position.y = 0.115;
     msg_pose.pose.position.z = 0.1;
-    % Circular trajectory
-    % msg_pose.pose.position.x = x_c + radius * cos(theta);
-    % msg_pose.pose.position.y = y_c - radius * sin(theta);
-    % msg_pose.pose.position.z = 0.0;
 
     msg_pose.pose.orientation.x = sqrt(2)/2;
     msg_pose.pose.orientation.y = sqrt(2)/2;

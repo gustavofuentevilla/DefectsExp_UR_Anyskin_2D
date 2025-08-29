@@ -1,6 +1,6 @@
 {
   "package_name": "custom_interfaces",
   "non_idl_tuples": [
-    "/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/src/custom_interfaces:msg/SyncData.msg"
+    "/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/custom/matlab_msg_gen/glnxa64/src/custom_interfaces:msg/SyncData.msg"
   ]
 }

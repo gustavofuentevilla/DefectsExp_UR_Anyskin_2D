@@ -24,7 +24,7 @@ class TargetPosePublisher(Node):
         )   
         pose.pose.position.x = 0.395
         pose.pose.position.y = 0.115
-        pose.pose.position.z = 0.3
+        pose.pose.position.z = 0.1
         # pose.pose.position.x = 0.44
         # pose.pose.position.y = 0.0
         # pose.pose.position.z = 0.0
