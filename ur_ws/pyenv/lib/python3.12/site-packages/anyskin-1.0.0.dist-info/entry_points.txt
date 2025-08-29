@@ -1,0 +1,2 @@
+[console_scripts]
+anyskin_viz = anyskin.visualizations.anyskin_viz:default_viz

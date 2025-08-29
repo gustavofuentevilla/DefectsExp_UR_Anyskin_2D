@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Sensor link -->
+  <link name="sensor_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://sensor_description/meshes/AnySkinToRobot_mesh.stl"/>
+      </geometry>
+      <material name="Gray">
+        <color rgba="0.6 0.6 0.6 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://sensor_description/meshes/AnySkinToRobot_mesh.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.090"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="28343.86861e-9" ixy="-2.25189e-9" ixz="-146.37387e-9"
+               iyy="29559.43462e-9" iyz="1.70533e-9"
+               izz="24658.37874e-9"/>
+    </inertial>
+  </link>
+
+  <!-- End-effector frame at the tip of the sensor -->
+  <link name="ee_link"/>
+  <joint name="sensor_to_ee" type="fixed">
+    <parent link="sensor_link"/>
+    <child link="ee_link"/>
+    <!-- Set xyz to the tip position in sensor_link frame (adjust as needed) -->
+    <origin xyz="0 0 0.0505" rpy="0 0 0"/>
+  </joint>
+
+</robot>

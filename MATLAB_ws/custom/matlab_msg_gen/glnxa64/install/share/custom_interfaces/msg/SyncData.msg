@@ -1,0 +1,3 @@
+builtin_interfaces/Time stamp
+geometry_msgs/PoseStamped ee_pose
+std_msgs/Float32MultiArray measurements

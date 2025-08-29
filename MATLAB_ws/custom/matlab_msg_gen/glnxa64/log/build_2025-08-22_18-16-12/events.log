@@ -1,0 +1,386 @@
+[0.000000] (-) TimerEvent: {}
+[0.001494] (custom_interfaces) JobQueued: {'identifier': 'custom_interfaces', 'dependencies': OrderedDict()}
+[0.001925] (custom_interfaces) JobStarted: {'identifier': 'custom_interfaces'}
+[0.035423] (custom_interfaces) JobProgress: {'identifier': 'custom_interfaces', 'progress': 'cmake'}
+[0.036329] (custom_interfaces) Command: {'cmd': ['/usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin/cmake', '/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/src/custom_interfaces', '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_SHARED_LINKER_FLAGS=-Wl,-no-as-needed', '-DBUILD_TESTING=OFF', '-DALIAS_ROS2_TF2=1', '-DCMAKE_CXX_FLAGS_RELEASE=-O0', '-G', 'Ninja', '-DCMAKE_C_COMPILER=/usr/bin/gcc', '-DCMAKE_CXX_COMPILER=/usr/bin/g++', '-DCMAKE_INSTALL_PREFIX=/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install'], 'cwd': '/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces', 'env': OrderedDict([('ARCH', 'glnxa64'), ('GZ_SIM_RESOURCE_PATH', '/opt/ros/jazzy/share'), ('LANGUAGE', 'es_MX:en'), ('CUSTOM_LD_LIBRARY_PATH', ''), ('USER', 'gustavo-fuentevilla'), ('LOCAL_PYTHON_VENV_PATH', '/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv'), ('MEMKIND_HEAP_MANAGER', 'TBB'), ('GZ_CONFIG_PATH', '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz'), ('CUSTOM_AMENT_PREFIX_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2'), ('XDG_SESSION_TYPE', 'x11'), ('CLUTTER_DISABLE_MIPMAPPED_TEXT', '1'), ('KMP_HANDLE_SIGNALS', '0'), ('SHLVL', '2'), ('ICU_TIMEZONE_FILES_DIR', '/usr/local/MATLAB/R2025a/bin/icutzdata'), ('LD_LIBRARY_PATH', ':/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/lib:/usr/local/MATLAB/R2025a/sys/os/glnxa64:/usr/local/MATLAB/R2025a/bin/glnxa64:/home/gustavo-fuentevilla/.MathWorks/D7P8bRQE8tJROWzD72O_ERheIYsh3N7Z2Yo12zD0lxI/bin/glnxa64:/usr/local/MATLAB/R2025a/extern/lib/glnxa64:/usr/local/MATLAB/R2025a/cefclient/sys/os/glnxa64:/usr/local/MATLAB/R2025a/runtime/glnxa64:/usr/local/MATLAB/R2025a/sys/java/jre/glnxa64/jre/lib/amd64/native_threads:/usr/local/MATLAB/R2025a/sys/java/jre/glnxa64/jre/lib/amd64/server:/home/gustavo-fuentevilla/new_ws/install/custom_interfaces/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib'), ('LESS', '-R'), ('BASEMATLABPATH', ''), ('HOME', '/home/gustavo-fuentevilla'), ('AUTOMOUNT_MAP', ''), ('OLDPWD', '/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64'), ('DESKTOP_SESSION', 'ubuntu'), ('MW_LD_SHIM', '/usr/local/MATLAB/R2025a/bin/glnxa64/ld_shim.so.2.39.ubuntu_24_04'), ('LSCOLORS', 'Gxfxcxdxbxegedabagacad'), ('ZSH', '/home/gustavo-fuentevilla/.oh-my-zsh'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('KMP_BLOCKTIME', '1'), ('PAGER', 'less'), ('PS1', '(venv)'), ('P9K_TTY', 'old'), ('SYSTEMD_EXEC_PID', '3343'), ('GSM_SKIP_SSH_AGENT_WORKAROUND', 'true'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('DEBUGINFOD_URLS', 'https://debuginfod.ubuntu.com'), ('CUSTOM_SITE_PACKAGES_PATH', ''), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2:/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2'), ('MWAPIKEY', 'IOCJVkFAaQtxlPfh'), ('ROS_DISTRO', 'jazzy'), ('LOGNAME', 'gustavo-fuentevilla'), ('MATLAB_MEM_MGR_VALUE', ''), ('_P9K_SSH_TTY', '/dev/pts/2'), ('_', '/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/bin/colcon'), ('ROS_VERSION', '2'), ('PKG_CONFIG_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/lib/pkgconfig'), ('MEMORY_PRESSURE_WATCH', '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@x11.service/memory.pressure'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'gustavo-fuentevilla'), ('TERM', 'dumb'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin::/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/bin:/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/bin:/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/bin:/usr/local/MATLAB/R2025a/toolbox/shared/coder/ninja/glnxa64:/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/Fuentevilla-XMG-Linux:@/tmp/.ICE-unix/3312,unix/Fuentevilla-XMG-Linux:/tmp/.ICE-unix/3312'), ('PAPERSIZE', 'letter'), ('GTK3_MODULES', 'xapp-gtk3-module'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/f0599f88_9e30_408f_b2a5_cad2e1ade7c3'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('TOOLBOX', '/usr/local/MATLAB/R2025a/toolbox'), ('MKL_DOMAIN_NUM_THREADS', ''), ('KMP_INIT_AT_FORK', 'false'), ('DISPLAY', ':1'), ('LD_PRELOAD', ''), ('LANG', 'es_MX.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('PRE_LD_PRELOAD', ''), ('VIRTUAL_ENV_PROMPT', '(venv)'), ('RMW_IMPLEMENTATION', ''), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:'), ('GNOME_TERMINAL_SERVICE', ':1.120'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2:/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2'), ('SHELL', '/usr/bin/zsh'), ('CMAKE_PATH', '/usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin'), ('XFILESEARCHPATH', '/usr/local/MATLAB/R2025a/sys/java/jre/glnxa64/jre/lib/locale/%L/%T/%N%S:'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('OSG_LD_LIBRARY_PATH', '/usr/local/MATLAB/R2025a/sys/openscenegraph/lib/glnxa64'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('P9K_SSH', '0'), ('VIRTUAL_ENV', '/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('CUSTOM_PATH', ''), ('KMP_STACKSIZE', '512k'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('_P9K_TTY', '/dev/pts/2'), ('DYLD_LIBRARY_PATH', ':/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/lib:'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('MKL_NUM_THREADS', ''), ('MW_PATCH_OFFSETS', '0000100000002A80'), ('QTWEBENGINE_DICTIONARIES_PATH', '/usr/share/hunspell-bdic/'), ('PYTHONPATH', ':/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/lib/python3.9/site-packages:/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/lib/python3.10/site-packages:/home/gustavo-fuentevilla/new_ws/install/testing/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/install/sync_data/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/install/ee_pose_publisher/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/install/custom_interfaces/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/install/anyskin_sensor_publisher/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/UR_pyenv/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages'), ('LC_NUMERIC', 'C'), ('COLCON', '1'), ('MEMORY_PRESSURE_WRITE', 'c29tZSAyMDAwMDAgMjAwMDAwMAA='), ('VTE_VERSION', '7600'), ('MW_CONNECTOR_COOKIE_SETTINGS', '[{"prefix":"ch_","suffix":"_24726"}]'), ('CMAKE_PREFIX_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2:/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2')]), 'shell': False}
+[0.099820] (-) TimerEvent: {}
+[0.155842] (custom_interfaces) StdoutLine: {'line': b'-- The C compiler identification is GNU 12.3.0\n'}
+[0.200007] (-) TimerEvent: {}
+[0.256558] (custom_interfaces) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 12.3.0\n'}
+[0.281265] (custom_interfaces) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.300268] (-) TimerEvent: {}
+[0.384698] (custom_interfaces) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.400410] (-) TimerEvent: {}
+[0.404850] (custom_interfaces) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/gcc - skipped\n'}
+[0.405574] (custom_interfaces) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.406730] (custom_interfaces) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.413166] (custom_interfaces) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.500591] (-) TimerEvent: {}
+[0.523322] (custom_interfaces) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.538309] (custom_interfaces) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/g++ - skipped\n'}
+[0.538674] (custom_interfaces) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.539493] (custom_interfaces) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.540303] (custom_interfaces) StdoutLine: {'line': b'-- Building for ROS 2 Jazzy\n'}
+[0.553374] (custom_interfaces) StdoutLine: {'line': b'-- Found ament_cmake: 2.5.2 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/ament_cmake/cmake)\n'}
+[0.600818] (-) TimerEvent: {}
+[0.701161] (-) TimerEvent: {}
+[0.801508] (-) TimerEvent: {}
+[0.901806] (-) TimerEvent: {}
+[1.002270] (-) TimerEvent: {}
+[1.044258] (custom_interfaces) StdoutLine: {'line': b'-- Found Python3: /home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/bin/python3 (found version "3.10.18") found components: Interpreter \n'}
+[1.102363] (-) TimerEvent: {}
+[1.162705] (custom_interfaces) StdoutLine: {'line': b'-- Found ament_cmake_ros: 0.12.0 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/ament_cmake_ros/cmake)\n'}
+[1.178748] (custom_interfaces) StdoutLine: {'line': b'-- Found rosidl_typesupport_c: 3.2.2 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rosidl_typesupport_c/cmake)\n'}
+[1.180003] (custom_interfaces) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[1.202483] (-) TimerEvent: {}
+[1.279452] (custom_interfaces) StdoutLine: {'line': b'-- Found rosidl_typesupport_cpp: 3.2.2 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rosidl_typesupport_cpp/cmake)\n'}
+[1.280930] (custom_interfaces) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[1.302638] (-) TimerEvent: {}
+[1.354724] (custom_interfaces) StdoutLine: {'line': b'-- Found rosidl_default_generators: 1.6.0 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rosidl_default_generators/cmake)\n'}
+[1.371498] (custom_interfaces) StdoutLine: {'line': b'-- Found rosidl_adapter: 4.8.1 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rosidl_adapter/cmake)\n'}
+[1.376790] (custom_interfaces) StdoutLine: {'line': b'-- Found builtin_interfaces: 2.0.2 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/builtin_interfaces/cmake)\n'}
+[1.402762] (-) TimerEvent: {}
+[1.404783] (custom_interfaces) StdoutLine: {'line': b'-- Found class_loader: 2.7.0 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/class_loader/cmake)\n'}
+[1.411685] (custom_interfaces) StdoutLine: {'line': b'-- Found geometry_msgs: 5.3.5 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/geometry_msgs/cmake)\n'}
+[1.474453] (custom_interfaces) StdoutLine: {'line': b'-- Found rclcpp: 28.1.3 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rclcpp/cmake)\n'}
+[1.502902] (-) TimerEvent: {}
+[1.589521] (custom_interfaces) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 7.3.1 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rmw_implementation_cmake/cmake)\n'}
+[1.593679] (custom_interfaces) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 9.0.0 (/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/share/rmw_fastrtps_cpp/cmake)\n'}
+[1.603252] (-) TimerEvent: {}
+[1.669473] (custom_interfaces) StdoutLine: {'line': b'-- Found FastRTPS: /usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/include (Required is at least version "2.13") \n'}
+[1.685348] (custom_interfaces) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[1.703470] (-) TimerEvent: {}
+[1.803873] (-) TimerEvent: {}
+[1.904278] (-) TimerEvent: {}
+[2.004641] (-) TimerEvent: {}
+[2.105035] (-) TimerEvent: {}
+[2.205328] (-) TimerEvent: {}
+[2.305893] (-) TimerEvent: {}
+[2.406519] (-) TimerEvent: {}
+[2.507025] (-) TimerEvent: {}
+[2.594718] (custom_interfaces) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[2.607203] (-) TimerEvent: {}
+[2.707501] (-) TimerEvent: {}
+[2.807977] (-) TimerEvent: {}
+[2.908493] (-) TimerEvent: {}
+[2.990848] (custom_interfaces) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[3.006639] (custom_interfaces) StdoutLine: {'line': b'-- Configuring done\n'}
+[3.008609] (-) TimerEvent: {}
+[3.038387] (custom_interfaces) StdoutLine: {'line': b'-- Generating done\n'}
+[3.055407] (custom_interfaces) StdoutLine: {'line': b'-- Build files have been written to: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces\n'}
+[3.074111] (custom_interfaces) CommandEnded: {'returncode': 0}
+[3.080545] (custom_interfaces) JobProgress: {'identifier': 'custom_interfaces', 'progress': 'build'}
+[3.081406] (custom_interfaces) Command: {'cmd': ['/usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin/cmake', '--build', '/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces', '--', '-j24', '-l24'], 'cwd': '/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces', 'env': OrderedDict([('ARCH', 'glnxa64'), ('GZ_SIM_RESOURCE_PATH', '/opt/ros/jazzy/share'), ('LANGUAGE', 'es_MX:en'), ('CUSTOM_LD_LIBRARY_PATH', ''), ('USER', 'gustavo-fuentevilla'), ('LOCAL_PYTHON_VENV_PATH', '/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv'), ('MEMKIND_HEAP_MANAGER', 'TBB'), ('GZ_CONFIG_PATH', '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz'), ('CUSTOM_AMENT_PREFIX_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2'), ('XDG_SESSION_TYPE', 'x11'), ('CLUTTER_DISABLE_MIPMAPPED_TEXT', '1'), ('KMP_HANDLE_SIGNALS', '0'), ('SHLVL', '2'), ('ICU_TIMEZONE_FILES_DIR', '/usr/local/MATLAB/R2025a/bin/icutzdata'), ('LD_LIBRARY_PATH', ':/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/lib:/usr/local/MATLAB/R2025a/sys/os/glnxa64:/usr/local/MATLAB/R2025a/bin/glnxa64:/home/gustavo-fuentevilla/.MathWorks/D7P8bRQE8tJROWzD72O_ERheIYsh3N7Z2Yo12zD0lxI/bin/glnxa64:/usr/local/MATLAB/R2025a/extern/lib/glnxa64:/usr/local/MATLAB/R2025a/cefclient/sys/os/glnxa64:/usr/local/MATLAB/R2025a/runtime/glnxa64:/usr/local/MATLAB/R2025a/sys/java/jre/glnxa64/jre/lib/amd64/native_threads:/usr/local/MATLAB/R2025a/sys/java/jre/glnxa64/jre/lib/amd64/server:/home/gustavo-fuentevilla/new_ws/install/custom_interfaces/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib'), ('LESS', '-R'), ('BASEMATLABPATH', ''), ('HOME', '/home/gustavo-fuentevilla'), ('AUTOMOUNT_MAP', ''), ('OLDPWD', '/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64'), ('DESKTOP_SESSION', 'ubuntu'), ('MW_LD_SHIM', '/usr/local/MATLAB/R2025a/bin/glnxa64/ld_shim.so.2.39.ubuntu_24_04'), ('LSCOLORS', 'Gxfxcxdxbxegedabagacad'), ('ZSH', '/home/gustavo-fuentevilla/.oh-my-zsh'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('KMP_BLOCKTIME', '1'), ('PAGER', 'less'), ('PS1', '(venv)'), ('P9K_TTY', 'old'), ('SYSTEMD_EXEC_PID', '3343'), ('GSM_SKIP_SSH_AGENT_WORKAROUND', 'true'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('DEBUGINFOD_URLS', 'https://debuginfod.ubuntu.com'), ('CUSTOM_SITE_PACKAGES_PATH', ''), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2:/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2'), ('MWAPIKEY', 'IOCJVkFAaQtxlPfh'), ('ROS_DISTRO', 'jazzy'), ('LOGNAME', 'gustavo-fuentevilla'), ('MATLAB_MEM_MGR_VALUE', ''), ('_P9K_SSH_TTY', '/dev/pts/2'), ('_', '/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/bin/colcon'), ('ROS_VERSION', '2'), ('PKG_CONFIG_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/lib/pkgconfig'), ('MEMORY_PRESSURE_WATCH', '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@x11.service/memory.pressure'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'gustavo-fuentevilla'), ('TERM', 'dumb'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin::/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/bin:/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/bin:/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/bin:/usr/local/MATLAB/R2025a/toolbox/shared/coder/ninja/glnxa64:/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/Fuentevilla-XMG-Linux:@/tmp/.ICE-unix/3312,unix/Fuentevilla-XMG-Linux:/tmp/.ICE-unix/3312'), ('PAPERSIZE', 'letter'), ('GTK3_MODULES', 'xapp-gtk3-module'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/f0599f88_9e30_408f_b2a5_cad2e1ade7c3'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('TOOLBOX', '/usr/local/MATLAB/R2025a/toolbox'), ('MKL_DOMAIN_NUM_THREADS', ''), ('KMP_INIT_AT_FORK', 'false'), ('DISPLAY', ':1'), ('LD_PRELOAD', ''), ('LANG', 'es_MX.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('PRE_LD_PRELOAD', ''), ('VIRTUAL_ENV_PROMPT', '(venv)'), ('RMW_IMPLEMENTATION', ''), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:'), ('GNOME_TERMINAL_SERVICE', ':1.120'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2:/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2'), ('SHELL', '/usr/bin/zsh'), ('CMAKE_PATH', '/usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin'), ('XFILESEARCHPATH', '/usr/local/MATLAB/R2025a/sys/java/jre/glnxa64/jre/lib/locale/%L/%T/%N%S:'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('OSG_LD_LIBRARY_PATH', '/usr/local/MATLAB/R2025a/sys/openscenegraph/lib/glnxa64'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('P9K_SSH', '0'), ('VIRTUAL_ENV', '/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('CUSTOM_PATH', ''), ('KMP_STACKSIZE', '512k'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('_P9K_TTY', '/dev/pts/2'), ('DYLD_LIBRARY_PATH', ':/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/lib:'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('MKL_NUM_THREADS', ''), ('MW_PATCH_OFFSETS', '0000100000002A80'), ('QTWEBENGINE_DICTIONARIES_PATH', '/usr/share/hunspell-bdic/'), ('PYTHONPATH', ':/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/lib/python3.9/site-packages:/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/lib/python3.10/site-packages:/home/gustavo-fuentevilla/new_ws/install/testing/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/install/sync_data/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/install/ee_pose_publisher/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/install/custom_interfaces/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/install/anyskin_sensor_publisher/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/UR_pyenv/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages'), ('LC_NUMERIC', 'C'), ('COLCON', '1'), ('MEMORY_PRESSURE_WRITE', 'c29tZSAyMDAwMDAgMjAwMDAwMAA='), ('VTE_VERSION', '7600'), ('MW_CONNECTOR_COOKIE_SETTINGS', '[{"prefix":"ch_","suffix":"_24726"}]'), ('CMAKE_PREFIX_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2:/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2')]), 'shell': False}
+[3.108766] (-) TimerEvent: {}
+[3.209238] (-) TimerEvent: {}
+[3.309504] (-) TimerEvent: {}
+[3.356205] (custom_interfaces) StdoutLine: {'line': b'[1/27] Generating type hashes for ROS interfaces\n'}
+[3.409634] (-) TimerEvent: {}
+[3.510054] (-) TimerEvent: {}
+[3.610434] (-) TimerEvent: {}
+[3.644127] (custom_interfaces) StdoutLine: {'line': b'[2/27] Generating C++ code for ROS interfaces\n'}
+[3.671325] (custom_interfaces) StdoutLine: {'line': b'[3/27] Generating C code for ROS interfaces\n'}
+[3.710640] (-) TimerEvent: {}
+[3.738766] (custom_interfaces) StdoutLine: {'line': b'[4/27] Building C object CMakeFiles/custom_interfaces__rosidl_generator_c.dir/rosidl_generator_c/custom_interfaces/msg/detail/sync_data__type_support.c.o\n'}
+[3.791417] (custom_interfaces) StdoutLine: {'line': b'[5/27] Building C object CMakeFiles/custom_interfaces__rosidl_generator_c.dir/rosidl_generator_c/custom_interfaces/msg/detail/sync_data__description.c.o\n'}
+[3.810772] (-) TimerEvent: {}
+[3.842137] (custom_interfaces) StdoutLine: {'line': b'[6/27] Building C object CMakeFiles/custom_interfaces__rosidl_generator_c.dir/rosidl_generator_c/custom_interfaces/msg/detail/sync_data__functions.c.o\n'}
+[3.876887] (custom_interfaces) StdoutLine: {'line': b'[7/27] Linking C shared library libcustom_interfaces__rosidl_generator_c.so\n'}
+[3.910920] (-) TimerEvent: {}
+[4.011349] (-) TimerEvent: {}
+[4.111824] (-) TimerEvent: {}
+[4.212144] (-) TimerEvent: {}
+[4.226360] (custom_interfaces) StdoutLine: {'line': b'[8/27] Generating C type support dispatch for ROS interfaces\n'}
+[4.244468] (custom_interfaces) StdoutLine: {'line': b'[9/27] Generating C introspection for ROS interfaces\n'}
+[4.264419] (custom_interfaces) StdoutLine: {'line': b'[10/27] Generating C++ type support dispatch for ROS interfaces\n'}
+[4.275702] (custom_interfaces) StdoutLine: {'line': b'[11/27] Generating C++ introspection for ROS interfaces\n'}
+[4.304361] (custom_interfaces) StdoutLine: {'line': b'[12/27] Generating C type support for eProsima Fast-RTPS\n'}
+[4.312302] (-) TimerEvent: {}
+[4.326053] (custom_interfaces) StdoutLine: {'line': b'[13/27] Building CXX object CMakeFiles/custom_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/custom_interfaces/msg/sync_data__type_support.cpp.o\n'}
+[4.345330] (custom_interfaces) StdoutLine: {'line': b'[14/27] Building C object CMakeFiles/custom_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/custom_interfaces/msg/detail/sync_data__type_support.c.o\n'}
+[4.361043] (custom_interfaces) StdoutLine: {'line': b'[15/27] Generating C++ type support for eProsima Fast-RTPS\n'}
+[4.401373] (custom_interfaces) StdoutLine: {'line': b'[16/27] Linking C shared library libcustom_interfaces__rosidl_typesupport_introspection_c.so\n'}
+[4.412443] (-) TimerEvent: {}
+[4.464518] (custom_interfaces) StdoutLine: {'line': b'[17/27] Linking CXX shared library libcustom_interfaces__rosidl_typesupport_c.so\n'}
+[4.512583] (-) TimerEvent: {}
+[4.613129] (-) TimerEvent: {}
+[4.713822] (-) TimerEvent: {}
+[4.814338] (-) TimerEvent: {}
+[4.914777] (-) TimerEvent: {}
+[4.943890] (custom_interfaces) StdoutLine: {'line': b'[18/27] Building CXX object CMakeFiles/custom_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/custom_interfaces/msg/sync_data__type_support.cpp.o\n'}
+[5.014947] (-) TimerEvent: {}
+[5.071028] (custom_interfaces) StdoutLine: {'line': b'[19/27] Linking CXX shared library libcustom_interfaces__rosidl_typesupport_cpp.so\n'}
+[5.086278] (custom_interfaces) StdoutLine: {'line': b'[20/27] Building CXX object CMakeFiles/custom_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/custom_interfaces/msg/detail/sync_data__type_support.cpp.o\n'}
+[5.115182] (-) TimerEvent: {}
+[5.202775] (custom_interfaces) StdoutLine: {'line': b'[21/27] Linking CXX shared library libcustom_interfaces__rosidl_typesupport_introspection_cpp.so\n'}
+[5.215322] (-) TimerEvent: {}
+[5.224904] (custom_interfaces) StdoutLine: {'line': b'[22/27] Building CXX object CMakeFiles/custom_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/custom_interfaces/msg/detail/sync_data__type_support_c.cpp.o\n'}
+[5.265883] (custom_interfaces) StdoutLine: {'line': b'[23/27] Building CXX object CMakeFiles/custom_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/custom_interfaces/msg/detail/dds_fastrtps/sync_data__type_support.cpp.o\n'}
+[5.315537] (-) TimerEvent: {}
+[5.330876] (custom_interfaces) StdoutLine: {'line': b'[24/27] Linking CXX shared library libcustom_interfaces__rosidl_typesupport_fastrtps_c.so\n'}
+[5.370840] (custom_interfaces) StdoutLine: {'line': b'[25/27] Linking CXX shared library libcustom_interfaces__rosidl_typesupport_fastrtps_cpp.so\n'}
+[5.415712] (-) TimerEvent: {}
+[5.516365] (-) TimerEvent: {}
+[5.616847] (-) TimerEvent: {}
+[5.717261] (-) TimerEvent: {}
+[5.817552] (-) TimerEvent: {}
+[5.917988] (-) TimerEvent: {}
+[6.018539] (-) TimerEvent: {}
+[6.119053] (-) TimerEvent: {}
+[6.219517] (-) TimerEvent: {}
+[6.319985] (-) TimerEvent: {}
+[6.420334] (-) TimerEvent: {}
+[6.520780] (-) TimerEvent: {}
+[6.621345] (-) TimerEvent: {}
+[6.721815] (-) TimerEvent: {}
+[6.822383] (-) TimerEvent: {}
+[6.923021] (-) TimerEvent: {}
+[7.023689] (-) TimerEvent: {}
+[7.124227] (-) TimerEvent: {}
+[7.224631] (-) TimerEvent: {}
+[7.325033] (-) TimerEvent: {}
+[7.425570] (-) TimerEvent: {}
+[7.526229] (-) TimerEvent: {}
+[7.626609] (-) TimerEvent: {}
+[7.726998] (-) TimerEvent: {}
+[7.827336] (-) TimerEvent: {}
+[7.927626] (-) TimerEvent: {}
+[8.027963] (-) TimerEvent: {}
+[8.128381] (-) TimerEvent: {}
+[8.228769] (-) TimerEvent: {}
+[8.329197] (-) TimerEvent: {}
+[8.429687] (-) TimerEvent: {}
+[8.530062] (-) TimerEvent: {}
+[8.630610] (-) TimerEvent: {}
+[8.731043] (-) TimerEvent: {}
+[8.831610] (-) TimerEvent: {}
+[8.931906] (-) TimerEvent: {}
+[9.032282] (-) TimerEvent: {}
+[9.132666] (-) TimerEvent: {}
+[9.233105] (-) TimerEvent: {}
+[9.333509] (-) TimerEvent: {}
+[9.433922] (-) TimerEvent: {}
+[9.534373] (-) TimerEvent: {}
+[9.634750] (-) TimerEvent: {}
+[9.735304] (-) TimerEvent: {}
+[9.835961] (-) TimerEvent: {}
+[9.936321] (-) TimerEvent: {}
+[10.036764] (-) TimerEvent: {}
+[10.137221] (-) TimerEvent: {}
+[10.237518] (-) TimerEvent: {}
+[10.337888] (-) TimerEvent: {}
+[10.438599] (-) TimerEvent: {}
+[10.539181] (-) TimerEvent: {}
+[10.639671] (-) TimerEvent: {}
+[10.740049] (-) TimerEvent: {}
+[10.840502] (-) TimerEvent: {}
+[10.940870] (-) TimerEvent: {}
+[11.041411] (-) TimerEvent: {}
+[11.141995] (-) TimerEvent: {}
+[11.242460] (-) TimerEvent: {}
+[11.342856] (-) TimerEvent: {}
+[11.443315] (-) TimerEvent: {}
+[11.543719] (-) TimerEvent: {}
+[11.644202] (-) TimerEvent: {}
+[11.744538] (-) TimerEvent: {}
+[11.844879] (-) TimerEvent: {}
+[11.945404] (-) TimerEvent: {}
+[12.046068] (-) TimerEvent: {}
+[12.146534] (-) TimerEvent: {}
+[12.246959] (-) TimerEvent: {}
+[12.347407] (-) TimerEvent: {}
+[12.447840] (-) TimerEvent: {}
+[12.548441] (-) TimerEvent: {}
+[12.648962] (-) TimerEvent: {}
+[12.749364] (-) TimerEvent: {}
+[12.849822] (-) TimerEvent: {}
+[12.950327] (-) TimerEvent: {}
+[13.050709] (-) TimerEvent: {}
+[13.151478] (-) TimerEvent: {}
+[13.251984] (-) TimerEvent: {}
+[13.352545] (-) TimerEvent: {}
+[13.453192] (-) TimerEvent: {}
+[13.553652] (-) TimerEvent: {}
+[13.654335] (-) TimerEvent: {}
+[13.754796] (-) TimerEvent: {}
+[13.855414] (-) TimerEvent: {}
+[13.955921] (-) TimerEvent: {}
+[14.056610] (-) TimerEvent: {}
+[14.157473] (-) TimerEvent: {}
+[14.258061] (-) TimerEvent: {}
+[14.358732] (-) TimerEvent: {}
+[14.459342] (-) TimerEvent: {}
+[14.559644] (-) TimerEvent: {}
+[14.659964] (-) TimerEvent: {}
+[14.760518] (-) TimerEvent: {}
+[14.861193] (-) TimerEvent: {}
+[14.961585] (-) TimerEvent: {}
+[15.062121] (-) TimerEvent: {}
+[15.162513] (-) TimerEvent: {}
+[15.262910] (-) TimerEvent: {}
+[15.363682] (-) TimerEvent: {}
+[15.464252] (-) TimerEvent: {}
+[15.564797] (-) TimerEvent: {}
+[15.665198] (-) TimerEvent: {}
+[15.765759] (-) TimerEvent: {}
+[15.866499] (-) TimerEvent: {}
+[15.967247] (-) TimerEvent: {}
+[16.068402] (-) TimerEvent: {}
+[16.169093] (-) TimerEvent: {}
+[16.269812] (-) TimerEvent: {}
+[16.370786] (-) TimerEvent: {}
+[16.471487] (-) TimerEvent: {}
+[16.571995] (-) TimerEvent: {}
+[16.672543] (-) TimerEvent: {}
+[16.773233] (-) TimerEvent: {}
+[16.873709] (-) TimerEvent: {}
+[16.974199] (-) TimerEvent: {}
+[17.074619] (-) TimerEvent: {}
+[17.175411] (-) TimerEvent: {}
+[17.275956] (-) TimerEvent: {}
+[17.376344] (-) TimerEvent: {}
+[17.476691] (-) TimerEvent: {}
+[17.577144] (-) TimerEvent: {}
+[17.677481] (-) TimerEvent: {}
+[17.777769] (-) TimerEvent: {}
+[17.878247] (-) TimerEvent: {}
+[17.978642] (-) TimerEvent: {}
+[18.078969] (-) TimerEvent: {}
+[18.179337] (-) TimerEvent: {}
+[18.279723] (-) TimerEvent: {}
+[18.380212] (-) TimerEvent: {}
+[18.480753] (-) TimerEvent: {}
+[18.581134] (-) TimerEvent: {}
+[18.681644] (-) TimerEvent: {}
+[18.782050] (-) TimerEvent: {}
+[18.882412] (-) TimerEvent: {}
+[18.982963] (-) TimerEvent: {}
+[19.083624] (-) TimerEvent: {}
+[19.183966] (-) TimerEvent: {}
+[19.284332] (-) TimerEvent: {}
+[19.384700] (-) TimerEvent: {}
+[19.485181] (-) TimerEvent: {}
+[19.585607] (-) TimerEvent: {}
+[19.686455] (-) TimerEvent: {}
+[19.787151] (-) TimerEvent: {}
+[19.887684] (-) TimerEvent: {}
+[19.988190] (-) TimerEvent: {}
+[20.088636] (-) TimerEvent: {}
+[20.117700] (custom_interfaces) StdoutLine: {'line': b'[26/27] Building CXX object CMakeFiles/custom_interfaces_matlab.dir/src/custom_interfaces_SyncData_message.cpp.o\n'}
+[20.188806] (-) TimerEvent: {}
+[20.289318] (-) TimerEvent: {}
+[20.389747] (-) TimerEvent: {}
+[20.490421] (-) TimerEvent: {}
+[20.541516] (custom_interfaces) StdoutLine: {'line': b'[27/27] Linking CXX shared library libcustom_interfaces_matlab.so\n'}
+[20.544719] (custom_interfaces) CommandEnded: {'returncode': 0}
+[20.578556] (custom_interfaces) JobProgress: {'identifier': 'custom_interfaces', 'progress': 'install'}
+[20.587310] (custom_interfaces) Command: {'cmd': ['/usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin/cmake', '--install', '/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces'], 'cwd': '/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces', 'env': OrderedDict([('ARCH', 'glnxa64'), ('GZ_SIM_RESOURCE_PATH', '/opt/ros/jazzy/share'), ('LANGUAGE', 'es_MX:en'), ('CUSTOM_LD_LIBRARY_PATH', ''), ('USER', 'gustavo-fuentevilla'), ('LOCAL_PYTHON_VENV_PATH', '/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv'), ('MEMKIND_HEAP_MANAGER', 'TBB'), ('GZ_CONFIG_PATH', '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz'), ('CUSTOM_AMENT_PREFIX_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2'), ('XDG_SESSION_TYPE', 'x11'), ('CLUTTER_DISABLE_MIPMAPPED_TEXT', '1'), ('KMP_HANDLE_SIGNALS', '0'), ('SHLVL', '2'), ('ICU_TIMEZONE_FILES_DIR', '/usr/local/MATLAB/R2025a/bin/icutzdata'), ('LD_LIBRARY_PATH', ':/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/lib:/usr/local/MATLAB/R2025a/sys/os/glnxa64:/usr/local/MATLAB/R2025a/bin/glnxa64:/home/gustavo-fuentevilla/.MathWorks/D7P8bRQE8tJROWzD72O_ERheIYsh3N7Z2Yo12zD0lxI/bin/glnxa64:/usr/local/MATLAB/R2025a/extern/lib/glnxa64:/usr/local/MATLAB/R2025a/cefclient/sys/os/glnxa64:/usr/local/MATLAB/R2025a/runtime/glnxa64:/usr/local/MATLAB/R2025a/sys/java/jre/glnxa64/jre/lib/amd64/native_threads:/usr/local/MATLAB/R2025a/sys/java/jre/glnxa64/jre/lib/amd64/server:/home/gustavo-fuentevilla/new_ws/install/custom_interfaces/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib'), ('LESS', '-R'), ('BASEMATLABPATH', ''), ('HOME', '/home/gustavo-fuentevilla'), ('AUTOMOUNT_MAP', ''), ('OLDPWD', '/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64'), ('DESKTOP_SESSION', 'ubuntu'), ('MW_LD_SHIM', '/usr/local/MATLAB/R2025a/bin/glnxa64/ld_shim.so.2.39.ubuntu_24_04'), ('LSCOLORS', 'Gxfxcxdxbxegedabagacad'), ('ZSH', '/home/gustavo-fuentevilla/.oh-my-zsh'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('KMP_BLOCKTIME', '1'), ('PAGER', 'less'), ('PS1', '(venv)'), ('P9K_TTY', 'old'), ('SYSTEMD_EXEC_PID', '3343'), ('GSM_SKIP_SSH_AGENT_WORKAROUND', 'true'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('DEBUGINFOD_URLS', 'https://debuginfod.ubuntu.com'), ('CUSTOM_SITE_PACKAGES_PATH', ''), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2:/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2'), ('MWAPIKEY', 'IOCJVkFAaQtxlPfh'), ('ROS_DISTRO', 'jazzy'), ('LOGNAME', 'gustavo-fuentevilla'), ('MATLAB_MEM_MGR_VALUE', ''), ('_P9K_SSH_TTY', '/dev/pts/2'), ('_', '/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/bin/colcon'), ('ROS_VERSION', '2'), ('PKG_CONFIG_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/lib/pkgconfig'), ('MEMORY_PRESSURE_WATCH', '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@x11.service/memory.pressure'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'gustavo-fuentevilla'), ('TERM', 'dumb'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin::/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/bin:/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/bin:/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/bin:/usr/local/MATLAB/R2025a/toolbox/shared/coder/ninja/glnxa64:/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/Fuentevilla-XMG-Linux:@/tmp/.ICE-unix/3312,unix/Fuentevilla-XMG-Linux:/tmp/.ICE-unix/3312'), ('PAPERSIZE', 'letter'), ('GTK3_MODULES', 'xapp-gtk3-module'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/f0599f88_9e30_408f_b2a5_cad2e1ade7c3'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('TOOLBOX', '/usr/local/MATLAB/R2025a/toolbox'), ('MKL_DOMAIN_NUM_THREADS', ''), ('KMP_INIT_AT_FORK', 'false'), ('DISPLAY', ':1'), ('LD_PRELOAD', ''), ('LANG', 'es_MX.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('PRE_LD_PRELOAD', ''), ('VIRTUAL_ENV_PROMPT', '(venv)'), ('RMW_IMPLEMENTATION', ''), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:'), ('GNOME_TERMINAL_SERVICE', ':1.120'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2:/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2'), ('SHELL', '/usr/bin/zsh'), ('CMAKE_PATH', '/usr/local/MATLAB/R2025a/bin/glnxa64/cmake/bin'), ('XFILESEARCHPATH', '/usr/local/MATLAB/R2025a/sys/java/jre/glnxa64/jre/lib/locale/%L/%T/%N%S:'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('OSG_LD_LIBRARY_PATH', '/usr/local/MATLAB/R2025a/sys/openscenegraph/lib/glnxa64'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('P9K_SSH', '0'), ('VIRTUAL_ENV', '/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('CUSTOM_PATH', ''), ('KMP_STACKSIZE', '512k'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/build/custom_interfaces'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('_P9K_TTY', '/dev/pts/2'), ('DYLD_LIBRARY_PATH', ':/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/lib:'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('MKL_NUM_THREADS', ''), ('MW_PATCH_OFFSETS', '0000100000002A80'), ('QTWEBENGINE_DICTIONARIES_PATH', '/usr/share/hunspell-bdic/'), ('PYTHONPATH', ':/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2/lib/python3.9/site-packages:/home/gustavo-fuentevilla/.matlab/R2025a/ros2/glnxa64/venv/lib/python3.10/site-packages:/home/gustavo-fuentevilla/new_ws/install/testing/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/install/sync_data/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/install/ee_pose_publisher/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/install/custom_interfaces/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/install/anyskin_sensor_publisher/lib/python3.12/site-packages:/home/gustavo-fuentevilla/new_ws/UR_pyenv/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages'), ('LC_NUMERIC', 'C'), ('COLCON', '1'), ('MEMORY_PRESSURE_WRITE', 'c29tZSAyMDAwMDAgMjAwMDAwMAA='), ('VTE_VERSION', '7600'), ('MW_CONNECTOR_COOKIE_SETTINGS', '[{"prefix":"ch_","suffix":"_24726"}]'), ('CMAKE_PREFIX_PATH', '/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2:/usr/local/MATLAB/R2025a/sys/ros2/glnxa64/ros2')]), 'shell': False}
+[20.590532] (-) TimerEvent: {}
+[20.592905] (custom_interfaces) StdoutLine: {'line': b'-- Install configuration: "Release"\n'}
+[20.593952] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/ament_index/resource_index/rosidl_interfaces/custom_interfaces\n'}
+[20.594481] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/msg/SyncData.json\n'}
+[20.594722] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces\n'}
+[20.594830] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg\n'}
+[20.594930] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/sync_data.h\n'}
+[20.595028] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/rosidl_generator_c__visibility_control.h\n'}
+[20.595699] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail\n'}
+[20.595908] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__functions.h\n'}
+[20.596117] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__type_support.c\n'}
+[20.596239] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__functions.c\n'}
+[20.596686] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__type_support.h\n'}
+[20.596961] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__struct.h\n'}
+[20.597169] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__description.c\n'}
+[20.597294] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/environment/library_path.sh\n'}
+[20.597424] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/environment/library_path.dsv\n'}
+[20.597527] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_generator_c.so\n'}
+[20.597632] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces\n'}
+[20.597790] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg\n'}
+[20.597886] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[20.597998] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail\n'}
+[20.598132] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__rosidl_typesupport_fastrtps_c.h\n'}
+[20.598245] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_typesupport_fastrtps_c.so\n'}
+[20.598343] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces\n'}
+[20.598432] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg\n'}
+[20.598514] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[20.598601] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail\n'}
+[20.598687] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__type_support.c\n'}
+[20.598784] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__rosidl_typesupport_introspection_c.h\n'}
+[20.598897] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_typesupport_introspection_c.so\n'}
+[20.599740] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_typesupport_c.so\n'}
+[20.600008] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces\n'}
+[20.600331] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg\n'}
+[20.600560] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/sync_data.hpp\n'}
+[20.600796] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp\n'}
+[20.601030] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail\n'}
+[20.601283] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__struct.hpp\n'}
+[20.601455] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__builder.hpp\n'}
+[20.601589] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__type_support.hpp\n'}
+[20.601734] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__traits.hpp\n'}
+[20.601870] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces\n'}
+[20.602002] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg\n'}
+[20.602205] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail\n'}
+[20.602383] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/dds_fastrtps\n'}
+[20.602515] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[20.602648] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[20.602791] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_typesupport_fastrtps_cpp.so\n'}
+[20.602996] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces\n'}
+[20.603259] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg\n'}
+[20.603466] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail\n'}
+[20.603596] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__type_support.cpp\n'}
+[20.603720] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/custom_interfaces/msg/detail/sync_data__rosidl_typesupport_introspection_cpp.hpp\n'}
+[20.603860] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_typesupport_introspection_cpp.so\n'}
+[20.603994] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces__rosidl_typesupport_cpp.so\n'}
+[20.604172] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/msg/SyncData.idl\n'}
+[20.604360] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/msg/SyncData.msg\n'}
+[20.604493] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include\n'}
+[20.604622] (custom_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces\n'}
+[20.604751] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/include/custom_interfaces/visibility_control.h\n'}
+[20.604881] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/lib/libcustom_interfaces_matlab.so\n'}
+[20.608239] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/m/\n'}
+[20.608769] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/m//+ros\n'}
+[20.609010] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/m//+ros/+internal\n'}
+[20.609130] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/m//+ros/+internal/+ros2\n'}
+[20.609219] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/m//+ros/+internal/+ros2/+custommessages\n'}
+[20.609448] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/m//+ros/+internal/+ros2/+custommessages/+custom_interfaces\n'}
+[20.609537] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/m//+ros/+internal/+ros2/+custommessages/+custom_interfaces/syncData.m\n'}
+[20.609632] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/ament_index/resource_index/package_run_dependencies/custom_interfaces\n'}
+[20.609733] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/ament_index/resource_index/parent_prefix_path/custom_interfaces\n'}
+[20.609819] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/environment/ament_prefix_path.sh\n'}
+[20.610016] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/environment/ament_prefix_path.dsv\n'}
+[20.610135] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/environment/path.sh\n'}
+[20.610246] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/environment/path.dsv\n'}
+[20.610352] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/local_setup.bash\n'}
+[20.610464] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/local_setup.sh\n'}
+[20.610571] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/local_setup.zsh\n'}
+[20.610676] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/local_setup.dsv\n'}
+[20.610900] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/package.dsv\n'}
+[20.611939] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/ament_index/resource_index/packages/custom_interfaces\n'}
+[20.612238] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_generator_cExport.cmake\n'}
+[20.612364] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_generator_cExport-release.cmake\n'}
+[20.612470] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[20.612584] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_typesupport_fastrtps_cExport-release.cmake\n'}
+[20.613286] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_introspection_cExport.cmake\n'}
+[20.613510] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_introspection_cExport-release.cmake\n'}
+[20.613651] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_cExport.cmake\n'}
+[20.613969] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_cExport-release.cmake\n'}
+[20.614132] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_generator_cppExport.cmake\n'}
+[20.614249] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[20.614348] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/export_custom_interfaces__rosidl_typesupport_fastrtps_cppExport-release.cmake\n'}
+[20.614952] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[20.615126] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_introspection_cppExport-release.cmake\n'}
+[20.615270] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_cppExport.cmake\n'}
+[20.615388] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfaces__rosidl_typesupport_cppExport-release.cmake\n'}
+[20.615501] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/rosidl_cmake-extras.cmake\n'}
+[20.615655] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[20.615788] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[20.615894] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[20.616152] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[20.616266] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[20.616344] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[20.616418] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfacesConfig.cmake\n'}
+[20.616487] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/cmake/custom_interfacesConfig-version.cmake\n'}
+[20.616563] (custom_interfaces) StdoutLine: {'line': b'-- Installing: /home/gustavo-fuentevilla/MATLAB/Tactile_Defects_Localization/UR/custom/matlab_msg_gen/glnxa64/install/share/custom_interfaces/package.xml\n'}
+[20.618364] (custom_interfaces) CommandEnded: {'returncode': 0}
+[20.690661] (-) TimerEvent: {}
+[20.761875] (custom_interfaces) JobEnded: {'identifier': 'custom_interfaces', 'rc': 0}
+[20.762244] (-) EventReactorShutdown: {}
