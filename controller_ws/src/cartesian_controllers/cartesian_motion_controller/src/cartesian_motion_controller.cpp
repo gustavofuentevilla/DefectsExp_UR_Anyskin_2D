@@ -138,6 +138,8 @@ ctrl::Vector6D CartesianMotionController::computeMotionError()
   error_kdl.M = m_target_frame.M * m_current_frame.M.Inverse();
   error_kdl.p = m_target_frame.p - m_current_frame.p;
 
+  // RCLCPP_INFO(get_node()->get_logger(), "m_current_frame.p: [x: %f, y: %f, z: %f]", m_current_frame.p.x(), m_current_frame.p.y(), m_current_frame.p.z());
+
   // Use Rodrigues Vector for a compact representation of orientation errors
   // Only for angles within [0,Pi)
   KDL::Vector rot_axis = KDL::Vector::Zero();
@@ -202,6 +204,8 @@ void CartesianMotionController::targetFrameCallback(
     KDL::Rotation::Quaternion(target->pose.orientation.x, target->pose.orientation.y,
                               target->pose.orientation.z, target->pose.orientation.w),
     KDL::Vector(target->pose.position.x, target->pose.position.y, target->pose.position.z));
+
+  // RCLCPP_INFO(get_node()->get_logger(), "m_target_frame.p: [x: %f, y: %f, z: %f]", m_target_frame.p.x(), m_target_frame.p.y(), m_target_frame.p.z());
 }
 
 }  // namespace cartesian_motion_controller

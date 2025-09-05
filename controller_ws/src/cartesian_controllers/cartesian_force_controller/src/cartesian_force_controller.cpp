@@ -201,6 +201,10 @@ void CartesianForceController::targetWrenchCallback(
     return;
   }
 
+  // RCLCPP_INFO(get_node()->get_logger(), "Target wrench received: F=[%f, %f, %f] T=[%f, %f, %f]", 
+  //   wrench->wrench.force.x, wrench->wrench.force.y, wrench->wrench.force.z,
+  //   wrench->wrench.torque.x, wrench->wrench.torque.y, wrench->wrench.torque.z);
+
   m_target_wrench[0] = wrench->wrench.force.x;
   m_target_wrench[1] = wrench->wrench.force.y;
   m_target_wrench[2] = wrench->wrench.force.z;
@@ -226,6 +230,10 @@ void CartesianForceController::ftSensorWrenchCallback(
                                 "NaN detected in force-torque sensor wrench. Ignoring input.");
     return;
   }
+
+  // RCLCPP_INFO(get_node()->get_logger(), "Sensor wrench received: F=[%f, %f, %f] T=[%f, %f, %f]", 
+  //   wrench->wrench.force.x, wrench->wrench.force.y, wrench->wrench.force.z,
+  //   wrench->wrench.torque.x, wrench->wrench.torque.y, wrench->wrench.torque.z);
 
   KDL::Wrench tmp;
   tmp[0] = wrench->wrench.force.x;

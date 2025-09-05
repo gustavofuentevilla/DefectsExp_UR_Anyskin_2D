@@ -22,12 +22,11 @@ class TargetPosePublisher(Node):
             # another option could be "ur5e_base_link"
             "world"  
         )   
-        pose.pose.position.x = 0.395
-        pose.pose.position.y = 0.115
-        pose.pose.position.z = 0.1
-        # pose.pose.position.x = 0.44
-        # pose.pose.position.y = 0.0
-        # pose.pose.position.z = 0.0
+        # pose.pose.position.x = 0.395
+        # pose.pose.position.y = 0.115
+        pose.pose.position.x = 0.275
+        pose.pose.position.y = 0.05
+        pose.pose.position.z = 0.0
         # Identity quaternion (no rotation) [0,0,0,1]
         pose.pose.orientation.x = 0.7071
         pose.pose.orientation.y = 0.7071

@@ -179,6 +179,10 @@ ctrl::Vector6D CartesianComplianceController::computeComplianceError()
     // Sensor and target force in base orientation
     + ForceBase::computeForceError();
 
+  
+  // ctrl::Vector6D test = MotionBase::computeMotionError();
+  // RCLCPP_WARN(get_node()->get_logger(), "TEST: [%f]", test[2]);
+
   return net_force;
 }
 
