@@ -29,13 +29,9 @@ msg_wrench = ros2message(pub_wrench);
 x_c = 0.3450;
 y_c = (0.23/2);
 radius = 0.05;             % radius of the circle
-duration = 20;            % seconds
+duration = 30;            % seconds
 rate = 100;                % Hz
 loop_rate = ros2rate(nodeMATLAB, rate);
-
-x_1 = 0.275;
-x_2 = 0.395;
-y_prime = 0.05;
 
 %% Loop time setup
 
@@ -53,10 +49,8 @@ while t < 10
     msg_wrench.header.frame_id = 'ee_link'; % 'ur5e_tool0';  % reference frame
 
     % Initial pose for circular trajectory
-    % msg_pose.pose.position.x = 0.395;
-    % msg_pose.pose.position.y = 0.115;
-    msg_pose.pose.position.x = 0.275;
-    msg_pose.pose.position.y = y_prime;
+    msg_pose.pose.position.x = 0.395;
+    msg_pose.pose.position.y = 0.115;
     msg_pose.pose.position.z = -0.0075; % contacto en el plano
 
     msg_pose.pose.orientation.x = sqrt(2)/2;
@@ -124,10 +118,10 @@ while t < duration
     t = t + 1/rate;
 end
 
-% Leave the task
+%% Leave the task
 t = 0;
 reset(loop_rate);
-while t < duration
+while t < 20
     % Update timestamp
     now = ros2time(nodeMATLAB, "now");
     msg_pose.header.stamp.sec = int32(now.sec);
