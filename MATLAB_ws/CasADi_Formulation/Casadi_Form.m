@@ -120,8 +120,7 @@ R = [1e-0, 0;
 gamma = 1;
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]
-% z_0 = [0.395; 0; 0.115; 0];
-z_0 = [0.2; 0; 0.05; 0];
+z_0 = [0.4; 0; 0.15; 0];
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2
@@ -253,7 +252,7 @@ Lambda_k = (1 + vecnorm(K_cal, p, 1)').^(-(n + 1)/2);
 
 %% Saving and loading casadi function object
 
-UR_N100.save('UR_N100.casadi');
+% UR_N100.save('UR_N100.casadi');
 
 % UR_N100 = Function.load('UR_N100.casadi');
 

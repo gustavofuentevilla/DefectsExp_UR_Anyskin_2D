@@ -1,44 +1,43 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root>
  <tabbed_widget name="Main Window" parent="main_window">
-  <Tab tab_name="tab1" containers="1">
+  <Tab containers="1" tab_name="tab1">
    <Container>
-    <DockSplitter orientation="-" sizes="0.199708;0.200437;0.199708;0.200437;0.199708" count="5">
+    <DockSplitter orientation="-" count="5" sizes="0.199708;0.200437;0.199708;0.200437;0.199708">
      <DockArea name="...">
-      <plot flip_y="false" flip_x="false" style="Lines" mode="TimeSeries">
-       <range right="51.946858" bottom="-11.287878" top="-1.883680" left="20.450689"/>
+      <plot flip_x="false" style="Lines" mode="TimeSeries" flip_y="false">
+       <range top="-1.638348" right="28.975543" bottom="-9.515179" left="10.353210"/>
        <limitY/>
        <curve name="/force_torque_sensor_broadcaster/wrench/wrench/force/z" color="#1f77b4"/>
       </plot>
      </DockArea>
      <DockArea name="...">
-      <plot flip_y="false" flip_x="false" style="Lines" mode="TimeSeries">
-       <range right="51.946858" bottom="-0.539458" top="0.211743" left="20.450689"/>
-       <limitY/>
-       <curve name="/force_torque_sensor_broadcaster/wrench/wrench/torque/x" color="#d62728"/>
-       <curve name="/force_torque_sensor_broadcaster/wrench/wrench/torque/y" color="#1ac938"/>
-       <curve name="/force_torque_sensor_broadcaster/wrench/wrench/torque/z" color="#ff7f0e"/>
-      </plot>
-     </DockArea>
-     <DockArea name="...">
-      <plot flip_y="false" flip_x="false" style="Lines" mode="TimeSeries">
-       <range right="51.946858" bottom="18.012996" top="361.123647" left="20.450689"/>
+      <plot flip_x="false" style="Lines" mode="TimeSeries" flip_y="false">
+       <range top="376.454294" right="28.975543" bottom="-66.268178" left="10.353210"/>
        <limitY/>
        <curve name="/synced_data/measurements/data[0]" color="#9467bd"/>
       </plot>
      </DockArea>
      <DockArea name="...">
-      <plot flip_y="false" flip_x="false" style="Lines" mode="TimeSeries">
-       <range right="51.946858" bottom="-8.823859" top="361.778204" left="20.450689"/>
+      <plot flip_x="false" style="Lines" mode="TimeSeries" flip_y="false">
+       <range top="376.398155" right="28.975543" bottom="-9.180443" left="10.353210"/>
        <limitY/>
        <curve name="filtered_data" color="#17becf"/>
       </plot>
      </DockArea>
      <DockArea name="...">
-      <plot flip_y="false" flip_x="false" style="Lines" mode="TimeSeries">
-       <range right="51.946858" bottom="-0.008521" top="-0.003969" left="20.450689"/>
+      <plot flip_x="false" style="Lines" mode="TimeSeries" flip_y="false">
+       <range top="-0.002707" right="28.975543" bottom="-0.010070" left="10.353210"/>
        <limitY/>
        <curve name="/synced_data/ee_pose/pose/position/z" color="#f14cc1"/>
+       <curve name="z_prenetration" color="#1ac938"/>
+      </plot>
+     </DockArea>
+     <DockArea name="...">
+      <plot flip_x="false" style="Lines" mode="TimeSeries" flip_y="false">
+       <range top="0.002217" right="28.975543" bottom="0.000630" left="10.353210"/>
+       <limitY/>
+       <curve name="z_error" color="#d62728"/>
       </plot>
      </DockArea>
     </DockSplitter>
@@ -51,7 +50,7 @@
  <!-- - - - - - - - - - - - - - - -->
  <Plugins>
   <plugin ID="DataLoad CSV">
-   <parameters delimiter="0" time_axis=""/>
+   <parameters time_axis="" delimiter="0"/>
   </plugin>
   <plugin ID="DataLoad MCAP"/>
   <plugin ID="DataLoad ROS2 bags">
@@ -69,7 +68,7 @@
    <max_array_size value="100"/>
    <boolean_strings_to_number value="true"/>
    <remove_suffix_from_strings value="true"/>
-   <selected_topics value="/synced_data;/force_torque_sensor_broadcaster/wrench"/>
+   <selected_topics value="/force_torque_sensor_broadcaster/wrench;/synced_data"/>
   </plugin>
   <plugin ID="UDP Server"/>
   <plugin ID="WebSocket Server"/>
@@ -90,17 +89,77 @@
  <customMathEquations>
   <snippet name="filtered_data">
    <global></global>
-   <function>if v1 >= -0.006 then
-filtered_d = value
-else
-filtered_d = 0
+   <function>if v1 >= 0.00098 then
+filtered_d = value;
+else 
+filtered_d = 0;
 end
 
 return filtered_d</function>
    <linked_source>/synced_data/measurements/data[0]</linked_source>
    <additional_sources>
-    <v1>/synced_data/ee_pose/pose/position/z</v1>
+    <v1>z_error</v1>
    </additional_sources>
+  </snippet>
+  <snippet name="z_contact">
+   <global></global>
+   <function>A = 0.01387;
+B = 0.3473;
+C = 13.12;
+D = 0.0513;
+
+z = (-A*value-B*v1-D)/C;
+
+return z</function>
+   <linked_source>/synced_data/ee_pose/pose/position/x</linked_source>
+   <additional_sources>
+    <v1>/synced_data/ee_pose/pose/position/y</v1>
+   </additional_sources>
+  </snippet>
+  <snippet name="z_error">
+   <global></global>
+   <function>error1 = math.abs(value - v1);
+error2 = (value - v1)^2;
+
+
+return error1</function>
+   <linked_source>/synced_data/ee_pose/pose/position/z</linked_source>
+   <additional_sources>
+    <v1>z_prenetration</v1>
+   </additional_sources>
+  </snippet>
+  <snippet name="z_prenetration">
+   <global></global>
+   <function>A = 0.01387;
+B = 0.3473;
+C = 13.12;
+D = 0.0513;
+
+z = (-A*value-B*v1-D)/C;
+
+return z</function>
+   <linked_source>/synced_data/ee_pose/pose/position/x</linked_source>
+   <additional_sources>
+    <v1>/synced_data/ee_pose/pose/position/y</v1>
+   </additional_sources>
+  </snippet>
+  <snippet name="dz_dt">
+   <global>prevX = 0
+prevY = 0
+is_first = true</global>
+   <function>if (is_first) then
+        is_first = false
+        prevX = time
+        prevY = value
+    end
+    
+    dx = time - prevX
+    dy = value - prevY
+    prevX = time
+    prevY = value
+    
+    return dy/dx</function>
+   <linked_source>/synced_data/ee_pose/pose/position/z</linked_source>
   </snippet>
  </customMathEquations>
  <snippets/>
