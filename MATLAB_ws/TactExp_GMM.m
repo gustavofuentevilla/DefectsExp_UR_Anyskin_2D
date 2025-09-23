@@ -3,11 +3,13 @@
 import casadi.*
 
 % loading casadi function object (comment if it's already loaded)
-% UR_N100 = Function.load('CasADi_Formulation/UR_N100.casadi');
+UR_N100 = Function.load('CasADi_Formulation/UR_N100.casadi');
 
-%% Parámetros del espacio de búsqueda U = [L_1_l, L_1_u] \times [L_2_l, L_2_u]
+%% Parámetros del espacio de búsqueda 
+% Omega = [L_1_l, L_1_u] \times [L_2_l, L_2_u]
 
-n = 2; % Número de dimensiones espaciales
+% Número de dimensiones espaciales
+n = 2; 
 
 L_1_l = 0.16;
 L_1_u = 0.44;
@@ -21,16 +23,17 @@ dx_2 = (L_2_u - L_2_l)/50;
 x_1 = (L_1_l:dx_1:L_1_u)';
 x_2 = (L_2_l:dx_2:L_2_u)';
 
-%vector de límites inferior y superiores de las dimensiones
+% vector de límites inferior y superiores de las dimensiones
 L_i_l = [L_1_l, L_2_l];
 L_i_u = [L_1_u, L_2_u];
 
+% Longitudes
 L_1 = L_1_u - L_1_l;
 L_2 = L_2_u - L_2_l;
 
 [x_1_grid, x_2_grid] = meshgrid(x_1, x_2);
 
-%Espacio de búsqueda discretizado
+% Espacio de búsqueda discretizado
 Omega = [reshape(x_1_grid,[],1), reshape(x_2_grid,[],1)];
 
 %% Real PDF (Coins)
@@ -143,11 +146,17 @@ z_0 = [Pose_0(1); 0; Pose_0(2); 0];
 p = 2; %norma 2
 Lambda_k = (1 + vecnorm(K_cal, p, 1)').^(-(n + 1)/2);
 
-% vector de tiempo para spline a 100 Hz
-t_spline = (0:0.01:t_f)';
+% Vector de tiempo para spline a 100 Hz 
+% (Frecuencia de envío de mensajes ROS2 al robot real)
+freq_spline = 100;
+T_s_spline = 1/freq_spline;
+t_spline = (0:T_s_spline:t_f)';
 
 %% Loop for the Search task
 n_iter_max = 1;
+
+% sensor uncertainty radius
+r_s = 2.36e-2; 
 
 % Registers
 z_reg = zeros(N+1, 4, n_iter_max);
@@ -191,11 +200,11 @@ n_iter = n_iter_max;
 
 Par_PDF.DataEscFact = 1;
 % Total variation condition to find a defect
-Par_PDF.Thres_Variation = max(coinsDiam) + 0.001;
+Par_PDF.Thres_Variation = max(coinsDiam) + 2*r_s + 0.001;
 % Minimum axes lengths of gaussian elipses (0 = not using this constraint)
 Par_PDF.MinAxisLengths = 0; % 0 m.
 % Distance needed to consider more than one single defect
-Par_PDF.OneClustDistLimit = max(coinsDiam) + 0.007;
+Par_PDF.OneClustDistLimit = max(coinsDiam) + 2*r_s + 0.007;
 Par_PDF.flag_ExplorationStage = true;
 
 % Parameters definition for the Variation constraint function
@@ -220,22 +229,23 @@ Par_PDF.MaxVarCons = nu_p*(L_1 + L_2) + (1 - nu_p)*...
 for i = 1:n_iter_max
 
     % Soluciones
-    [Z, U] = M(z_act, phi_k_act); 
+    [Z, U] = UR_N100(z_act, phi_k_act); 
     Z = full(Z)';
     U = full(U)';
 
-    % Trajectory X_e(t) = [x_1, x_2]
-    X_e = [Z(:, 1), Z(:, 3)];
-    X_e_dot = [Z(:, 2), Z(:, 4)];
+    % Desired Ergodic Trajectory X_e_d(t) = [x_1, x_2]
+    X_e_d = [Z(:, 1), Z(:, 3)];
+    X_e_d_dot = [Z(:, 2), Z(:, 4)];
 
     % Spline: Adding points to the trajectory to get more data from the sensor
     % and pass it to the estimator
-    x_1e_spline = spline(t, X_e(:,1), t_spline);
-    x_2e_spline = spline(t, X_e(:,2), t_spline);
-    X_e_spline = [x_1e_spline, x_2e_spline];
-
-    x_1e_dot_spline = spline(t, X_e_dot(:,1), t_spline);
-    x_2e_dot_spline = spline(t, X_e_dot(:,2), t_spline);
+    x_1e_d_spline = spline(t, X_e_d(:,1), t_spline);
+    x_2e_d_spline = spline(t, X_e_d(:,2), t_spline);
+    X_e_d_spline = [x_1e_d_spline, x_2e_d_spline];
+    
+    % La derivada del spline en realidad se tiene que calcular con diff(*)
+    x_1e_dot_spline = spline(t, X_e_d_dot(:,1), t_spline);
+    x_2e_dot_spline = spline(t, X_e_d_dot(:,2), t_spline);
     X_e_dot_spline = [x_1e_dot_spline, x_2e_dot_spline];
 
     u_1_spline = spline(t(1:end-1), U(:,1), t_spline(1:end-1));
@@ -243,7 +253,7 @@ for i = 1:n_iter_max
     u_spline = [u_1_spline, u_2_spline];
     
     % AQUI ME QUEDEEEEE XD
-    % CREAR FUNCIÓN Data_t_Xe_V = ur_send_traj(t_spline, X_e_spline, parametros de nodo)
+    % CREAR FUNCIÓN Data_t_Xe_V = ur_send_ErgTraj(t_spline, X_e_spline, parametros de nodo)
 
     % Measurement along the trajectory, V_Xe
     % Upsilon = a + b*pdf(gm_dist, X_e_spline); %Real PDF
@@ -255,11 +265,11 @@ for i = 1:n_iter_max
     % Registers
     z_reg(:,:,i) = Z;
     u_reg(:,:,i) = U;
-    X_e_reg(:,:,i) = X_e;
-    X_e_dot_reg(:,:,i) = X_e_dot;
+    X_e_reg(:,:,i) = X_e_d;
+    X_e_dot_reg(:,:,i) = X_e_d_dot;
     phi_k_REG(:,:,i) = phi_k_reg;
     Phi_hat_x_reg(:,:,i) = Phi_hat_x_act;
-    X_e_spline_reg(:,:,i) = X_e_spline;
+    X_e_spline_reg(:,:,i) = X_e_d_spline;
     X_e_dot_spline_reg(:,:,i) = X_e_dot_spline;
     u_spline_reg(:,:,i) = u_spline;
     Data_t_Xe_V_reg(:,:,i) = Data_t_Xe_V;
@@ -268,7 +278,7 @@ for i = 1:n_iter_max
     % PDF Estimation
     Par_PDF.iteration = i;
     Par_PDF.Prev_Phi_hat_x = Phi_hat_x_act;
-    [Phi_hat_x_next, Estim_sol(i)] = PDF_Estimator(X_e_spline, V_Xe, Par_PDF);
+    [Phi_hat_x_next, Estim_sol(i)] = PDF_Estimator(X_e_d_spline, V_Xe, Par_PDF);
 
     % Update Iterations Counter where No data hav been found
     NoDataIterCounter = NoDataIterCounter + Estim_sol(i).flag_NoData;

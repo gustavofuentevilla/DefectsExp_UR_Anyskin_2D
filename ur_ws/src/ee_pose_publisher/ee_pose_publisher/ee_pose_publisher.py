@@ -39,23 +39,23 @@ class EePosePublisher(Node):
             10)
         self.publisher = self.create_publisher(PoseStamped, '/ee_pose_fast', 10)
 
-        # Static transform: ur5e_base in world
-        self.T_world_ur5e_base = np.eye(4)
+        # Static transform: ur_base in world
+        self.T_world_ur_base = np.eye(4)
         # Example: translation (x, y, z) and quaternion (x, y, z, w)
-        self.T_world_ur5e_base[:3, 3] = [0.460, 0.436, 0.910]
-        self.T_world_ur5e_base[:3, :3] = Rotation.from_quat([0.0, 1.0, 0.0, 0.0]).as_matrix()
+        self.T_world_ur_base[:3, 3] = [0.180, -0.274, 0.116]
+        self.T_world_ur_base[:3, :3] = Rotation.from_quat([0.0, 0.0, 0.0, 1.0]).as_matrix()
 
-        # Static transform: ee_link in ur5e_tool0_controller
+        # Static transform: ee_link in ur_tool0_controller
         self.T_tool0_controller_ee_link = np.eye(4)
-        self.T_tool0_controller_ee_link[:3, 3] = [0.0, 0.0, -0.050]
+        self.T_tool0_controller_ee_link[:3, 3] = [0.0, 0.0, 0.050]
         self.T_tool0_controller_ee_link[:3, :3] = Rotation.from_quat([0.0, 0.0, 0.0, 1.0]).as_matrix()
 
     def listener_callback(self, msg):
-        # Pose of ur5e_tool0_controller in ur5e_base
-        T_ur5e_base_tool0_controller = pose_to_matrix(msg.pose)
+        # Pose of ur_tool0_controller in ur_base
+        T_ur_base_tool0_controller = pose_to_matrix(msg.pose)
 
-        # Compose transforms: world->ur5e_base->tool0_controller->ee_link
-        T_world_ee_link = self.T_world_ur5e_base @ T_ur5e_base_tool0_controller @ self.T_tool0_controller_ee_link
+        # Compose transforms: world->ur_base->tool0_controller->ee_link
+        T_world_ee_link = self.T_world_ur_base @ T_ur_base_tool0_controller @ self.T_tool0_controller_ee_link
 
         pose_msg = matrix_to_pose(T_world_ee_link)
         pose_msg.header.stamp = self.get_clock().now().to_msg()

@@ -45,7 +45,9 @@ msg_wrench = ros2message(pub_wrench);
 % Initial position in X-Y plane
 % Pose_0 = [0.2; 0.05];
 
-Pose_0 = [0.28; 0.10];
+%Testing
+% Pose_0 = [0.3950; 0.1150]; %Circle
+Pose_0 = [0.32; 0.12];
 
 % Get current pose
 [Current_pose, status, statusText] = receive(subs_pose, 10);
