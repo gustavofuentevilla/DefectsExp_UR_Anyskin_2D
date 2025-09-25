@@ -105,7 +105,7 @@ hold on
 % Calculate the normal vector's direction for visualization
 quiver3(pointOnPlane(1), pointOnPlane(2), pointOnPlane(3),...
         normal_vect(1), normal_vect(2), normal_vect(3),...
-        0.005, "black", "filled", 'LineWidth', 3);
+        0.005, 'LineWidth', 3);
 plotFrame(pointOnPlane, R_e, 'Name', 'End-effector Frame', 'Scale', 0.05)
 hold off
 legend("Datos empíricos", "Vector normal")

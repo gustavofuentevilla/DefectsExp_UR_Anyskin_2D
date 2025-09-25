@@ -1,10 +1,14 @@
-function ur_p_to_p_traj(P_i, P_f, mvr_time, f_z, nodeMATLAB, pub_pose, pub_wrench, msg_pose, msg_wrench)
+function ur_traj_contact(P_i, P_f, mvr_time, f_z, nodeMATLAB,...
+                                pub_pose, pub_wrench, msg_pose, msg_wrench)
+
+global desiredQuat;
 
 rate = 100;                % Hz
 loop_rate = ros2rate(nodeMATLAB, rate);
 t_i = 0;
 t = t_i;
 reset(loop_rate);
+
 while t < mvr_time
     % Update timestamp
     now = ros2time(nodeMATLAB, "now");
@@ -20,10 +24,10 @@ while t < mvr_time
     msg_pose.pose.position.x = P(1);
     msg_pose.pose.position.y = P(2);
     msg_pose.pose.position.z = P(3);
-    msg_pose.pose.orientation.x = P(4);
-    msg_pose.pose.orientation.y = P(5);
-    msg_pose.pose.orientation.z = P(6);
-    msg_pose.pose.orientation.w = P(7);
+    msg_pose.pose.orientation.x = desiredQuat(1);
+    msg_pose.pose.orientation.y = desiredQuat(2);
+    msg_pose.pose.orientation.z = desiredQuat(3);
+    msg_pose.pose.orientation.w = desiredQuat(4);
 
     % Desired Wrench
     msg_wrench.wrench.force.x = 0.0;

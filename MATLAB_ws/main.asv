@@ -107,7 +107,7 @@ P_i = [Current_pose.pose.position.x;
        Current_pose.pose.position.z];
 
 % Desired Pose (with a fixed desired orientation)
-P_f = [Pose_0(1); Pose_0(2); 0.05];
+P_f = [Pose_0(1); Pose_0(2); 0.05; desiredOrientation];
 
 % Send trajectory to UR with a soft interpolation using Bezier
 mvr_time = 5;
