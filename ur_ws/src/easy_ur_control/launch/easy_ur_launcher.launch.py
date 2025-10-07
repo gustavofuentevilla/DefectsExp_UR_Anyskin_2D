@@ -117,10 +117,36 @@ def launch_setup(context, *args, **kwargs):
         )
     )
 
+    anyskin_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution(
+                [
+                    FindPackageShare("anyskin_sensor_publisher"),
+                    "launch",
+                    "anyskin_sensor_publisher.launch.py",
+                ]
+            )
+        )
+    )
+    
+    sync_data_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution(
+                [
+                    FindPackageShare("sync_data"),
+                    "launch",
+                    "sync_data.launch.py",
+                ]
+            )
+        )
+    )
+
     return [
         base_launch,
         controller_spawner,
         ee_pose_publisher_launch,
+        anyskin_launch,
+        sync_data_launch
     ]
 
 

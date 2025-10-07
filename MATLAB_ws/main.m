@@ -18,6 +18,8 @@ ros2genmsg(folderPath)
 % Global variable for desired orientation in callback
 global desiredQuat;
 
+desiredOrientation = [-sqrt(2)/2; sqrt(2)/2; 0.0; 0.0];
+
 % Node
 nodeMATLAB = ros2node("/MATLAB_Node", 0);
 
@@ -53,10 +55,15 @@ function CallbackQuat(message, desiredOrientation)
               message.pose.orientation.y;
               message.pose.orientation.z;
               message.pose.orientation.w];
+    try
     if (q_last'*desiredOrientation) < 0
         desiredQuat = - desiredOrientation;
     else
         desiredQuat = desiredOrientation;
+    end
+
+    catch ME
+        disp(ME.message)
     end
 end
 
@@ -70,7 +77,7 @@ end
 % Dimension Limits: x_1 = [0; 0.28] | x_2 = [0; 0.22]
 
 % Initial position in X-Y plane
-Pose_0 = [0.1; 0.1];
+Pose_0 = [0.03; 0.11];
 
 %Testing
 % Pose_0 = [0.0; 0.0];
@@ -131,7 +138,7 @@ z_desired = desiredZ(Pose_0');
 % Contact position
 P_f = [Pose_0(1); Pose_0(2); z_desired];
 f_z = 5.0;
-
+mvr_time = 5;
 % send trajectory to get in contact with the plane (The orientation is
 % automatically updated in the callback and the contact function sends it)
 ur_traj_contact(P_i, P_f, mvr_time, f_z, nodeMATLAB,...
@@ -156,4 +163,8 @@ ur_traj_contact(P_i, P_f, mvr_time, f_z, nodeMATLAB,...
 
 %%%% Crear nueva distribución (PDF_estimator)
 
-TactExp_GMM
+
+
+
+
+% TactExp_GMM

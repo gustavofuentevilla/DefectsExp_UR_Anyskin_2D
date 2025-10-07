@@ -1,13 +1,13 @@
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Circular Trajectory
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+global desiredQuat;
 % Toma en cuenta que el robot ya debe estar en posición inicial y en
 % contacto con la superficie! (esto se ejecuta en main.m)
 
 % Parámetros
-x_c = (0.15 + 0.44)/2;
-y_c = (0.23/2);
+x_c = 0.13;
+y_c = 0.11;
 radius = 0.1;             % radius of the circle
 % x_c = 0.3450;
 % y_c = (0.23/2);
@@ -27,20 +27,20 @@ while t < duration
     msg_pose.header.frame_id = 'world';  % reference frame
     msg_wrench.header.stamp.sec = int32(now.sec);
     msg_wrench.header.stamp.nanosec = uint32(now.nanosec);
-    msg_wrench.header.frame_id = 'ee_link'; % 'ur5e_tool0';  % reference frame
+    msg_wrench.header.frame_id = 'ee_link'; % reference frame
 
     % Circular trajectory
     delta = 2*pi*t/duration - sin(2*pi*t/duration);
-    msg_pose.pose.position.x = x_c + radius * cos(delta);
-    msg_pose.pose.position.y = y_c - radius * sin(delta);
+    msg_pose.pose.position.x = x_c - radius * cos(delta);
+    msg_pose.pose.position.y = y_c + radius * sin(delta);
     % contacto en el plano
     msg_pose.pose.position.z = desiredZ(msg_pose.pose.position.x,...
                                         msg_pose.pose.position.y); 
 
-    msg_pose.pose.orientation.x = desiredOrientation(1);
-    msg_pose.pose.orientation.y = desiredOrientation(2);
-    msg_pose.pose.orientation.z = desiredOrientation(3);
-    msg_pose.pose.orientation.w = desiredOrientation(4);
+    msg_pose.pose.orientation.x = desiredQuat(1);
+    msg_pose.pose.orientation.y = desiredQuat(2);
+    msg_pose.pose.orientation.z = desiredQuat(3);
+    msg_pose.pose.orientation.w = desiredQuat(4);
 
     % Desired Wrench
     msg_wrench.wrench.force.x = 0.0;

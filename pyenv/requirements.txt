@@ -1,0 +1,6 @@
+anyskin==1.0.0
+numpy==2.3.3
+pip==24.0
+pygame==2.6.1
+pyserial==3.5
+scipy==1.16.2

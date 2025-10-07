@@ -1,43 +1,53 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root>
- <tabbed_widget name="Main Window" parent="main_window">
-  <Tab containers="1" tab_name="tab1">
+ <tabbed_widget parent="main_window" name="Main Window">
+  <Tab tab_name="tab1" containers="1">
    <Container>
-    <DockSplitter orientation="-" count="5" sizes="0.199708;0.200437;0.199708;0.200437;0.199708">
+    <DockSplitter count="4" orientation="-" sizes="0.25;0.25;0.25;0.25">
      <DockArea name="...">
-      <plot flip_x="false" style="Lines" mode="TimeSeries" flip_y="false">
-       <range top="-1.638348" right="28.975543" bottom="-9.515179" left="10.353210"/>
+      <plot mode="TimeSeries" style="Lines" flip_y="false" flip_x="false">
+       <range bottom="-1.604916" right="91.126682" left="61.124819" top="-0.648641"/>
        <limitY/>
        <curve name="/force_torque_sensor_broadcaster/wrench/wrench/force/z" color="#1f77b4"/>
       </plot>
      </DockArea>
      <DockArea name="...">
-      <plot flip_x="false" style="Lines" mode="TimeSeries" flip_y="false">
-       <range top="376.454294" right="28.975543" bottom="-66.268178" left="10.353210"/>
+      <plot mode="TimeSeries" style="Lines" flip_y="false" flip_x="false">
+       <range bottom="29.757751" right="91.126682" left="61.124819" top="41.981775"/>
        <limitY/>
        <curve name="/synced_data/measurements/data[0]" color="#9467bd"/>
       </plot>
      </DockArea>
      <DockArea name="...">
-      <plot flip_x="false" style="Lines" mode="TimeSeries" flip_y="false">
-       <range top="376.398155" right="28.975543" bottom="-9.180443" left="10.353210"/>
+      <plot mode="TimeSeries" style="Lines" flip_y="false" flip_x="false">
+       <range bottom="-0.741782" right="91.126682" left="61.124819" top="0.743166"/>
        <limitY/>
-       <curve name="filtered_data" color="#17becf"/>
+       <curve name="/synced_data/ee_pose/pose/orientation/w" color="#1f77b4"/>
+       <curve name="/synced_data/ee_pose/pose/orientation/x" color="#d62728"/>
+       <curve name="/synced_data/ee_pose/pose/orientation/y" color="#1ac938"/>
+       <curve name="/synced_data/ee_pose/pose/orientation/z" color="#ff7f0e"/>
       </plot>
      </DockArea>
      <DockArea name="...">
-      <plot flip_x="false" style="Lines" mode="TimeSeries" flip_y="false">
-       <range top="-0.002707" right="28.975543" bottom="-0.010070" left="10.353210"/>
+      <plot mode="TimeSeries" style="Lines" flip_y="false" flip_x="false">
+       <range bottom="0.027104" right="91.126682" left="61.124819" top="0.111488"/>
        <limitY/>
-       <curve name="/synced_data/ee_pose/pose/position/z" color="#f14cc1"/>
-       <curve name="z_prenetration" color="#1ac938"/>
+       <curve name="/synced_data/ee_pose/pose/position/x" color="#1f77b4"/>
+       <curve name="/synced_data/ee_pose/pose/position/y" color="#d62728"/>
+       <curve name="/synced_data/ee_pose/pose/position/z" color="#1ac938"/>
       </plot>
      </DockArea>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <Tab tab_name="tab2" containers="1">
+   <Container>
+    <DockSplitter count="1" orientation="-" sizes="1">
      <DockArea name="...">
-      <plot flip_x="false" style="Lines" mode="TimeSeries" flip_y="false">
-       <range top="0.002217" right="28.975543" bottom="0.000630" left="10.353210"/>
-       <limitY/>
-       <curve name="z_error" color="#d62728"/>
+      <plot mode="XYPlot" style="Lines" flip_y="false" flip_x="false">
+       <range bottom="-0.050000" right="0.336300" left="-0.278004" top="0.300000"/>
+       <limitY max="0.3" min="-0.05"/>
+       <curve curve_x="/synced_data/ee_pose/pose/position/x" curve_y="/synced_data/ee_pose/pose/position/y" name="/synced_data/ee_pose/pose/position/[x;y]" color="#ff7f0e"/>
       </plot>
      </DockArea>
     </DockSplitter>
@@ -50,7 +60,7 @@
  <!-- - - - - - - - - - - - - - - -->
  <Plugins>
   <plugin ID="DataLoad CSV">
-   <parameters time_axis="" delimiter="0"/>
+   <parameters delimiter="0" time_axis=""/>
   </plugin>
   <plugin ID="DataLoad MCAP"/>
   <plugin ID="DataLoad ROS2 bags">
@@ -87,21 +97,7 @@
  <previouslyLoaded_Streamer name="ROS2 Topic Subscriber"/>
  <!-- - - - - - - - - - - - - - - -->
  <customMathEquations>
-  <snippet name="filtered_data">
-   <global></global>
-   <function>if v1 >= 0.00098 then
-filtered_d = value;
-else 
-filtered_d = 0;
-end
-
-return filtered_d</function>
-   <linked_source>/synced_data/measurements/data[0]</linked_source>
-   <additional_sources>
-    <v1>z_error</v1>
-   </additional_sources>
-  </snippet>
-  <snippet name="z_contact">
+  <snippet name="z_prenetration">
    <global></global>
    <function>A = 0.01387;
 B = 0.3473;
@@ -116,19 +112,7 @@ return z</function>
     <v1>/synced_data/ee_pose/pose/position/y</v1>
    </additional_sources>
   </snippet>
-  <snippet name="z_error">
-   <global></global>
-   <function>error1 = math.abs(value - v1);
-error2 = (value - v1)^2;
-
-
-return error1</function>
-   <linked_source>/synced_data/ee_pose/pose/position/z</linked_source>
-   <additional_sources>
-    <v1>z_prenetration</v1>
-   </additional_sources>
-  </snippet>
-  <snippet name="z_prenetration">
+  <snippet name="z_contact">
    <global></global>
    <function>A = 0.01387;
 B = 0.3473;
