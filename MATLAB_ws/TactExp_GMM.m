@@ -1,9 +1,14 @@
+close all
+% clear
+clearvars -except UR_N100
+clc
 
 % CasADi
 import casadi.*
 
 % loading casadi function object (comment if it's already loaded)
-UR_N100 = Function.load('CasADi_Formulation/UR_N100.casadi');
+% UR_N100 = Function.load('CasADi_Formulation/UR_N100.casadi');
+
 
 %% Parámetros del espacio de búsqueda 
 % Omega = [L_1_l, L_1_u] \times [L_2_l, L_2_u]
@@ -11,12 +16,12 @@ UR_N100 = Function.load('CasADi_Formulation/UR_N100.casadi');
 % Número de dimensiones espaciales
 n = 2; 
 
-L_1_l = 0.16;
-L_1_u = 0.44;
+L_1_l = 0.0;
+L_1_u = 0.28;
 dx_1 = (L_1_u - L_1_l)/50;
 
 L_2_l = 0.0;
-L_2_u = 0.24;
+L_2_u = 0.22;
 dx_2 = (L_2_u - L_2_l)/50;
 
 % Dimensiones \mathbf{x} = [x_1 x_2]^T
@@ -39,9 +44,9 @@ Omega = [reshape(x_1_grid,[],1), reshape(x_2_grid,[],1)];
 %% Real PDF (Coins)
 
 % Centros de monedas reales
-Mu = [0.329, 0.048;
-      0.364, 0.187;
-      0.222, 0.156];
+Mu = [0.1490, 0.04;
+      0.232, 0.186;
+      0.058, 0.176];
 
 n_def = height(Mu);
 
@@ -139,8 +144,8 @@ t_f = 10;           %Tiempo final por iteración
 T_s = t_f/N;                  % Tiempo de muestreo
 t = (0:T_s:t_f)';   %Vector de tiempo por iteración
 
-% Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]
-z_0 = [Pose_0(1); 0; Pose_0(2); 0]; 
+% Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]}
+z_0 = [0.03; 0; 0.11; 0]; 
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2

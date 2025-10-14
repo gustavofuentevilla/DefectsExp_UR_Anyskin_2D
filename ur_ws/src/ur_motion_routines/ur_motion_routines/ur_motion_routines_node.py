@@ -59,130 +59,71 @@ class URMotionRoutinesNode(Node):
         if np.dot(self.current_Orientation, self.desiredOrientation) < 0:
             self.desiredQuat = -self.desiredOrientation
             
-    def rest_to_rest_trajectory(self, P_i, P_f, t_i, mvr_time, t, n, *, clamp=False, return_progress=False):
-        """ Genera una trayectoria rest-to-rest (polinómica) entre dos poses P_i y P_f
-        imponiendo que las primeras n derivadas (posición, velocidad, ..., hasta orden n-1)
-        sean cero al inicio y al final.
+    def rest_to_rest_trajectory(P_i, P_f, t_i, mvr_time, t, n):
+        """
+        Calcula una trayectoria rest-to-rest entre dos poses (P_i y P_f).
 
-        Parámetros
-        ----------
-        P_i : array-like (dim,)
+        Parámetros:
+        -----------
+        P_i : array_like
             Pose inicial (vector).
-        P_f : array-like (dim,)
+        P_f : array_like
             Pose final (vector).
         t_i : float
-            Tiempo inicial del maniobra.
+            Tiempo inicial del movimiento.
         mvr_time : float
-            Duración total de la maniobra (t_f = t_i + mvr_time).
+            Duración total del movimiento.
         t : float
-            Tiempo actual en el que se evalúa la trayectoria.
+            Tiempo actual.
         n : int
-            Número de derivadas (empezando por la 0) que se fuerzan a cero en inicio y fin.
-            Debe ser >= 1.
-        clamp : bool (opcional, False por defecto)
-            Si True, se fuerza t a permanecer en [t_i, t_f] (saturación).
-        return_progress : bool (opcional, False por defecto)
-            Si True, también devuelve el escalar de progreso f(t) en [0,1] (idealmente).
+            Número de derivadas igualadas a cero en los extremos.
 
-        Retorna
-        -------
-        X : np.ndarray (dim,)
+        Retorna:
+        --------
+        X : ndarray
             Pose interpolada en el tiempo t.
-        f : float (opcional)
-            Escalar de interpolación (solo si return_progress=True).
-
-        Notas
-        -----
-        - La implementación replica la lógica original de MATLAB.
-        - Se resuelve un sistema lineal A * Alpha = Lambda para obtener los coeficientes.
-        - Para múltiples evaluaciones en distintos t con mismos parámetros, conviene
-        precomputar Alpha (ver función auxiliar más abajo).
         """
+
         if n < 1:
-            raise ValueError("Hijole mano, no se va a poder xd (n debe ser >= 1)")
+            raise ValueError("El orden de derivadas debe ser mayor o igual a 1")
 
-        P_i = np.asarray(P_i, dtype=float)
-        P_f = np.asarray(P_f, dtype=float)
+        P_i = np.array(P_i, dtype=float)
+        P_f = np.array(P_f, dtype=float)
+        P_dim = len(P_i)
 
-        if P_i.shape != P_f.shape:
-            raise ValueError("P_i y P_f deben tener la misma dimensión")
+        t_f = t_i + mvr_time  # tiempo final
 
-        t_f = t_i + mvr_time
-        if mvr_time <= 0:
-            raise ValueError("mvr_time debe ser positivo")
+        if t < t_i:
+            return P_i
+        elif t > t_f:
+            return P_f
+        else:
+            A = np.zeros((n+1, n+1, P_dim))
+            Alpha = np.zeros((n+1, 1, P_dim))
+            Lambda = np.zeros((n+1, 1, P_dim))
+            Lambda[0, 0, :] = 1  
 
-        # Normalización de tiempo
-        if clamp:
-            if t <= t_i:
-                if return_progress:
-                    return P_i.copy(), 0.0
-                return P_i.copy()
-            if t >= t_f:
-                if return_progress:
-                    return P_f.copy(), 1.0
-                return P_f.copy()
+            f = np.zeros(P_dim)
 
-        s = (t - t_i) / (t_f - t_i)
+            for r in range(P_dim):
+                # Construcción de la matriz A
+                for i in range(1, n+2):
+                    for j in range(1, n+2):
+                        A[i-1, j-1, r] = ((-1)**(j-1)) * factorial(n + j) / (
+                            ((t_f - t_i)**(i-1)) * factorial(n + j - i + 1)
+                        )
 
-        # Construcción de la matriz A (n+1)x(n+1)
-        # En MATLAB: indices i,j van de 1 a n+1
-        # Aquí usamos i,j de 0 a n (ajustando factoriales)
-        A = np.empty((n + 1, n + 1), dtype=float)
-        for i in range(n + 1):
-            for j in range(n + 1):
-                # MATLAB: A(i,j) = (-1)^(j-1) * factorial(n+j) / ((t_f-t_i)^(i-1) * factorial(n+j-i+1))
-                # Ajuste a base 0: j_mat = j+1, i_mat = i+1
-                # factorial(n + (j+1)) -> factorial(n + j + 1)
-                # (t_f - t_i)^(i_mat - 1) -> (t_f - t_i)^i
-                # factorial(n + (j+1) - (i+1) + 1) = factorial(n + j - i + 1)
-                A[i, j] = ((-1) ** j) * factorial(n + j + 1) / ((t_f - t_i) ** i * factorial(n + j - i + 1))
+                # Resolución del sistema lineal
+                Alpha[:, 0, r] = np.linalg.solve(A[:, :, r], Lambda[:, 0, r])
 
-        # Vector Lambda = [1, 0, 0, ..., 0]^T
-        Lambda = np.zeros(n + 1)
-        Lambda[0] = 1.0
+                # Cálculo del polinomio f(r)
+                tau = (t - t_i) / (t_f - t_i)
+                for j in range(0, n+1):
+                    f[r] += ((-1)*j) * Alpha[j, 0, r] * tau*(n+1+j)
 
-        # Resolver para Alpha
-        Alpha = np.linalg.solve(A, Lambda)
+            X = P_i + (P_f - P_i) * f
+            return X
 
-        # f(s) = sum_{j=0}^n (-1)^j * Alpha[j] * s^(n+1+j)
-        powers = s ** (np.arange(n + 1) + (n + 1))
-        signs = (-1) ** np.arange(n + 1)
-        f = np.sum(signs * Alpha * powers)
-
-        # Trayectoria por cada dimensión (f es escalar común)
-        X = P_i + (P_f - P_i) * f
-
-        if return_progress:
-            return X, f
-        return X
-
-    def precompute_alpha(self, n, t_i, mvr_time):
-        """
-        Precomputa Alpha para un dado n y duración (útil si se evaluará muchas veces).
-        Devuelve Alpha y una función 'evaluate(s)' que da f(s).
-        """
-        if n < 1:
-            raise ValueError("n debe ser >= 1")
-        t_f = t_i + mvr_time
-        if mvr_time <= 0:
-            raise ValueError("mvr_time debe ser positivo")
-
-        A = np.empty((n + 1, n + 1), dtype=float)
-        for i in range(n + 1):
-            for j in range(n + 1):
-                A[i, j] = ((-1) ** j) * factorial(n + j + 1) / ((t_f - t_i) ** i * factorial(n + j - i + 1))
-        Lambda = np.zeros(n + 1)
-        Lambda[0] = 1.0
-        Alpha = np.linalg.solve(A, Lambda)
-
-        signs = (-1) ** np.arange(n + 1)
-        exponents = (n + 1) + np.arange(n + 1)
-
-        def evaluate_s(s):
-            s = np.asarray(s)
-            return np.sum(signs * Alpha * (s[..., None] ** exponents), axis=-1)
-
-        return Alpha, evaluate_s
     
     def move_to_initial_pose(self):
         """
@@ -208,10 +149,11 @@ class URMotionRoutinesNode(Node):
         self.get_logger().info('Iniciando rutina de movimiento suave a la posición inicial')
         t_f = t_i + mvr_time
         next_time = time.time() + period
+        hold_time = 5.0
         while rclpy.ok():
             now = self.get_clock().now().seconds_nanoseconds()
             t_now = now[0] + now[1] * 1e-9
-            if t_now > t_f:  
+            if t_now > t_f + hold_time:  
                 break
             X = self.rest_to_rest_trajectory(P_i, P_f, t_i, mvr_time, t_now, n_deriv)
             pose_msg = PoseStamped()
@@ -229,28 +171,8 @@ class URMotionRoutinesNode(Node):
             if sleep_time > 0:
                 time.sleep(sleep_time)
             next_time += period
-        # Mantener la posición final unos segundos
-        hold_time = 5.0
-        end_hold = time.time() + hold_time
-        while rclpy.ok() and time.time() < end_hold:
-            pose_msg = PoseStamped()
-            pose_msg.header.stamp = self.get_clock().now().to_msg()
-            pose_msg.header.frame_id = "world"
-            pose_msg.pose.position.x = float(P_f[0])
-            pose_msg.pose.position.y = float(P_f[1])
-            pose_msg.pose.position.z = float(P_f[2])
-            pose_msg.pose.orientation.x = float(P_f[3])
-            pose_msg.pose.orientation.y = float(P_f[4])
-            pose_msg.pose.orientation.z = float(P_f[5])
-            pose_msg.pose.orientation.w = float(P_f[6])
-            self.target_pose_pub.publish(pose_msg)
-            sleep_time = next_time - time.time()
-            if sleep_time > 0:
-                time.sleep(sleep_time)
-            next_time += period
-        self.get_logger().info('Rutina de movimiento completada')
         # Imprime pose actual
-        self.get_logger().info(f'Pose actual: {self.last_synced_pose}')
+        # self.get_logger().info(f'Pose actual: {self.last_synced_pose}')
 
     def get_in_contact(self):
         """
@@ -286,10 +208,11 @@ class URMotionRoutinesNode(Node):
         self.get_logger().info('Iniciando rutina de movimiento suave a la posición de contacto')
         t_f = t_i + mvr_time
         next_time = time.time() + period
+        hold_time = 5.0
         while rclpy.ok():
             now = self.get_clock().now().seconds_nanoseconds()
             t_now = now[0] + now[1] * 1e-9
-            if t_now > t_f:
+            if t_now > t_f + hold_time:
                 break
             # Interpolación solo en posición
             X = self.rest_to_rest_trajectory(P_i, P_f, t_i, mvr_time, t_now, n_deriv)
@@ -299,25 +222,6 @@ class URMotionRoutinesNode(Node):
             pose_msg.pose.position.x = float(X[0])
             pose_msg.pose.position.y = float(X[1])
             pose_msg.pose.position.z = float(X[2])
-            pose_msg.pose.orientation.x = self.desiredQuat[0]
-            pose_msg.pose.orientation.y = self.desiredQuat[1]
-            pose_msg.pose.orientation.z = self.desiredQuat[2]
-            pose_msg.pose.orientation.w = self.desiredQuat[3]
-            self.target_pose_pub.publish(pose_msg)
-            sleep_time = next_time - time.time()
-            if sleep_time > 0:
-                time.sleep(sleep_time)
-            next_time += period
-        # Mantener la posición final unos segundos
-        hold_time = 5.0
-        end_hold = time.time() + hold_time
-        while rclpy.ok() and time.time() < end_hold:
-            pose_msg = PoseStamped()
-            pose_msg.header.stamp = self.get_clock().now().to_msg()
-            pose_msg.header.frame_id = "world"
-            pose_msg.pose.position.x = float(P_f[0])
-            pose_msg.pose.position.y = float(P_f[1])
-            pose_msg.pose.position.z = float(P_f[2])
             pose_msg.pose.orientation.x = self.desiredQuat[0]
             pose_msg.pose.orientation.y = self.desiredQuat[1]
             pose_msg.pose.orientation.z = self.desiredQuat[2]
@@ -354,10 +258,11 @@ class URMotionRoutinesNode(Node):
         self.get_logger().info('Iniciando rutina de movimiento suave a la posición elevada')
         t_f = t_i + mvr_time
         next_time = time.time() + period
+        hold_time = 5.0
         while rclpy.ok():
             now = self.get_clock().now().seconds_nanoseconds()
             t_now = now[0] + now[1] * 1e-9
-            if t_now > t_f:
+            if t_now > t_f + hold_time:
                 break
             # Interpolación solo en posición
             X = self.rest_to_rest_trajectory(P_i, P_f, t_i, mvr_time, t_now, n_deriv)
@@ -376,25 +281,6 @@ class URMotionRoutinesNode(Node):
             if sleep_time > 0:
                 time.sleep(sleep_time)
             next_time += period
-        # Mantener la posición final unos segundos
-        hold_time = 5.0
-        end_hold = time.time() + hold_time
-        while rclpy.ok() and time.time() < end_hold:
-            pose_msg = PoseStamped()
-            pose_msg.header.stamp = self.get_clock().now().to_msg()
-            pose_msg.header.frame_id = "world"
-            pose_msg.pose.position.x = float(P_f[0])
-            pose_msg.pose.position.y = float(P_f[1])
-            pose_msg.pose.position.z = float(P_f[2])
-            pose_msg.pose.orientation.x = self.desiredQuat[0]
-            pose_msg.pose.orientation.y = self.desiredQuat[1]
-            pose_msg.pose.orientation.z = self.desiredQuat[2]
-            pose_msg.pose.orientation.w = self.desiredQuat[3]
-            self.target_pose_pub.publish(pose_msg)
-            sleep_time = next_time - time.time()
-            if sleep_time > 0:
-                time.sleep(sleep_time)
-            next_time += period
         self.get_logger().info('Rutina de movimiento completada')
 
     def execute_motion(self):
@@ -402,6 +288,9 @@ class URMotionRoutinesNode(Node):
         # Llama a la rutina de movimiento
         self.move_to_initial_pose()
         self.get_in_contact()
+        # Empieza a grabar los datos de /synced_data
+        # Lee la trayectoria y empieza el movimiento en el plano
+        # Deja de grabar los datos de /synced_data
         self.lift_end_effector()
 
 def main(args=None):

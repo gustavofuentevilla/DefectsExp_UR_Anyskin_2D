@@ -9,12 +9,12 @@ import casadi.*
 
 n = 2; % Número de dimensiones espaciales
 
-L_1_l = 0.16;
-L_1_u = 0.44;
+L_1_l = 0.0;
+L_1_u = 0.28;
 dx_1 = (L_1_u - L_1_l)/50;
 
 L_2_l = 0.0;
-L_2_u = 0.24;
+L_2_u = 0.22;
 dx_2 = (L_2_u - L_2_l)/50;
 
 % Dimensiones \mathbf{x} = [x_1 x_2]^T
@@ -120,7 +120,7 @@ R = [1e-0, 0;
 gamma = 1;
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]
-z_0 = [0.4; 0; 0.15; 0];
+z_0 = [0.03; 0; 0.11; 0];
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2
