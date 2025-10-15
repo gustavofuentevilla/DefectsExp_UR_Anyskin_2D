@@ -146,7 +146,7 @@ T_s_spline = 1/freq_spline;
 t_spline = (0:T_s_spline:t_f)';
 
 %% Loop for the Search task
-n_iter_max = 1;
+n_iter_max = 6;
 
 % sensor uncertainty radius
 r_s = 2.36e-2; 
