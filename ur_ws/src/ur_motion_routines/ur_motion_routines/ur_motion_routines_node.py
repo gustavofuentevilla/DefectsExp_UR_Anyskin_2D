@@ -445,9 +445,10 @@ class URMotionRoutinesNode(Node):
             rclpy.spin_once(self, timeout_sec=0.1)
         # Pose actual del robot
         P_i = self.last_pose  # [x, y, z, qx, qy, qz, qw]
-        # Pose inicial deseada
-        # P_f = np.array([0.03, 0.11, 0.1, *self.desiredOrientation])
-        P_f = np.array([0.14, 0.1, 0.05, *self.desiredOrientation])
+        # Pose inicial deseada (leida desde la primera trayectoria)
+        trajectory_file = '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/Trayectorias/trayectoria_1.csv'
+        x0, y0 = np.loadtxt(trajectory_file, delimiter=",", skiprows=1, max_rows=1, usecols=(1,2), unpack=True)
+        P_f = np.array([x0, y0, 0.05, *self.desiredOrientation])
         now = self.get_clock().now().seconds_nanoseconds()
         # Tiempo actual
         t_i = now[0] + now[1] * 1e-9
@@ -607,10 +608,51 @@ class URMotionRoutinesNode(Node):
             next_time += period
         self.get_logger().info('Rutina de movimiento completada')
 
+    def ergodic_motion(self):
+        """
+        Ejecuta el movimiento ergódico leyendo la trayectoria desde un archivo.
+        """
+        trajectory_file = '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/Trayectorias/trayectoria_1.csv'
+        # Carga la trayectoria desde el archivo csv
+        trajectory = np.loadtxt(trajectory_file, delimiter=',', skiprows=1, usecols=(1,2), unpack=True)
+        num_points = trajectory.shape[1]
+        period = 1.0 / 100  # 100 Hz
+        self.get_logger().info('Iniciando rutina de movimiento ergódico')
+        next_time = time.time() + period
+        for i in range(num_points):
+            if not rclpy.ok():
+                break
+            # process incoming messages so subscriber callbacks update last_synced_pose
+            rclpy.spin_once(self, timeout_sec=0.0)
+            pose_msg = PoseStamped()
+            pose_msg.header.stamp = self.get_clock().now().to_msg()
+            pose_msg.header.frame_id = "world"
+            pose_msg.pose.position.x = float(trajectory[0, i])
+            pose_msg.pose.position.y = float(trajectory[1, i])
+            pose_msg.pose.position.z = -0.01874
+            pose_msg.pose.orientation.x = self.desiredQuat[0]
+            pose_msg.pose.orientation.y = self.desiredQuat[1]
+            pose_msg.pose.orientation.z = self.desiredQuat[2]
+            pose_msg.pose.orientation.w = self.desiredQuat[3]
+            # publish target wrench (can be zero or customized)
+            self.publish_target_wrench([0,0,5,0,0,0], frame_id="ee_link")
+            self.target_pose_pub.publish(pose_msg)
+            sleep_time = next_time - time.time()
+            if sleep_time > 0:
+                time.sleep(sleep_time)
+            next_time += period
+        self.get_logger().info('Rutina de movimiento ergódico completada')
+
     def execute_motion(self):
         self.get_logger().info('Ejecutando rutina de movimiento')
 
-        # Inicia la grabación de rosbag
+        # Mueve al punto inicial (sólo en la primera ejecución)
+        self.move_to_initial_pose()
+
+        # Entra en contacto con el plano
+        self.get_in_contact()
+
+        # Inicia la grabación de rosbag (/synced_data)
         try:
             self.start_rosbag_and_wait(['/synced_data'],
                                         output_dir='/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/ROS2Bags',
@@ -619,18 +661,17 @@ class URMotionRoutinesNode(Node):
             self.get_logger().error(f'Failed to start rosbag and confirm recording: {e}. Aborting motion.')
             return
         
-        # Llama a la rutina de movimiento
-        self.move_to_initial_pose()
-        self.get_in_contact()
-        # Empieza a grabar los datos de /synced_data
         # Lee la trayectoria del archivo y ejecuta movimiento sobre el plano
+        self.ergodic_motion()
+
         # Deja de grabar los datos de /synced_data
-        self.lift_end_effector()
-        
         try:
             self.stop_rosbag()
         except Exception as e:
             self.get_logger().warn(f'Failed to stop rosbag cleanly: {e}')
+
+        # Eleva el efector final
+        self.lift_end_effector()
 
 def main(args=None):
     rclpy.init(args=args)

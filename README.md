@@ -10,6 +10,11 @@ Set GCC compiler to use (quizás necesario para Matlab)
 
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 60
     sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 60
+    
+Puedes agregar otras versiones con diferentes prioridades (último parámetro) y luego elegir la versión específica que quieres usar con:
+
+    sudo update-alternatives --config gcc
+    sudo update-alternatives --config g++
 
 Limpiar workspace
 

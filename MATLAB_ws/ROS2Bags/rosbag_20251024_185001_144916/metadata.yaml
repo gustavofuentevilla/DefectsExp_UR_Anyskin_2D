@@ -2,10 +2,10 @@ rosbag2_bagfile_information:
   version: 9
   storage_identifier: mcap
   duration:
-    nanoseconds: 55065021638
+    nanoseconds: 9874897299
   starting_time:
-    nanoseconds_since_epoch: 1761242350917183734
-  message_count: 11014
+    nanoseconds_since_epoch: 1761324601584547721
+  message_count: 1976
   topics_with_message_count:
     - topic_metadata:
         name: /synced_data
@@ -28,17 +28,17 @@ rosbag2_bagfile_information:
               nsec: 854775807
             avoid_ros_namespace_conventions: false
         type_description_hash: RIHS01_4ad854205cfdab8a9ca55c41a572ff2b2d0c13d3a2d5b26e47c66d11818116b7
-      message_count: 11014
+      message_count: 1976
   compression_format: ""
   compression_mode: ""
   relative_file_paths:
-    - rosbag_20251023_195910_536888_0.mcap
+    - rosbag_20251024_185001_144916_0.mcap
   files:
-    - path: rosbag_20251023_195910_536888_0.mcap
+    - path: rosbag_20251024_185001_144916_0.mcap
       starting_time:
-        nanoseconds_since_epoch: 1761242350917183734
+        nanoseconds_since_epoch: 1761324601584547721
       duration:
-        nanoseconds: 55065021638
-      message_count: 11014
+        nanoseconds: 9874897299
+      message_count: 1976
   custom_data: ~
   ros_distro: jazzy

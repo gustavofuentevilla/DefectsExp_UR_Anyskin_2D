@@ -11,8 +11,8 @@ import casadi.*
 
 %% Include and create custom messages
 
-folderPath = fullfile(pwd, "custom");
-ros2genmsg(folderPath)
+% folderPath = fullfile(pwd, "custom");
+% ros2genmsg(folderPath)
 
 %% Initializations
 
@@ -156,5 +156,16 @@ end
 Mu_found = Par_PDF.Prev_Mu_found(2:end, :);
 Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 
+
+%% For plotting the trajectory (testing)
+
+figure(1)
+plot(t_spline, X_e_d_spline)
+grid on
+legend("x_1", "x_2")
+figure(2)
+plot(X_e_d_spline(:,1), X_e_d_spline(:,2))
+grid on
+legend("X")
 
 

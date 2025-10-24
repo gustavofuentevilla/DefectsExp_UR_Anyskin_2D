@@ -9,7 +9,7 @@ L_1_u = 0.28;
 dx_1 = (L_1_u - L_1_l)/50;
 
 L_2_l = 0.0;
-L_2_u = 0.22;
+L_2_u = 0.20;
 dx_2 = (L_2_u - L_2_l)/50;
 
 % Dimensiones \mathbf{x} = [x_1 x_2]^T
@@ -133,7 +133,7 @@ T_s = t_f/N;                  % Tiempo de muestreo
 t = (0:T_s:t_f)';   %Vector de tiempo por iteración
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]}
-z_0 = [0.03; 0; 0.11; 0]; 
+z_0 = [0.05; 0; 0.05; 0]; 
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2
