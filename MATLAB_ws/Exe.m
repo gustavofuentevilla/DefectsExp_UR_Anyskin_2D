@@ -11,8 +11,8 @@ import casadi.*
 
 %% Include and create custom messages
 
-% folderPath = fullfile(pwd, "custom");
-% ros2genmsg(folderPath)
+folderPath = fullfile(pwd, "custom");
+ros2genmsg(folderPath)
 
 %% Initializations
 

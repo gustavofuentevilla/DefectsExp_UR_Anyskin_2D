@@ -49,20 +49,43 @@ Poses_z = double(cell2mat(cellfun(@(msg) msg.ee_pose.pose.position.z,...
                  messageAll, 'UniformOutput', false)));
 
 % Combine the extracted data into a single matrix
-combinedData = [Timestamps, Poses_x, Poses_y, Poses_z, Mediciones];
+Data = [Timestamps, Poses_x, Poses_y, Poses_z, Mediciones];
 
 %% Create table of combinedData
-combinedTable = array2table(combinedData, 'VariableNames', {'Time', 'PosX', 'PosY', 'PosZ', 'Measurements'});
+% combinedTable = array2table(Data, 'VariableNames', {'Time', 'PosX', 'PosY', 'PosZ', 'Measurements'});
 
-%% Plot the combined data
+%% Plot the data
 
-figure
-yyaxis left
-plot(Timestamps, Poses_x, Timestamps, Poses_y, Timestamps, Poses_z)
-xlabel('Time (s)');
-ylabel('Position');
-title('End-Effector Positions and Measurements Over Time');
-yyaxis right
-plot(Timestamps, Mediciones)
-ylabel('Measurements');
-legend('Position X', 'Position Y', 'Position Z', 'Measurements');
+tiledlayout(3,6);
+
+nexttile(1, [1 3])
+plot(Timestamps, Mediciones, "LineWidth", 2)
+xlabel('Time (s)')
+ylabel('Measurements')
+legend('V_k')
+grid on
+
+nexttile(7, [1 3])
+plot(Timestamps, Poses_x, "LineWidth", 2)
+xlabel('Time (s)')
+ylabel('X Position')
+legend('x_ee')
+grid on
+
+nexttile(13, [1 3])
+plot(Timestamps, Poses_y, "LineWidth", 2)
+xlabel('Time (s)')
+ylabel('Y Position')
+legend('y_ee')
+grid on
+
+nexttile(4, [3 3])
+patch([Poses_x; NaN], [Poses_y; NaN], [Mediciones; NaN],...
+      'EdgeColor','interp',"LineWidth", 3)
+cb = colorbar;
+cb.Label.String = 'V_k';
+xlabel('x_1')
+ylabel('x_2')
+legend('X_e(t)')
+grid on
+axis equal
