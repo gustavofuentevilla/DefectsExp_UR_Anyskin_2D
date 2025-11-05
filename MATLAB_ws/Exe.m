@@ -3,7 +3,7 @@ close all
 clearvars -except UR_N100
 clc
 
-% CasADi
+% CasADi 
 import casadi.*
 
 % loading casadi function object (comment if it's already loaded)
@@ -46,7 +46,6 @@ for i = 1:n_iter_max
     u_2_spline = spline(t(1:end-1), U(:,2), t_spline(1:end-1));
     u_spline = [u_1_spline, u_2_spline];
     
-    % AQUI ME QUEDEEEEE XD
     % Guardar trayectoria en un archivo
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
@@ -67,11 +66,15 @@ for i = 1:n_iter_max
     disp('Continuando la ejecución...');
 
     % Función para Leer Rosbag (con la matriz de datos de salida)
+    folderPathBag = fullfile(pwd, "ROS2Bags/rosbag_20251024_185001_144916");
+    full_data = BagReading(folderPathBag);
 
     % Función para el pre-processing de los datos (filtro de butterworth, 
-    % sacar la derivada de la señal limpia, aplicar el threshold sobre la
-    % derivada y obtener los índices para filtrar los datos que si interesan)
+    % aplicar el threshold y obtener los datos que si interesan)
+    % Data = [X_e_act, sensorSignal]
+    [Data_current, cleanSignal] = Preprocessing(full_data, thres_meas);
 
+    Data_t_Xe_V = [full_data, cleanSignal];
 
     %% ESTO YA NO xd
     
@@ -92,13 +95,13 @@ for i = 1:n_iter_max
     X_e_spline_reg(:,:,i) = X_e_d_spline;
     X_e_dot_spline_reg(:,:,i) = X_e_dot_spline;
     u_spline_reg(:,:,i) = u_spline;
-    Data_t_Xe_V_reg(:,:,i) = Data_t_Xe_V;
+    Data_t_Xe_V_reg(1:size(Data_t_Xe_V,1),1:size(Data_t_Xe_V,2),i) = Data_t_Xe_V;
     % V_Xe_reg(:,:,i) = V_Xe;
 
     % PDF Estimation
     Par_PDF.iteration = i;
     Par_PDF.Prev_Phi_hat_x = Phi_hat_x_act;
-    [Phi_hat_x_next, Estim_sol(i)] = PDF_Estimator(X_e_d_spline, V_Xe, Par_PDF);
+    [Phi_hat_x_next, Estim_sol(i)] = PDF_Estimator(Data_current, Par_PDF);
 
     % Update Iterations Counter where No data hav been found
     NoDataIterCounter = NoDataIterCounter + Estim_sol(i).flag_NoData;
@@ -160,12 +163,22 @@ Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 %% For plotting the trajectory (testing)
 
 figure(1)
+
 plot(t_spline, X_e_d_spline)
 grid on
 legend("x_1", "x_2")
 figure(2)
-plot(X_e_d_spline(:,1), X_e_d_spline(:,2))
-grid on
-legend("X")
+pcolor(x_1_grid, x_2_grid, ...
+            reshape(Phi_hat_x_next, length(x_2), length(x_1)),...
+            "EdgeColor","none", "FaceColor","interp")
+hold on
+plot(X_e_d_spline(:,1), X_e_d_spline(:,2), "LineWidth", 3, "Color", "black")
+plot(X_e_d_spline(1,1), X_e_d_spline(1,2),...
+    "ksq", "MarkerSize",15, "LineWidth", 3)
+xlim([L_1_l, L_1_u])
+ylim([L_2_l, L_2_u])
+axis equal tight
+hold off
+legend("\hat{\Phi}", "X_e")
 
 

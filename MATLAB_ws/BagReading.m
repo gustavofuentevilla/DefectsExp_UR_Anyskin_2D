@@ -1,31 +1,13 @@
-close all
-clear
-clc
+function Data = BagReading(folderPathBag)
 
-%%
+% Ejecutar esto afuera
+% folderPath = fullfile(pwd, "custom");
+% ros2genmsg(folderPath)
 
-%nodeMATLAB = ros2node("nodeMATLAB", 0);
+% folderPathBag = fullfile(pwd, "ROS2Bags/rosbag_20251024_185001_144916");
 
-folderPath = fullfile(pwd, "custom");
-ros2genmsg(folderPath)
-
-%% Check for msg
-
-% ros2 msg show custom_interfaces/SyncData
-
-%%
-
-folderPathBag = fullfile(pwd, "ROS2Bags/rosbag_20251024_185001_144916"); 
 bagReader = ros2bagreader(folderPathBag);
-% bagReader.AvailableTopics
-
-% bagInfo = ros2('bag', 'info', folderPathBag);
-
-%% Get all messages
-
 messageAll = readMessages(bagReader);
-
-%% Extract Data and merge into one single variable
 
 % Extract the timestamp from the messages
 Timestamps = cell2mat(cellfun(@(msg) double(msg.stamp.sec) + double(msg.stamp.nanosec) * 1e-9, ...
@@ -51,50 +33,4 @@ Poses_z = double(cell2mat(cellfun(@(msg) msg.ee_pose.pose.position.z,...
 % Combine the extracted data into a single matrix
 Data = [Timestamps, Poses_x, Poses_y, Poses_z, Mediciones];
 
-%% Create table of combinedData
-% combinedTable = array2table(Data, 'VariableNames', {'Time', 'PosX', 'PosY', 'PosZ', 'Measurements'});
-
-%% Plot the data
-
-figh = figure(1);
-tiledlayout(figh, 3, 6);
-
-nexttile(1, [1 3])
-plot(Timestamps, Mediciones, "LineWidth", 2)
-xlabel('Time (s)')
-ylabel('Measurements')
-legend('$V_k$')
-grid on
-
-nexttile(7, [1 3])
-plot(Timestamps, Poses_x, "LineWidth", 2)
-xlabel('Time (s)')
-ylabel('X Position')
-legend('$x_{ee}$')
-grid on
-
-nexttile(13, [1 3])
-plot(Timestamps, Poses_y, "LineWidth", 2)
-xlabel('Time (s)')
-ylabel('Y Position')
-legend('$y_{ee}$')
-grid on
-
-nexttile(4, [3 3])
-patch([Poses_x; NaN], [Poses_y; NaN], [Mediciones; NaN],...
-      'EdgeColor','interp',"LineWidth", 3)
-cb = colorbar;
-cb.Label.String = '$V_k$';
-cb.Label.Interpreter = "latex";
-xlabel('$x_1$')
-ylabel('$x_2$')
-legend('$X_e(t)$')
-grid on
-axis equal
-xlim([0, 0.28])
-ylim([0, 0.2])
-
-set(findall(figh,'-property','Interpreter'),'Interpreter','latex') 
-set(findall(figh,'-property','TickLabelInterpreter'), ...
-    'TickLabelInterpreter','latex')
-set(findall(figh, "-property", "FontSize"), "FontSize", 18)
+end

@@ -31,7 +31,7 @@ Omega = [reshape(x_1_grid,[],1), reshape(x_2_grid,[],1)];
 
 %% Real PDF (Coins)
 
-% Centros de monedas reales
+% Centros de monedas reales (CAMBIAR)
 Mu = [0.1490, 0.04;
       0.232, 0.186;
       0.058, 0.176];
@@ -127,10 +127,10 @@ Par_struct.L_i_u = L_i_u;
 
 %% Condiciones Iniciales y parámetros
 
-N = 100; % Número de muestras por iteración
-t_f = 10;           %Tiempo final por iteración
-T_s = t_f/N;                  % Tiempo de muestreo
-t = (0:T_s:t_f)';   %Vector de tiempo por iteración
+N = 100;            % Número de muestras por iteración
+t_f = 10;           % Tiempo final por iteración
+T_s = t_f/N;        % Tiempo de muestreo
+t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]}
 z_0 = [0.05; 0; 0.05; 0]; 
@@ -161,8 +161,8 @@ Phi_hat_x_reg = zeros(height(Omega), 1, n_iter_max + 1);
 X_e_spline_reg = zeros(length(t_spline), 2, n_iter_max);
 X_e_dot_spline_reg = zeros(length(t_spline), 2, n_iter_max);
 u_spline_reg = zeros(length(t_spline) - 1, 2, n_iter_max);
-% Datos de (Tiempo - Posición - Mediciones)
-Data_t_Xe_V_reg = NaN(4*length(t_spline), 5, n_iter_max);
+% Datos de (Tiempo - Posición - Mediciones - Mediciones limpias)
+Data_t_Xe_V_reg = NaN(4*length(t_spline), 6, n_iter_max);
 % V_Xe_reg = zeros(length(t_spline), 1, n_iter_max);
 
 % Initializations
@@ -178,7 +178,7 @@ Par_PDF.dx_2 = dx_2;
 Par_PDF.nbDef_range = [1, n_def + 2]; 
 
 % Threshold definition
-Par_PDF.thres_meas = 200;
+thres_meas = 56.3951;
 
 Par_PDF.Prev_Data = [];
 Par_PDF.Prev_numComponents = [];
@@ -193,7 +193,7 @@ n_iter = n_iter_max;
 
 Par_PDF.DataEscFact = 1;
 % Total variation condition to find a defect
-Par_PDF.Thres_Variation = max(coinsDiam) + 2*r_s + 0.001;
+Par_PDF.Thres_Variation = max(coinsDiam) + 2*r_s + 0.002;
 % Minimum axes lengths of gaussian elipses (0 = not using this constraint)
 Par_PDF.MinAxisLengths = 0; % 0 m.
 % Distance needed to consider more than one single defect

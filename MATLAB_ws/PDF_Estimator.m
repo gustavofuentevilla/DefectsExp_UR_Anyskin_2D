@@ -1,10 +1,10 @@
-function [Phi_hat_x_next, Estim_sol] = PDF_Estimator(X_e, V, Par_PDF)
+function [Phi_hat_x_next, Estim_sol] = PDF_Estimator(Data_in, Par_PDF)
 
 Omega = Par_PDF.Omega;
 dx_1 = Par_PDF.dx_1;
 dx_2 = Par_PDF.dx_2;
 nbDef_range = Par_PDF.nbDef_range;
-thres_meas = Par_PDF.thres_meas;
+% thres_meas = Par_PDF.thres_meas;
 iteration = Par_PDF.iteration;
 
 % Feedbacks
@@ -16,7 +16,7 @@ Prev_Phi_hat_x = Par_PDF.Prev_Phi_hat_x;
 
 % Parameters
 MinAxisLengths = Par_PDF.MinAxisLengths;
-DataEscFact = Par_PDF.DataEscFact;
+% DataEscFact = Par_PDF.DataEscFact;
 MaxVarCons = Par_PDF.MaxVarCons;
 D_KL_bar_u = Par_PDF.D_KL_bar_u;
 eps = Par_PDF.eps;
@@ -31,14 +31,8 @@ Prev_Mu_found(1,:) = [];
 Prev_Sigma_found(:,:,1) = [];
 
 %% %%%%%%%%%%%%%%%% Preprocesing data %%%%%%%%%%%%%%%%%%%%%%%%%
-% Locate values above threshold
-idx_V = V > thres_meas; 
-Preprocessed_V = V;
-% Scale measurements above and below the threshold
-Preprocessed_V(idx_V) = V(idx_V)*DataEscFact; 
-Preprocessed_V(~idx_V) = V(~idx_V)*0;
 
-Data_current = [X_e(idx_V,:), Preprocessed_V(idx_V)];
+Data_current = Data_in; %Data = [X_e_1, X_e_2, Sensor_signal]
 
 % adding the previous data (if any)
 Data = [Prev_Data; 
@@ -66,7 +60,7 @@ if isempty(Data_current)
     flag_NoData = 1;
     % Output structure
     Estim_sol.Data = Data;
-    Estim_sol.Preprocessed_V = Preprocessed_V;
+    % Estim_sol.Preprocessed_V = Preprocessed_V;
     Estim_sol.Data_Xe_hist_V = Data_Xe_hist_V;
     Estim_sol.Priors = [];
     Estim_sol.Mu = [];
@@ -243,7 +237,7 @@ end
 
 %% Output structure
 Estim_sol.Data = Data;
-Estim_sol.Preprocessed_V = Preprocessed_V;
+% Estim_sol.Preprocessed_V = Preprocessed_V;
 Estim_sol.Data_Xe_hist_V = Data_Xe_hist_V;
 Estim_sol.Priors = Priors;
 Estim_sol.Mu = Mu;
