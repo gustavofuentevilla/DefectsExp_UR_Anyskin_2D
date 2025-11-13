@@ -22,12 +22,12 @@ class TargetPosePublisher(Node):
             # another option could be "ur_base_link"
             "world"  
         )   
-        pose.pose.position.x = 0.28
-        pose.pose.position.y = 0.22
-        pose.pose.position.z = 0.0
+        pose.pose.position.x = 0.0
+        pose.pose.position.y = 0.0
+        pose.pose.position.z = 0.05
         # Identity quaternion (no rotation) [0,0,0,1]
-        pose.pose.orientation.x = 0.7071
-        pose.pose.orientation.y = -0.7071
+        pose.pose.orientation.x = -0.7071
+        pose.pose.orientation.y = 0.7071
         pose.pose.orientation.z = 0.0
         pose.pose.orientation.w = 0.0
         self.publisher_.publish(pose)

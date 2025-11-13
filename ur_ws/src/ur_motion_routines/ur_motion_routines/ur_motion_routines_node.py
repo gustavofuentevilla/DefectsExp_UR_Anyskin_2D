@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped, WrenchStamped
 from custom_interfaces.msg import SyncData
+from std_srvs.srv import Trigger
 import numpy as np
 from math import factorial
 import time
@@ -42,9 +43,15 @@ class URMotionRoutinesNode(Node):
             self.ee_pose_callback,
             10
         )
+        # Client for resetting sensor baseline (std_srvs/Trigger). Create once and reuse.
+        try:
+            self.reset_baseline_client = self.create_client(Trigger, '/reset_baseline')
+        except Exception:
+            # keep attribute even if creation failed for any reason
+            self.reset_baseline_client = None
         self.desiredOrientation = np.array([
-            -0.7071,
             0.7071,
+            -0.7071,
             0.0000,
             0.0000
         ])
@@ -643,34 +650,85 @@ class URMotionRoutinesNode(Node):
             next_time += period
         self.get_logger().info('Rutina de movimiento ergódico completada')
 
+    def reset_baseline(self, timeout_service: float = 5.0, timeout_response: float = 5.0):
+        """
+        Call the /reset_baseline service (std_srvs/Trigger) to reset sensor baseline.
+
+        Returns: (success: bool, message: str)
+        """
+        client = getattr(self, 'reset_baseline_client', None)
+        if client is None:
+            # try to create it now
+            try:
+                client = self.create_client(Trigger, '/reset_baseline')
+                self.reset_baseline_client = client
+            except Exception as e:
+                self.get_logger().warn(f'Could not create /reset_baseline client: {e}')
+                return False, 'no_client'
+
+        # wait for service to be available
+        try:
+            if not client.wait_for_service(timeout_sec=timeout_service):
+                self.get_logger().warn('/reset_baseline service not available')
+                return False, 'service_unavailable'
+        except Exception as e:
+            self.get_logger().warn(f'Error waiting for /reset_baseline service: {e}')
+            return False, 'wait_error'
+
+        # call service and wait for response
+        try:
+            req = Trigger.Request()
+            fut = client.call_async(req)
+            rclpy.spin_until_future_complete(self, fut, timeout_sec=timeout_response)
+            if fut.done():
+                resp = fut.result()
+                msg = getattr(resp, 'message', '')
+                return bool(getattr(resp, 'success', False)), msg
+            else:
+                self.get_logger().warn('/reset_baseline call timed out')
+                return False, 'timeout'
+        except Exception as e:
+            self.get_logger().warn(f'Exception calling /reset_baseline: {e}')
+            return False, 'call_error'
+
     def execute_motion(self):
         self.get_logger().info('Ejecutando rutina de movimiento')
 
-        # Mueve al punto inicial (sólo en la primera ejecución)
+        # --- Mueve al punto inicial (sólo en la primera ejecución)
         self.move_to_initial_pose()
 
-        # Entra en contacto con el plano
+        # --- Reset anyskin baseline via helper
+        try:
+            ok, msg = self.reset_baseline(timeout_service=5.0, timeout_response=5.0)
+            if ok:
+                self.get_logger().info(f"/reset_baseline succeeded: {msg}")
+            else:
+                self.get_logger().warn(f"/reset_baseline not completed: {msg}")
+        except Exception as e:
+            self.get_logger().warn(f'Error during reset_baseline helper: {e}')
+
+        # --- Entra en contacto con el plano
         self.get_in_contact()
 
-        # Inicia la grabación de rosbag (/synced_data)
+        # --- Inicia la grabación de rosbag (/synced_data)
         try:
             self.start_rosbag_and_wait(['/synced_data'],
-                                        output_dir='/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/ROS2Bags',
+                                        output_dir='/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/ROS2Bags/',
                                         timeout=10.0)
         except Exception as e:
             self.get_logger().error(f'Failed to start rosbag and confirm recording: {e}. Aborting motion.')
             return
         
-        # Lee la trayectoria del archivo y ejecuta movimiento sobre el plano
+        # --- Lee la trayectoria del archivo y ejecuta movimiento sobre el plano
         self.ergodic_motion()
 
-        # Deja de grabar los datos de /synced_data
+        # --- Deja de grabar los datos de /synced_data
         try:
             self.stop_rosbag()
         except Exception as e:
             self.get_logger().warn(f'Failed to stop rosbag cleanly: {e}')
 
-        # Eleva el efector final
+        # --- Eleva el efector final
         self.lift_end_effector()
 
 def main(args=None):

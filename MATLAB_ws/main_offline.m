@@ -49,8 +49,8 @@ for i = 1:n_iter_max
     % Guardar trayectoria en un archivo
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
-    archivo = "Trayectorias/trayectoria_" + i + ".csv";
-    % writetable(T, archivo) % char(archivo) para cambiar a comillas simples
+    archivo = "Trayectorias/trayectoria_3" + i + ".csv";
+    writetable(T, archivo) % char(archivo) para cambiar a comillas simples
 
     %% Pausa xd
 
@@ -162,23 +162,23 @@ Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 
 %% For plotting the trajectory (testing)
 
-figure(1)
-
-plot(t_spline, X_e_d_spline)
-grid on
-legend("x_1", "x_2")
-figure(2)
-pcolor(x_1_grid, x_2_grid, ...
-            reshape(Phi_hat_x_next, length(x_2), length(x_1)),...
-            "EdgeColor","none", "FaceColor","interp")
-hold on
-plot(X_e_d_spline(:,1), X_e_d_spline(:,2), "LineWidth", 3, "Color", "black")
-plot(X_e_d_spline(1,1), X_e_d_spline(1,2),...
-    "ksq", "MarkerSize",15, "LineWidth", 3)
-xlim([L_1_l, L_1_u])
-ylim([L_2_l, L_2_u])
-axis equal tight
-hold off
-legend("\hat{\Phi}", "X_e")
+% figure(1)
+% 
+% plot(t_spline, X_e_d_spline)
+% grid on
+% legend("x_1", "x_2")
+% figure(2)
+% pcolor(x_1_grid, x_2_grid, ...
+%             reshape(Phi_hat_x_next, length(x_2), length(x_1)),...
+%             "EdgeColor","none", "FaceColor","interp")
+% hold on
+% plot(X_e_d_spline(:,1), X_e_d_spline(:,2), "LineWidth", 3, "Color", "black")
+% plot(X_e_d_spline(1,1), X_e_d_spline(1,2),...
+%     "ksq", "MarkerSize",15, "LineWidth", 3)
+% xlim([L_1_l, L_1_u])
+% ylim([L_2_l, L_2_u])
+% axis equal tight
+% hold off
+% legend("\hat{\Phi}", "X_e")
 
 
