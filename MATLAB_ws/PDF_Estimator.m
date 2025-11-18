@@ -4,7 +4,6 @@ Omega = Par_PDF.Omega;
 dx_1 = Par_PDF.dx_1;
 dx_2 = Par_PDF.dx_2;
 nbDef_range = Par_PDF.nbDef_range;
-% thres_meas = Par_PDF.thres_meas;
 iteration = Par_PDF.iteration;
 
 % Feedbacks
@@ -32,7 +31,7 @@ Prev_Sigma_found(:,:,1) = [];
 
 %% %%%%%%%%%%%%%%%% Preprocesing data %%%%%%%%%%%%%%%%%%%%%%%%%
 
-Data_current = Data_in; %Data = [X_e_1, X_e_2, Sensor_signal]
+Data_current = Data_in; %Data = [x_ee, y_ee, clean_signal]
 
 % adding the previous data (if any)
 Data = [Prev_Data; 
@@ -225,7 +224,7 @@ flag_done = isempty(Mu);
 
 % If we've done, export a zero PDF 
 if flag_done
-    Phi_hat_x_next = zeros(height(Omega));
+    Phi_hat_x_next = zeros(height(Omega), 1);
     Estim_sol.GMModel = [];
 else % IF we've not done, compute and export next GMM
     % Next PDF

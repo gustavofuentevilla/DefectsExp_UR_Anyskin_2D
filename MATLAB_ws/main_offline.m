@@ -11,16 +11,19 @@ import casadi.*
 
 %% Include and create custom messages
 
-folderPath = fullfile(pwd, "custom");
-ros2genmsg(folderPath)
+% folderPath = fullfile(pwd, "custom");
+% ros2genmsg(folderPath)
 
 %% Initializations
 
 Initializations
 
-%% Loop
+%% Offline Loop
 
-for i = 1:n_iter_max
+% Iteration 
+i = 6;
+
+
 
     % Soluciones
     [Z, U] = UR_N100(z_act, phi_k_act); 
@@ -49,41 +52,25 @@ for i = 1:n_iter_max
     % Guardar trayectoria en un archivo
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
-    archivo = "Trayectorias/trayectoria_3" + i + ".csv";
-    writetable(T, archivo) % char(archivo) para cambiar a comillas simples
+    archivo = "Trayectorias/trayectoria_" + i + ".csv";
+    % writetable(T, archivo) % char(archivo) para cambiar a comillas simples
 
-    %% Pausa xd
-
-    disp('Presiona cualquier tecla para continuar...');
-    pause; % Detiene la ejecución hasta que se presiona una tecla
-    
-
-    % Ejecutar trayectoria en robot real y recolectar información
-    % Solicitar un servicio que ejecute el movimiento y recording del robot
-    % (Para eso se requiere un nodo matlab)
-    % O ejecutar el nodo de movimiento de forma independiente
-
-    disp('Continuando la ejecución...');
+    %% Leer datos obtenidos (ejecutar después del movimientos del robot)
 
     % Función para Leer Rosbag (con la matriz de datos de salida)
-    folderPathBag = fullfile(pwd, "ROS2Bags/rosbag_20251024_185001_144916");
-    full_data = BagReading(folderPathBag);
+    folderPathBag = fullfile(pwd, "ROS2Bags/Test1/synced_data_" + i + ".csv");
+    full_data = csvReading(folderPathBag);
 
     % Función para el pre-processing de los datos (filtro de butterworth, 
     % aplicar el threshold y obtener los datos que si interesan)
     % Data = [X_e_act, sensorSignal]
-    [Data_current, cleanSignal] = Preprocessing(full_data, thres_meas);
+    [Data_current, clean_signal] = Preprocessing(full_data, thres_meas);
 
-    Data_t_Xe_V = [full_data, cleanSignal];
+    % DatosRegistro = [t, xee, yee, zee, signal, clean_signal]
+    Data_t_Xe_V = [full_data, clean_signal];
 
-    %% ESTO YA NO xd
-    
-    % Measurement along the trajectory, V_Xe
-    % Upsilon = a + b*pdf(gm_dist, X_e_spline); %Real PDF
-    % delta = c*randn(n_points, 1); %Gaussian Noise with Variance c^2
-    % V_Xe = Upsilon + delta;
-    % 
-    % Par_PDF.thres_meas = a + max(delta);
+    % Plot Bag
+    plotBag(Data_t_Xe_V, thres_meas)
 
     %% Registers
     z_reg(:,:,i) = Z;
@@ -106,9 +93,8 @@ for i = 1:n_iter_max
     % Update Iterations Counter where No data hav been found
     NoDataIterCounter = NoDataIterCounter + Estim_sol(i).flag_NoData;
 
-    if NoDataIterCounter == 2
-        n_iter = i;
-        break;
+    if NoDataIterCounter >= 2
+        disp("No se registró ningún dato arriba del threshold en " + i + " iteraciones")
     end
 
     % Save D_KL from first iteration to set the exploration function
@@ -135,27 +121,35 @@ for i = 1:n_iter_max
 
     if Estim_sol(i).flag_done
         n_iter = i; % Save number of iterations achieved
-        break;
+        disp("Algoritmo terminado en " + i + " iteraciones")
     end
 
     % Saving Data to use it as "Previous data" in next iterations
     Par_PDF.Prev_Data = Estim_sol(i).Data;
-    % Par_PDF.Prev_Priors = Estim_sol(i).Priors;
-    % Par_PDF.Prev_Mu = Estim_sol(i).Mu;
-    % Par_PDF.Prev_Sigma = Estim_sol(i).Sigma;
-    % Par_PDF.Prev_Sigma_a = Estim_sol(i).Sigma_a;
 
     % Compute new Fourier coefficients for \hat{Phi}(x)
     [phi_k_reg, ~, ~] = FourierCoef_RefPDF(Phi_hat_x_next, Par_struct);
 
     % Update parameters for next iteration
     z_act = Z(end,:)';           % Initial condition for state
-    phi_k_act = phi_k_reg;      % New target coefficients
+    phi_k_act = phi_k_reg;       % New target coefficients
     Phi_hat_x_act = Phi_hat_x_next;
+    
+    % Plot next PDF for debbuging
+    figure;
+    pcolor(x_1_grid, x_2_grid, ...
+           reshape(Phi_hat_x_next, length(x_2), length(x_1)),...
+           "FaceColor","interp","EdgeColor","none")
+    xlim([L_1_l, L_1_u])
+    ylim([L_2_l, L_2_u])
+    title("Next PDF")
+    xlabel('$x_1$ [m]')
+    ylabel('$x_2$ [m]')
+    axis equal tight
+    grid on
 
-end
 
-% Remove the initial value (zero values) for defects found
+%% Remove the initial value (zero values) for defects found
 Mu_found = Par_PDF.Prev_Mu_found(2:end, :);
 Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 
@@ -181,4 +175,5 @@ Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 % hold off
 % legend("\hat{\Phi}", "X_e")
 
-
+% Guardar prueba
+% save(sprintf("Results/output_1.mat"), "-regexp", "^(?!(UR_N100)$).");

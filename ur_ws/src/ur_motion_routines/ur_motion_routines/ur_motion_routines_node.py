@@ -65,6 +65,10 @@ class URMotionRoutinesNode(Node):
         # file handle for ros2 bag stdout/stderr
         self._rosbag_log_file = None
         self._rosbag_log_path = None
+        # in-memory recording buffer (alternative to rosbag)
+        self._recording = False
+        self._record_buffer = []
+        self._record_output_dir = None
 
     def start_rosbag(self, topics, output_dir=None):
         """
@@ -198,12 +202,58 @@ class URMotionRoutinesNode(Node):
                         raise RuntimeError(f'ros2 bag process exited unexpectedly (returncode={code}). log:\n{log_snippet}')
 
                 try:
-                    if os.listdir(bag_dir):
-                        # there is at least one file created; assume recording started
-                        self.get_logger().info('ros2 bag appears to be recording (files detected)')
-                        return bag_dir
+                    entries = os.listdir(bag_dir)
                 except FileNotFoundError:
-                    pass
+                    entries = []
+
+                if entries:
+                    # Check that at least one file in the bag folder is actually being written to.
+                    # Some ros2 bag implementations create zero-byte metadata files before writing data.
+                    # We consider recording started when we detect file size growth on any file,
+                    # or when a file already has a non-trivial size (likely data) to avoid missing
+                    # short-lived recording windows where growth may not be observed in a tiny interval.
+                    files = [os.path.join(bag_dir, e) for e in entries if not e.startswith('.')]
+                    recording_detected = False
+                    min_bytes_considered_recording = 512
+                    for fp in files:
+                        try:
+                            s1 = os.path.getsize(fp)
+                        except Exception:
+                            s1 = 0
+
+                        # If the file already has a reasonable size, accept it as recording.
+                        if s1 >= min_bytes_considered_recording:
+                            self.get_logger().info(f'ros2 bag file {fp} size={s1} >= {min_bytes_considered_recording} -> assuming recording')
+                            recording_detected = True
+                            break
+
+                        # Otherwise, attempt to detect active writing by observing growth over a short interval
+                        try:
+                            time.sleep(0.15)
+                            s2 = os.path.getsize(fp)
+                        except Exception:
+                            s2 = s1
+
+                        if s2 > s1:
+                            self.get_logger().info(f'ros2 bag file {fp} grew {s1} -> {s2} bytes; recording detected')
+                            recording_detected = True
+                            break
+
+                        # If file is zero and didn't grow, try one more short probe
+                        if s1 == 0 and s2 == 0:
+                            try:
+                                time.sleep(0.15)
+                                s3 = os.path.getsize(fp)
+                            except Exception:
+                                s3 = 0
+                            if s3 > s2:
+                                self.get_logger().info(f'ros2 bag file {fp} grew on second probe {s2} -> {s3} bytes; recording detected')
+                                recording_detected = True
+                                break
+
+                    if recording_detected:
+                        self.get_logger().info('ros2 bag appears to be recording (confirmed by file size or growth)')
+                        return bag_dir
 
                 if time.time() - t0 > timeout:
                     # timeout: stop process and raise
@@ -269,6 +319,32 @@ class URMotionRoutinesNode(Node):
         ])
         # Verifica que la pose se está actualizando
         # print("self.last_synced_pose:", self.last_synced_pose)
+        # If in-memory recording is enabled, append a snapshot
+        try:
+            if getattr(self, '_recording', False):
+                # stamp: builtin_interfaces/Time
+                stamp = msg.stamp
+                t = float(stamp.sec) + float(stamp.nanosec) * 1e-9
+                meas = []
+                try:
+                    meas = list(msg.measurements.data)
+                except Exception:
+                    meas = []
+                row = {
+                    't': t,
+                    'px': float(pose.position.x),
+                    'py': float(pose.position.y),
+                    'pz': float(pose.position.z),
+                    'qx': float(pose.orientation.x),
+                    'qy': float(pose.orientation.y),
+                    'qz': float(pose.orientation.z),
+                    'qw': float(pose.orientation.w),
+                    'measurements': meas,
+                }
+                self._record_buffer.append(row)
+        except Exception:
+            # don't let recording errors break the callback
+            pass
 
     def ee_pose_callback(self, msg):
         """
@@ -453,7 +529,7 @@ class URMotionRoutinesNode(Node):
         # Pose actual del robot
         P_i = self.last_pose  # [x, y, z, qx, qy, qz, qw]
         # Pose inicial deseada (leida desde la primera trayectoria)
-        trajectory_file = '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/Trayectorias/trayectoria_1.csv'
+        trajectory_file = '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/Trayectorias/trayectoria_6.csv'
         x0, y0 = np.loadtxt(trajectory_file, delimiter=",", skiprows=1, max_rows=1, usecols=(1,2), unpack=True)
         P_f = np.array([x0, y0, 0.05, *self.desiredOrientation])
         now = self.get_clock().now().seconds_nanoseconds()
@@ -619,7 +695,7 @@ class URMotionRoutinesNode(Node):
         """
         Ejecuta el movimiento ergódico leyendo la trayectoria desde un archivo.
         """
-        trajectory_file = '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/Trayectorias/trayectoria_1.csv'
+        trajectory_file = '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/Trayectorias/trayectoria_6.csv'
         # Carga la trayectoria desde el archivo csv
         trajectory = np.loadtxt(trajectory_file, delimiter=',', skiprows=1, usecols=(1,2), unpack=True)
         num_points = trajectory.shape[1]
@@ -649,6 +725,68 @@ class URMotionRoutinesNode(Node):
                 time.sleep(sleep_time)
             next_time += period
         self.get_logger().info('Rutina de movimiento ergódico completada')
+
+    def start_recording_buffer(self, output_dir, filename_prefix=None):
+        """
+        Start in-memory recording of /synced_data into a buffer. At stop, call stop_and_save_recording.
+        output_dir: directory where CSV will be written
+        filename_prefix: optional prefix for the CSV filename
+        """
+        try:
+            os.makedirs(output_dir, exist_ok=True)
+        except Exception:
+            output_dir = os.getcwd()
+        self._record_output_dir = output_dir
+        self._record_buffer = []
+        self._recording = True
+        self.get_logger().info(f'Started in-memory recording of /synced_data into buffer (will write to {output_dir})')
+
+    def stop_and_save_recording(self, filename_prefix=None):
+        """
+        Stop in-memory recording and save buffer to CSV. Returns path to CSV file.
+        """
+        self._recording = False
+        buf = list(getattr(self, '_record_buffer', []))
+        if not buf:
+            self.get_logger().warn('Recording buffer empty; nothing to save')
+            return None
+        if self._record_output_dir is None:
+            outdir = os.getcwd()
+        else:
+            outdir = self._record_output_dir
+        try:
+            os.makedirs(outdir, exist_ok=True)
+        except Exception:
+            outdir = os.getcwd()
+
+        ts = datetime.now().strftime('%Y%m%d_%H%M%S')
+        prefix = filename_prefix or 'synced_data'
+        out_path = os.path.join(outdir, f'{prefix}_{ts}.csv')
+
+        # Determine maximum measurement length to expand columns
+        max_meas = 0
+        for r in buf:
+            max_meas = max(max_meas, len(r.get('measurements', [])))
+
+        import csv
+        with open(out_path, 'w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            # header
+            header = ['time_s', 'px', 'py', 'pz', 'qx', 'qy', 'qz', 'qw']
+            header += [f'm{i}' for i in range(max_meas)]
+            writer.writerow(header)
+            for r in buf:
+                row = [r['t'], r['px'], r['py'], r['pz'], r['qx'], r['qy'], r['qz'], r['qw']]
+                meas = r.get('measurements', [])
+                # pad measurements
+                meas_row = [float(m) for m in meas] + [''] * (max_meas - len(meas))
+                row += meas_row
+                writer.writerow(row)
+
+        self.get_logger().info(f'Wrote recording buffer to {out_path} ({len(buf)} rows)')
+        # clear buffer
+        self._record_buffer = []
+        return out_path
 
     def reset_baseline(self, timeout_service: float = 5.0, timeout_response: float = 5.0):
         """
@@ -710,23 +848,23 @@ class URMotionRoutinesNode(Node):
         # --- Entra en contacto con el plano
         self.get_in_contact()
 
-        # --- Inicia la grabación de rosbag (/synced_data)
+        # --- Start in-memory recording buffer for /synced_data (will be saved to CSV after motion)
         try:
-            self.start_rosbag_and_wait(['/synced_data'],
-                                        output_dir='/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/ROS2Bags/',
-                                        timeout=10.0)
+            outdir = '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/ROS2Bags/Test1'
+            self.start_recording_buffer(outdir, filename_prefix='synced_data')
         except Exception as e:
-            self.get_logger().error(f'Failed to start rosbag and confirm recording: {e}. Aborting motion.')
-            return
+            self.get_logger().warn(f'Could not start in-memory recording buffer: {e}. Continuing without recording.')
         
         # --- Lee la trayectoria del archivo y ejecuta movimiento sobre el plano
         self.ergodic_motion()
 
-        # --- Deja de grabar los datos de /synced_data
+        # --- Stop in-memory recording and save to CSV
         try:
-            self.stop_rosbag()
+            csv_path = self.stop_and_save_recording(filename_prefix='synced_data')
+            if csv_path:
+                self.get_logger().info(f'Saved in-memory recording to {csv_path}')
         except Exception as e:
-            self.get_logger().warn(f'Failed to stop rosbag cleanly: {e}')
+            self.get_logger().warn(f'Failed to write in-memory recording to CSV: {e}')
 
         # --- Eleva el efector final
         self.lift_end_effector()

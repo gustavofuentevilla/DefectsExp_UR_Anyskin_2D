@@ -8,10 +8,11 @@ clc
 folderPath = fullfile(pwd, "custom");
 ros2genmsg(folderPath)
 
+%%
 % Check for msg
 % ros2 msg show custom_interfaces/SyncData
 
-folderPathBag = fullfile(pwd, "ROS2Bags/rosbag_20251024_185001_144916"); 
+folderPathBag = fullfile(pwd, "ROS2Bags/Pos005005/rosbag_20251113_160903_628377"); 
 bagReader = ros2bagreader(folderPathBag);
 % bagReader.AvailableTopics
 
@@ -97,25 +98,26 @@ set(findall(figh, "-property", "FontSize"), "FontSize", 18)
 
 %% Pre-processing
 
-% Butterworth filter design
+% --- Butterworth filter design
 
-d_Time = diff(Timestamps);
-Ts = mean(d_Time);
-Fs = 1/Ts;
-L_signal = numel(Timestamps);
-
-Y = fft(Mediciones);
-
-P2 = abs(Y/L_signal);
-P1 = P2(1:L_signal/2+1);
-P1(2:end-1) = 2*P1(2:end-1);
-
-f = Fs/L_signal*(0:(L_signal/2));
-figure(2)
-plot(f,P1,"LineWidth",2) 
-title("Single-Sided Amplitude Spectrum of X(t)")
-xlabel("f (Hz)")
-ylabel("|P1(f)|")
+% d_Time = diff(Timestamps);
+% Ts = mean(d_Time);
+% Fs = 1/Ts;
+% L_signal = numel(Timestamps);
+% 
+% Y = fft(Mediciones);
+% 
+% P2 = abs(Y/L_signal);
+% P1 = P2(1:L_signal/2+1);
+% P1(2:end-1) = 2*P1(2:end-1);
+% 
+% f = Fs/L_signal*(0:(L_signal/2));
+% 
+% figure(2)
+% plot(f,P1,"LineWidth",2) 
+% title("Single-Sided Amplitude Spectrum of X(t)")
+% xlabel("f (Hz)")
+% ylabel("|P1(f)|")
 
 Fc = 6; %Frecuencia de corte
 Wn = 2*Fc/Fs;
@@ -126,96 +128,143 @@ filter_order = 6;
 filtered_signal = filter(num, den, Mediciones);
 
 % Zero-phase filter to correct the delay
-corrected_signal = filtfilt(num, den, Mediciones);
+clean_signal = filtfilt(num, den, Mediciones);
 
 % Derivada de la señal limpia
-derivative_signal = gradient(corrected_signal, Ts);
+derivative_signal = gradient(clean_signal, Ts);
 
 % Valor absoluto de la derivada
-abs_derivative_signal = abs(derivative_signal);
+% abs_derivative_signal = abs(derivative_signal);
+
+% Moving average of the absolute derivative signal
+% windowSize = 18; % Define the window size for moving average
+% movingAvgAbsDerivative = movmean(abs_derivative_signal, windowSize);
 
 % Squared derivative
-SquareDerivative = derivative_signal.^2;
+% SquareDerivative = derivative_signal.^2;
+% movingAvgSqDerivative = movmean(SquareDerivative, windowSize);
+
+% Definición de Threshold
+
+% idx_clean = (Timestamps <= 0.35) | (Timestamps >= 0.72 & Timestamps <= 1.765) | ...
+%     (Timestamps >= 2.3 & Timestamps <= 4.16) |...
+%     (Timestamps >= 4.8 & Timestamps <= 5.72) |...
+%     (Timestamps >= 6.06 & Timestamps <= 7.45) | (Timestamps >= 8);
+
+% CleanSurf = derivative_signal(idx_clean);
+
+a = 0; % mean(CleanSurf);
+
+sigma = 33.8268; % std(CleanSurf);
+
+Gamma_V = a + 3*sigma; %Threshold
+
+% measurements above threshold indexes
+% idx_aboveThreshold = movingAvgAbsDerivative > Gamma_V;
+% thresholdedSignal = clean_signal;
+% thresholdedSignal(~idx_aboveThreshold) = NaN;
 
 % Gráficas
 
 fig3h = figure(3);
-tiledlayout(fig3h, 4,1);
+tiledlayout(fig3h, 2,1);
 
 nexttile
 plot(Timestamps, Mediciones, 'LineWidth', 2);
 hold on
-plot(Timestamps, filtered_signal, 'LineWidth', 2);
-plot(Timestamps, corrected_signal, 'LineWidth', 2, "Color", "black");
-title('Filtered Signal');
+plot(Timestamps, clean_signal, 'LineWidth', 2, "Color", "black");
+yline(85.8619, "LineWidth", 3, "Color", "red")
+title('Signal');
 xlabel('Time');
 ylabel('Signal');
-legend('Original Signal', 'Filtered Signal', 'Corrected Signal');
+legend('Original Signal', 'Clean Signal');
 grid on
+hold off
 
 nexttile
 plot(Timestamps, derivative_signal, 'LineWidth', 2);
-title('Derivative of the Cleaned Signal');
+title('Derivative of the Clean Signal');
 xlabel('Time');
 ylabel('Derivative');
 grid on
+hold on
+yline([a, a-3*sigma, a+3*sigma], ":", ...
+    ["\mu", "$\Gamma_V^- = \mu- 3\sigma$", "$\Gamma_V^+ = \mu + 3\sigma$"], ...
+    "Color", "r", "FontWeight", "bold", "LineWidth", 3)
+hold off
 
-nexttile
-plot(Timestamps, abs(derivative_signal), 'LineWidth', 2);
-title('abs(Derivative)');
-xlabel('Time');
-ylabel('abs(D)');
-grid on
-
-nexttile
-plot(Timestamps, SquareDerivative, 'LineWidth', 2);
-title('Squared Derivative');
-xlabel('Time');
-ylabel('$D^2$');
-grid on
+% nexttile
+% plot(Timestamps, abs_derivative_signal, 'LineWidth', 2);
+% title('abs(Derivative)');
+% xlabel('Time');
+% ylabel('abs(D)');
+% grid on
+% 
+% nexttile
+% plot(Timestamps, movingAvgAbsDerivative, 'LineWidth', 2);
+% title('Moving averaged abs(Derivative)');
+% xlabel('Time');
+% ylabel('abs(D)*');
+% hold on
+% yline(100, "LineWidth", 2, "Color","red")
+% hold off
+% grid on
+% 
+% nexttile
+% plot(Timestamps, SquareDerivative, 'LineWidth', 2);
+% title('Squared Derivative');
+% xlabel('Time');
+% ylabel('$D^2$');
+% grid on
+% 
+% nexttile
+% plot(Timestamps, movingAvgSqDerivative, 'LineWidth', 2);
+% title('Moving averaged $D^2$');
+% xlabel('Time');
+% ylabel('$D^2$*');
+% hold on
+% yline(10000, "LineWidth", 2, "Color","red")
+% hold off
+% grid on
 
 set(findall(fig3h,'-property','Interpreter'),'Interpreter','latex') 
 set(findall(fig3h,'-property','TickLabelInterpreter'), ...
     'TickLabelInterpreter','latex')
 set(findall(fig3h, "-property", "FontSize"), "FontSize", 18)
 
-% Definición de Threshold
-
-idx_clean = (Timestamps <= 0.5) | (Timestamps >= 1 & Timestamps <=1.94) | ...
-    (Timestamps >= 2.44 & Timestamps <= 4.06) |...
-    (Timestamps >= 4.93 & Timestamps <= 5.9) |...
-    (Timestamps >= 6.2 & Timestamps <= 7.59) | (Timestamps >= 8);
-
-
-CleanSurfMeas = corrected_signal(idx_clean);
-
-a = mean(CleanSurfMeas);
-
-sigma = std(CleanSurfMeas);
-
-Gamma_V = a + 3*sigma; %Threshold
-
 % plot
-fig4h = figure(4);
-plot(Timestamps, corrected_signal, 'LineWidth', 2, "Color", "black");
-title("Filtered signal $\bar{V}_k$");
-xlabel('Time');
-ylabel('$\mu~T$');
-grid on
-hold on
-yline([a, a-3*sigma, a+3*sigma], ":", ["\mu", "\mu- 3\sigma", "\mu+ 3\sigma"], ...
-    "Color", "r", "FontWeight", "bold", "LineWidth", 3)
-hold off
-
-set(findall(fig4h,'-property','Interpreter'),'Interpreter','latex') 
-set(findall(fig4h,'-property','TickLabelInterpreter'), ...
-    'TickLabelInterpreter','latex')
-set(findall(fig4h, "-property", "FontSize"), "FontSize", 18)
-
-% Datos arriba del threshold
-
-idx_aboveThreshold = corrected_signal > Gamma_V;
-
-% Extract the measurements above the threshold
-aboveThresholdMeasurements = corrected_signal(idx_aboveThreshold);
+% fig4h = figure(4);
+% tiledlayout(fig4h, 3,1);
+% 
+% nexttile
+% plot(Timestamps, clean_signal, 'LineWidth', 2, "Color", "black");
+% title("Filtered signal $\bar{V}_k$");
+% xlabel('Time');
+% ylabel('$\mu~T$');
+% grid on
+% 
+% nexttile
+% plot(Timestamps, movingAvgAbsDerivative, 'LineWidth', 2);
+% title('Moving averaged abs(Derivative)');
+% xlabel('Time');
+% ylabel('abs(D)*');
+% grid on
+% hold on
+% yline([a, a-3*sigma, a+3*sigma], ":", ...
+%     ["\mu", "\mu- 3\sigma", "Threshold = \mu+ 3\sigma"], ...
+%     "Color", "r", "FontWeight", "bold", "LineWidth", 3)
+% hold off
+% 
+% nexttile
+% plot(Timestamps, thresholdedSignal, 'LineWidth', 2, "Color", "black")
+% title("Measurements $\bar{V}_k$ above threshold");
+% xlabel('Time');
+% xlim([0, 10])
+% ylabel('$\mu~T$');
+% grid on
+% 
+% set(findall(fig4h,'-property','Interpreter'),'Interpreter','latex') 
+% set(findall(fig4h,'-property','TickLabelInterpreter'), ...
+%     'TickLabelInterpreter','latex')
+% set(findall(fig4h, "-property", "FontSize"), "FontSize", 18)
 

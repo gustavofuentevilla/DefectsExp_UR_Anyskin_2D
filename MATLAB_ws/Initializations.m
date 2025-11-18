@@ -92,6 +92,7 @@ end
 % plot(Mu(:,1), Mu(:,2), ".")
 % hold off
 
+
 %% Uniform PDF as an initial guess
 
 Phi_hat_x_1 = unifpdf(x_1, L_1_l, L_1_u);
@@ -146,7 +147,7 @@ T_s_spline = 1/freq_spline;
 t_spline = (0:T_s_spline:t_f)';
 
 %% Loop for the Search task
-n_iter_max = 1; % Offline mode -> n_iter_max = 1
+n_iter_max = 10; % Offline mode -> n_iter_max = 1
 
 % sensor uncertainty radius
 r_s = 2.36e-2; 
@@ -178,7 +179,7 @@ Par_PDF.dx_2 = dx_2;
 Par_PDF.nbDef_range = [1, n_def + 2]; 
 
 % Threshold definition
-thres_meas = 56.3951;
+thres_meas = 85.8619;
 
 Par_PDF.Prev_Data = [];
 Par_PDF.Prev_numComponents = [];
