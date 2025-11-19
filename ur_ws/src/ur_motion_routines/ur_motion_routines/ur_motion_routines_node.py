@@ -531,7 +531,7 @@ class URMotionRoutinesNode(Node):
         # Pose inicial deseada (leida desde la primera trayectoria)
         trajectory_file = '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/Trayectorias/trayectoria_6.csv'
         x0, y0 = np.loadtxt(trajectory_file, delimiter=",", skiprows=1, max_rows=1, usecols=(1,2), unpack=True)
-        P_f = np.array([x0, y0, 0.05, *self.desiredOrientation])
+        P_f = np.array([x0, y0, 0.05, *self.desiredQuat])
         now = self.get_clock().now().seconds_nanoseconds()
         # Tiempo actual
         t_i = now[0] + now[1] * 1e-9
