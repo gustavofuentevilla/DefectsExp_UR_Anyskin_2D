@@ -12,3 +12,5 @@ Mediciones = data_read(:, end);
 
 
 Data = [Time, Poses_x, Poses_y, Poses_z, Mediciones];
+
+end

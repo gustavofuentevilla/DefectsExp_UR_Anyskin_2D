@@ -31,10 +31,10 @@ Omega = [reshape(x_1_grid,[],1), reshape(x_2_grid,[],1)];
 
 %% Real PDF (Coins)
 
-% Centros de monedas reales (CAMBIAR)
-Mu = [0.1490, 0.04;
-      0.232, 0.186;
-      0.058, 0.176];
+% Centros de monedas reales
+Mu = [0.127, 0.037;
+      0.198, 0.165;
+      0.035, 0.142];
 
 n_def = height(Mu);
 

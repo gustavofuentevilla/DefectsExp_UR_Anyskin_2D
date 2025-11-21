@@ -11,6 +11,7 @@ import signal
 import os
 from datetime import datetime
 import shutil
+import threading
 
 # Commentarios:
 # Posibles parámetros a ajustar desde el launch file:
@@ -22,6 +23,19 @@ class URMotionRoutinesNode(Node):
     def __init__(self):
         super().__init__('ur_motion_routines_node')
         self.get_logger().info('Nodo de rutinas de movimiento iniciado')
+        # declare and read launch parameter 'i' (integer). Default 1 if not provided.
+        try:
+            self.declare_parameter('i', 1)
+            iteration_val = self.get_parameter('i').value
+            try:
+                # attempt to coerce to int if it's a string
+                self.iteration = int(iteration_val)
+            except Exception:
+                self.iteration = iteration_val
+            self.get_logger().info(f"Parameter 'iteration' = {self.iteration}")
+        except Exception:
+            # parameter system may fail in odd contexts; fall back
+            self.iteration = 1
         # Publisher para el controlador cartesiano
         self.target_pose_pub = self.create_publisher(PoseStamped, '/cartesian_compliance_controller/target_frame', 10)
         # Publisher for target wrenches (forces/torques)
@@ -68,7 +82,9 @@ class URMotionRoutinesNode(Node):
         # in-memory recording buffer (alternative to rosbag)
         self._recording = False
         self._record_buffer = []
-        self._record_output_dir = None
+        # default output directory for CSV recordings
+        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test2'
+        
 
     def start_rosbag(self, topics, output_dir=None):
         """
@@ -529,7 +545,7 @@ class URMotionRoutinesNode(Node):
         # Pose actual del robot
         P_i = self.last_pose  # [x, y, z, qx, qy, qz, qw]
         # Pose inicial deseada (leida desde la primera trayectoria)
-        trajectory_file = '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/Trayectorias/trayectoria_6.csv'
+        trajectory_file = f'/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test2/trayectoria_{self.iteration}.csv'
         x0, y0 = np.loadtxt(trajectory_file, delimiter=",", skiprows=1, max_rows=1, usecols=(1,2), unpack=True)
         P_f = np.array([x0, y0, 0.05, *self.desiredQuat])
         now = self.get_clock().now().seconds_nanoseconds()
@@ -546,7 +562,7 @@ class URMotionRoutinesNode(Node):
         hold_time = 10.0
         while rclpy.ok():
             # process incoming messages so subscriber callbacks update last_pose
-            rclpy.spin_once(self, timeout_sec=0.0)
+            # rclpy.spin_once(self, timeout_sec=0.0)
             now = self.get_clock().now().seconds_nanoseconds()
             t_now = now[0] + now[1] * 1e-9
             if t_now > t_f + hold_time:  
@@ -695,7 +711,7 @@ class URMotionRoutinesNode(Node):
         """
         Ejecuta el movimiento ergódico leyendo la trayectoria desde un archivo.
         """
-        trajectory_file = '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/Trayectorias/trayectoria_6.csv'
+        trajectory_file = f'/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test2/trayectoria_{self.iteration}.csv'
         # Carga la trayectoria desde el archivo csv
         trajectory = np.loadtxt(trajectory_file, delimiter=',', skiprows=1, usecols=(1,2), unpack=True)
         num_points = trajectory.shape[1]
@@ -706,7 +722,7 @@ class URMotionRoutinesNode(Node):
             if not rclpy.ok():
                 break
             # process incoming messages so subscriber callbacks update last_synced_pose
-            rclpy.spin_once(self, timeout_sec=0.0)
+            # rclpy.spin_once(self, timeout_sec=0.0)
             pose_msg = PoseStamped()
             pose_msg.header.stamp = self.get_clock().now().to_msg()
             pose_msg.header.frame_id = "world"
@@ -759,9 +775,9 @@ class URMotionRoutinesNode(Node):
         except Exception:
             outdir = os.getcwd()
 
-        ts = datetime.now().strftime('%Y%m%d_%H%M%S')
+        # ts = datetime.now().strftime('%Y%m%d_%H%M%S')
         prefix = filename_prefix or 'synced_data'
-        out_path = os.path.join(outdir, f'{prefix}_{ts}.csv')
+        out_path = os.path.join(outdir, f'{prefix}_{self.iteration}.csv')
 
         # Determine maximum measurement length to expand columns
         max_meas = 0
@@ -850,7 +866,7 @@ class URMotionRoutinesNode(Node):
 
         # --- Start in-memory recording buffer for /synced_data (will be saved to CSV after motion)
         try:
-            outdir = '/home/gustavo-fuentevilla/DefectsExp_UR/MATLAB_ws/ROS2Bags/Test1'
+            outdir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test2'
             self.start_recording_buffer(outdir, filename_prefix='synced_data')
         except Exception as e:
             self.get_logger().warn(f'Could not start in-memory recording buffer: {e}. Continuing without recording.')
@@ -872,10 +888,21 @@ class URMotionRoutinesNode(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = URMotionRoutinesNode()
+
+    # Start spinning in background so subscribers and services are processed concurrently.
+    # This lets callbacks run in parallel with execute_motion's blocking loops.
+    spin_thread = threading.Thread(target=rclpy.spin, args=(node,), daemon=True)
+    spin_thread.start()
+
     node.execute_motion()
-    rclpy.spin(node)
-    node.destroy_node()
+    # rclpy.spin(node)
+
+    # Shutdown ROS and wait briefly for the spin thread to exit
     rclpy.shutdown()
+    spin_thread.join(timeout=1.0)
+    
+    node.destroy_node()
+    # rclpy.shutdown()
 
 if __name__ == '__main__':
     main()

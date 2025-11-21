@@ -84,4 +84,4 @@ Ejecutar plotjuggler y cargar el layout
 
 Ejecutar el launch de rutina inicial ur_motion_routines
 
-    ros2 launch ur_motion_routines ur_motion_routines.launch.py
+    ros2 launch ur_motion_routines ur_motion_routines.launch.py i:=1

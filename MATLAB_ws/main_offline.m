@@ -21,7 +21,7 @@ Initializations
 %% Offline Loop
 
 % Iteration 
-i = 6;
+i = 1;
 
 
 
@@ -52,13 +52,16 @@ i = 6;
     % Guardar trayectoria en un archivo
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
-    archivo = "Trayectorias/trayectoria_" + i + ".csv";
-    % writetable(T, archivo) % char(archivo) para cambiar a comillas simples
+    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test2" +...
+              "/trayectoria_" + i + ".csv";
+    writetable(T, archivo) % char(archivo) para cambiar a comillas simples
 
     %% Leer datos obtenidos (ejecutar después del movimientos del robot)
 
-    % Función para Leer Rosbag (con la matriz de datos de salida)
-    folderPathBag = fullfile(pwd, "ROS2Bags/Test1/synced_data_" + i + ".csv");
+    % Función para Leer los Datos (con la matriz de datos de salida)
+    folderPathBag = fullfile("/home", "gustavo-fuentevilla",...
+                    "DefectsExp_UR", "Tests", "Test2",...
+                    "synced_data_" + i + ".csv");
     full_data = csvReading(folderPathBag);
 
     % Función para el pre-processing de los datos (filtro de butterworth, 

@@ -1,53 +1,43 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root>
  <tabbed_widget name="Main Window" parent="main_window">
-  <Tab tab_name="tab1" containers="1">
+  <Tab containers="1" tab_name="tab1">
    <Container>
-    <DockSplitter count="4" sizes="0.250278;0.250278;0.249166;0.250278" orientation="-">
+    <DockSplitter orientation="-" count="3" sizes="0.333575;0.33285;0.333575">
      <DockArea name="...">
-      <plot mode="TimeSeries" style="Lines" flip_x="false" flip_y="false">
-       <range bottom="-32.668867" top="-31.836176" left="89.338974" right="102.138839"/>
+      <plot flip_x="false" mode="TimeSeries" flip_y="false" style="Lines">
+       <range right="39.999714" left="0.000000" bottom="-5.338930" top="-4.236836"/>
        <limitY/>
-       <curve color="#1f77b4" name="/force_torque_sensor_broadcaster/wrench/wrench/force/z"/>
+       <curve name="/force_torque_sensor_broadcaster/wrench/wrench/force/z" color="#1f77b4"/>
       </plot>
      </DockArea>
      <DockArea name="...">
-      <plot mode="TimeSeries" style="Lines" flip_x="false" flip_y="false">
-       <range bottom="4.193203" top="16.743451" left="89.338974" right="102.138839"/>
+      <plot flip_x="false" mode="TimeSeries" flip_y="false" style="Lines">
+       <range right="39.999714" left="0.000000" bottom="9.717957" top="24.217814"/>
        <limitY/>
-       <curve color="#9467bd" name="/synced_data/measurements/data[0]"/>
+       <curve name="/synced_data/measurements/data[0]" color="#9467bd"/>
       </plot>
      </DockArea>
      <DockArea name="...">
-      <plot mode="TimeSeries" style="Lines" flip_x="false" flip_y="false">
-       <range bottom="-0.517020" top="0.904594" left="89.338974" right="102.138839"/>
+      <plot flip_x="false" mode="TimeSeries" flip_y="false" style="Lines">
+       <range right="39.999714" left="0.000000" bottom="0.017091" top="0.166396"/>
        <limitY/>
-       <curve color="#1f77b4" name="/synced_data/ee_pose/pose/orientation/w"/>
-       <curve color="#d62728" name="/synced_data/ee_pose/pose/orientation/x"/>
-       <curve color="#1ac938" name="/synced_data/ee_pose/pose/orientation/y"/>
-       <curve color="#ff7f0e" name="/synced_data/ee_pose/pose/orientation/z"/>
-      </plot>
-     </DockArea>
-     <DockArea name="...">
-      <plot mode="TimeSeries" style="Lines" flip_x="false" flip_y="false">
-       <range bottom="0.151286" top="0.181062" left="89.338974" right="102.138839"/>
-       <limitY/>
-       <curve color="#1f77b4" name="/synced_data/ee_pose/pose/position/x"/>
-       <curve color="#d62728" name="/synced_data/ee_pose/pose/position/y"/>
-       <curve color="#1ac938" name="/synced_data/ee_pose/pose/position/z"/>
+       <curve name="/synced_data/ee_pose/pose/position/x" color="#1f77b4"/>
+       <curve name="/synced_data/ee_pose/pose/position/y" color="#d62728"/>
+       <curve name="/synced_data/ee_pose/pose/position/z" color="#1ac938"/>
       </plot>
      </DockArea>
     </DockSplitter>
    </Container>
   </Tab>
-  <Tab tab_name="tab2" containers="1">
+  <Tab containers="1" tab_name="tab2">
    <Container>
-    <DockSplitter count="1" sizes="1" orientation="-">
+    <DockSplitter orientation="-" count="1" sizes="1">
      <DockArea name="...">
-      <plot mode="XYPlot" style="Lines" flip_x="false" flip_y="false">
-       <range bottom="-0.050000" top="0.300000" left="-0.181065" right="0.495691"/>
-       <limitY max="0.3" min="-0.05"/>
-       <curve color="#ff7f0e" curve_y="/synced_data/ee_pose/pose/position/y" name="/synced_data/ee_pose/pose/position/[x;y]" curve_x="/synced_data/ee_pose/pose/position/x"/>
+      <plot flip_x="false" mode="XYPlot" flip_y="false" style="Lines">
+       <range right="0.429339" left="-0.103704" bottom="-0.050000" top="0.300000"/>
+       <limitY min="-0.05" max="0.3"/>
+       <curve name="/synced_data/ee_pose/pose/position/[x;y]" curve_x="/synced_data/ee_pose/pose/position/x" color="#ff7f0e" curve_y="/synced_data/ee_pose/pose/position/y"/>
       </plot>
      </DockArea>
     </DockSplitter>
@@ -60,7 +50,7 @@
  <!-- - - - - - - - - - - - - - - -->
  <Plugins>
   <plugin ID="DataLoad CSV">
-   <parameters time_axis="" delimiter="0"/>
+   <parameters delimiter="0" time_axis=""/>
   </plugin>
   <plugin ID="DataLoad MCAP"/>
   <plugin ID="DataLoad ROS2 bags">
@@ -94,9 +84,38 @@
  </Plugins>
  <!-- - - - - - - - - - - - - - - -->
  <previouslyLoaded_Datafiles/>
- <previouslyLoaded_Streamer name="ROS2 Topic Subscriber"/>
  <!-- - - - - - - - - - - - - - - -->
  <customMathEquations>
+  <snippet name="z_prenetration">
+   <global></global>
+   <function>A = 0.01387;
+B = 0.3473;
+C = 13.12;
+D = 0.0513;
+
+z = (-A*value-B*v1-D)/C;
+
+return z</function>
+   <linked_source>/synced_data/ee_pose/pose/position/x</linked_source>
+   <additional_sources>
+    <v1>/synced_data/ee_pose/pose/position/y</v1>
+   </additional_sources>
+  </snippet>
+  <snippet name="z_contact">
+   <global></global>
+   <function>A = 0.01387;
+B = 0.3473;
+C = 13.12;
+D = 0.0513;
+
+z = (-A*value-B*v1-D)/C;
+
+return z</function>
+   <linked_source>/synced_data/ee_pose/pose/position/x</linked_source>
+   <additional_sources>
+    <v1>/synced_data/ee_pose/pose/position/y</v1>
+   </additional_sources>
+  </snippet>
   <snippet name="dz_dt">
    <global>prevX = 0
 prevY = 0
@@ -114,36 +133,6 @@ is_first = true</global>
     
     return dy/dx</function>
    <linked_source>/synced_data/ee_pose/pose/position/z</linked_source>
-  </snippet>
-  <snippet name="z_contact">
-   <global></global>
-   <function>A = 0.01387;
-B = 0.3473;
-C = 13.12;
-D = 0.0513;
-
-z = (-A*value-B*v1-D)/C;
-
-return z</function>
-   <linked_source>/synced_data/ee_pose/pose/position/x</linked_source>
-   <additional_sources>
-    <v1>/synced_data/ee_pose/pose/position/y</v1>
-   </additional_sources>
-  </snippet>
-  <snippet name="z_prenetration">
-   <global></global>
-   <function>A = 0.01387;
-B = 0.3473;
-C = 13.12;
-D = 0.0513;
-
-z = (-A*value-B*v1-D)/C;
-
-return z</function>
-   <linked_source>/synced_data/ee_pose/pose/position/x</linked_source>
-   <additional_sources>
-    <v1>/synced_data/ee_pose/pose/position/y</v1>
-   </additional_sources>
   </snippet>
  </customMathEquations>
  <snippets/>
