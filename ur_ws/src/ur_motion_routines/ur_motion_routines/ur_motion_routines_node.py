@@ -83,7 +83,7 @@ class URMotionRoutinesNode(Node):
         self._recording = False
         self._record_buffer = []
         # default output directory for CSV recordings
-        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test2'
+        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test5'
         
 
     def start_rosbag(self, topics, output_dir=None):
@@ -545,7 +545,7 @@ class URMotionRoutinesNode(Node):
         # Pose actual del robot
         P_i = self.last_pose  # [x, y, z, qx, qy, qz, qw]
         # Pose inicial deseada (leida desde la primera trayectoria)
-        trajectory_file = f'/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test2/trayectoria_{self.iteration}.csv'
+        trajectory_file = f'/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test5/trayectoria_{self.iteration}.csv'
         x0, y0 = np.loadtxt(trajectory_file, delimiter=",", skiprows=1, max_rows=1, usecols=(1,2), unpack=True)
         P_f = np.array([x0, y0, 0.05, *self.desiredQuat])
         now = self.get_clock().now().seconds_nanoseconds()
@@ -711,7 +711,7 @@ class URMotionRoutinesNode(Node):
         """
         Ejecuta el movimiento ergódico leyendo la trayectoria desde un archivo.
         """
-        trajectory_file = f'/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test2/trayectoria_{self.iteration}.csv'
+        trajectory_file = f'/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test5/trayectoria_{self.iteration}.csv'
         # Carga la trayectoria desde el archivo csv
         trajectory = np.loadtxt(trajectory_file, delimiter=',', skiprows=1, usecols=(1,2), unpack=True)
         num_points = trajectory.shape[1]
@@ -866,7 +866,7 @@ class URMotionRoutinesNode(Node):
 
         # --- Start in-memory recording buffer for /synced_data (will be saved to CSV after motion)
         try:
-            outdir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test2'
+            outdir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test5'
             self.start_recording_buffer(outdir, filename_prefix='synced_data')
         except Exception as e:
             self.get_logger().warn(f'Could not start in-memory recording buffer: {e}. Continuing without recording.')

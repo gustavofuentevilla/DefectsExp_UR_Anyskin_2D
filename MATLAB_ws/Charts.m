@@ -1,11 +1,11 @@
 %% Charts
 
 close all
-clear
+clearvars -except UR_N100
 clc
 
 % Load data
-load("Results/output_1.mat")
+load("Results/output_5.mat")
 
 %% Extracción de datos reales
 
@@ -563,7 +563,7 @@ title("Minimum variation constraint as a function of $KL$ divergence")
 xlabel("Information [nat]")
 ylabel("Distance [m]")
 xtickformat('%.1f')
-ytickformat('%.2f')
+ytickformat('%.3f')
 xlim([0 7])
 % ylim([0 0.1])
 grid on
@@ -713,6 +713,9 @@ colormap(brewermap(15,"-Blues"))
 
 % ---------- Real trajectories
 
+columnas = 4;
+filas = ceil((n_iter + 2)/columnas);
+
 fig31h = figure(31);
 layout31h = tiledlayout(fig31h, filas, columnas);
 title(layout31h, "Evolution of real robot on space",...
@@ -741,6 +744,41 @@ for i = 1:n_iter
                             "Color", RealDef_color);
     end
     plot(Mu(:,1),Mu(:,2),'.','MarkerSize',15, "Color", RealDef_color)
+    
+% ----Código para graficar los defectos ya encontrados en la i-esima it
+    if i > 1
+        nbDrawingSeg = 100;
+        tmp_vec = linspace(-pi, pi, nbDrawingSeg)';
+        Sigma_tmp = cat(3, Estim_sol(1:i-1).Sigma_found);
+        Mu_tmp = cat(1, Estim_sol(1:i-1).Mu_found);
+        if ~isempty(Sigma_tmp)
+            stdev_tmp = zeros(size(Sigma_tmp));
+            Sigma_ast_tmp = zeros(size(Sigma_tmp));
+            Elipse_tmp = zeros(height(tmp_vec), 2, size(Sigma_tmp, 3));
+            for j = 1:size(Sigma_tmp, 3)
+                stdev_tmp(:,:,j) = sqrtm(Sigma_tmp(:,:,j));
+                Sigma_ast_tmp(:,:,j) = 3*stdev_tmp(:,:,j);
+                Elipse_tmp(:,:,j) = [cos(tmp_vec), sin(tmp_vec)]* ...
+                                        real(Sigma_ast_tmp(:,:,j)) +...
+                                        repmat(Mu_tmp(j,:), nbDrawingSeg, 1);
+            end
+            for j = 1:size(Sigma_tmp, 3)
+                realdef_ax(j) = plot(Elipse_tmp(:,1,j), Elipse_tmp(:,2,j),...
+                                    "-.", "LineWidth", 3,...
+                                    "Color", FoundDef_color);
+            end
+            plot(Mu_tmp(:,1),Mu_tmp(:,2),'.',...
+                'MarkerSize',15, "Color", FoundDef_color)
+            for j = 1:size(Sigma_tmp, 3)
+                F_def_ax(j) = patch(Elipse_tmp(:,1,j), Elipse_tmp(:,2,j),...
+                                    FoundDef_color, 'LineWidth', 3,...
+                                    'EdgeColor', FoundDef_color,...
+                                    "FaceAlpha",0.2);
+            end
+        end
+    end
+% ----Fin de código para graficar los defectos encontrados en la i-esima it
+
     traj_ax = plot(X_e_real_reg{i}(:,1), X_e_real_reg{i}(:,2),...
                     "Color", Trayectory_color,'LineWidth',3);
     traj0_ax = plot(X_e_real_reg{i}(1,1), X_e_real_reg{i}(1,2),'sq', "Color",...
@@ -826,6 +864,58 @@ layout30h.Padding = 'compact';
 % layout30h.Children(3).YTick = [];
 % layout30h.Children(4).YTick = [];
 % layout30h.Children(5).YTick = [];
+
+% ----- Quitar incertidumbre geometrica del sensor en la estimación
+
+nbDrawingSeg = 100;
+tmp_vec = linspace(-pi, pi, nbDrawingSeg)';
+Sigma_found_r = ReadjustSigma(Sigma_found, -r_s, true);
+stdev_Phi_hat_r = zeros(size(Sigma_found_r));
+Sigma_ast_Phi_hat_r = zeros(size(Sigma_found_r));
+Elipse_Phi_hat_r = zeros(height(tmp_vec), 2, n_def_found); %Elipse
+for j = 1:n_def_found
+    stdev_Phi_hat_r(:,:,j) = sqrtm(Sigma_found_r(:,:,j));
+    Sigma_ast_Phi_hat_r(:,:,j) = 3*stdev_Phi_hat_r(:,:,j);
+    Elipse_Phi_hat_r(:,:,j) = [cos(tmp_vec), sin(tmp_vec)]* ...
+                            real(Sigma_ast_Phi_hat_r(:,:,j)) +...
+                            repmat(Mu_found(j,:), nbDrawingSeg, 1);
+end
+
+nexttile(layout31h)
+
+title("Result Removing the sensor geometric uncertainty",...
+        'Interpreter','latex')
+xtickformat('%.2f')
+ytickformat('%.2f')
+axis equal
+xlim([L_1_l, L_1_u])
+ylim([L_2_l, L_2_u])
+hold on
+
+%Grafica las elipses de defectos reales
+for j = 1:n_def
+    R_def_ax(j) = plot(Elipse_Phi(:,1,j), Elipse_Phi(:,2,j), "-.",...
+                        "LineWidth", 3, "Color", RealDef_color);
+end
+
+%Grafica los centroides
+plot(Mu(:,1),Mu(:,2),'.','MarkerSize',15, "Color", RealDef_color)
+plot(Mu_found(:,1), Mu_found(:,2), '+', ...
+    'LineWidth', 3, 'color', FoundDef_color);
+if ~Estim_sol(end).flag_done 
+    plot(Mu_not_found(:,1), Mu_not_found(:,2), '+', ...
+        'LineWidth', 3, 'color', NotFoundDef_color);
+end
+hold off
+
+%Grafica los defectos encontrados (si los hay)
+if n_def_found >= 1
+    for j = 1:n_def_found
+        F_def_ax(j) = patch(Elipse_Phi_hat_r(:,1,j), Elipse_Phi_hat_r(:,2,j), ...
+            FoundDef_color,...
+            'LineWidth', 3, 'EdgeColor', FoundDef_color, "FaceAlpha",0.2);
+    end
+end
 
 xlabel(layout31h, '$x_1$ [m]','Interpreter','latex', "FontSize", 22)
 ylabel(layout31h, '$x_2$ [m]','Interpreter','latex', "FontSize", 22)

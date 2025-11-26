@@ -7,7 +7,7 @@ clc
 import casadi.*
 
 % loading casadi function object (comment if it's already loaded)
-% UR_N100 = Function.load('CasADi_Formulation/UR_N100.casadi');
+UR_N100 = Function.load('CasADi_Formulation/UR_N100.casadi');
 
 %% Include and create custom messages
 
@@ -21,7 +21,7 @@ Initializations
 %% Offline Loop
 
 % Iteration 
-i = 1;
+i = 5;
 
 
 
@@ -52,7 +52,7 @@ i = 1;
     % Guardar trayectoria en un archivo
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
-    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test2" +...
+    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test5" +...
               "/trayectoria_" + i + ".csv";
     writetable(T, archivo) % char(archivo) para cambiar a comillas simples
 
@@ -60,7 +60,7 @@ i = 1;
 
     % Función para Leer los Datos (con la matriz de datos de salida)
     folderPathBag = fullfile("/home", "gustavo-fuentevilla",...
-                    "DefectsExp_UR", "Tests", "Test2",...
+                    "DefectsExp_UR", "Tests", "Test5",...
                     "synced_data_" + i + ".csv");
     full_data = csvReading(folderPathBag);
 

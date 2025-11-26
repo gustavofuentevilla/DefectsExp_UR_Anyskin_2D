@@ -179,7 +179,7 @@ Par_PDF.dx_2 = dx_2;
 Par_PDF.nbDef_range = [1, n_def + 2]; 
 
 % Threshold definition
-thres_meas = 85.8619;
+thres_meas = 88.5239;
 
 Par_PDF.Prev_Data = [];
 Par_PDF.Prev_numComponents = [];
