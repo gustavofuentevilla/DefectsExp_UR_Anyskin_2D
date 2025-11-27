@@ -82,8 +82,9 @@ class URMotionRoutinesNode(Node):
         # in-memory recording buffer (alternative to rosbag)
         self._recording = False
         self._record_buffer = []
-        # default output directory for CSV recordings
-        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test5'
+        # output directory for CSV recordings and trajectory readings
+        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test14'
+        self._trajectory_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test14'
         
 
     def start_rosbag(self, topics, output_dir=None):
@@ -545,7 +546,7 @@ class URMotionRoutinesNode(Node):
         # Pose actual del robot
         P_i = self.last_pose  # [x, y, z, qx, qy, qz, qw]
         # Pose inicial deseada (leida desde la primera trayectoria)
-        trajectory_file = f'/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test5/trayectoria_{self.iteration}.csv'
+        trajectory_file = f'{self._trajectory_dir}/trayectoria_{self.iteration}.csv'
         x0, y0 = np.loadtxt(trajectory_file, delimiter=",", skiprows=1, max_rows=1, usecols=(1,2), unpack=True)
         P_f = np.array([x0, y0, 0.05, *self.desiredQuat])
         now = self.get_clock().now().seconds_nanoseconds()
@@ -711,7 +712,7 @@ class URMotionRoutinesNode(Node):
         """
         Ejecuta el movimiento ergódico leyendo la trayectoria desde un archivo.
         """
-        trajectory_file = f'/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test5/trayectoria_{self.iteration}.csv'
+        trajectory_file = f'{self._trajectory_dir}/trayectoria_{self.iteration}.csv'
         # Carga la trayectoria desde el archivo csv
         trajectory = np.loadtxt(trajectory_file, delimiter=',', skiprows=1, usecols=(1,2), unpack=True)
         num_points = trajectory.shape[1]
@@ -742,20 +743,14 @@ class URMotionRoutinesNode(Node):
             next_time += period
         self.get_logger().info('Rutina de movimiento ergódico completada')
 
-    def start_recording_buffer(self, output_dir, filename_prefix=None):
+    def start_recording_buffer(self):
         """
-        Start in-memory recording of /synced_data into a buffer. At stop, call stop_and_save_recording.
-        output_dir: directory where CSV will be written
-        filename_prefix: optional prefix for the CSV filename
+        Start in-memory recording of /synced_data into a buffer.
         """
-        try:
-            os.makedirs(output_dir, exist_ok=True)
-        except Exception:
-            output_dir = os.getcwd()
-        self._record_output_dir = output_dir
+
         self._record_buffer = []
         self._recording = True
-        self.get_logger().info(f'Started in-memory recording of /synced_data into buffer (will write to {output_dir})')
+        self.get_logger().info('Started in-memory recording of /synced_data into buffer')
 
     def stop_and_save_recording(self, filename_prefix=None):
         """
@@ -866,8 +861,7 @@ class URMotionRoutinesNode(Node):
 
         # --- Start in-memory recording buffer for /synced_data (will be saved to CSV after motion)
         try:
-            outdir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test5'
-            self.start_recording_buffer(outdir, filename_prefix='synced_data')
+            self.start_recording_buffer()
         except Exception as e:
             self.get_logger().warn(f'Could not start in-memory recording buffer: {e}. Continuing without recording.')
         

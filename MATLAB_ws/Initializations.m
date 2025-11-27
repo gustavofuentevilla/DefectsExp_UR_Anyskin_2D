@@ -32,9 +32,9 @@ Omega = [reshape(x_1_grid,[],1), reshape(x_2_grid,[],1)];
 %% Real PDF (Coins)
 
 % Centros de monedas reales
-Mu = [0.127, 0.037;
-      0.198, 0.165;
-      0.035, 0.142];
+Mu = [0.127, 0.035;
+      0.198, 0.163;
+      0.033, 0.140];
 
 n_def = height(Mu);
 
@@ -134,7 +134,7 @@ T_s = t_f/N;        % Tiempo de muestreo
 t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]}
-z_0 = [0.05; 0; 0.05; 0]; 
+z_0 = [0.21; 0; 0.1; 0]; 
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2

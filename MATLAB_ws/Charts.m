@@ -5,9 +5,9 @@ clearvars -except UR_N100
 clc
 
 % Load data
-load("Results/output_5.mat")
+load("Results/output_1.mat")
 
-%% Extracción de datos reales
+%% Extracción de datos rales
 
 t_real_reg = cell(1, n_iter);
 X_e_real_reg = cell(1, n_iter);

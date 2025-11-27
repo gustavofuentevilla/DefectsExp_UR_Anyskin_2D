@@ -7,7 +7,7 @@ clc
 import casadi.*
 
 % loading casadi function object (comment if it's already loaded)
-UR_N100 = Function.load('CasADi_Formulation/UR_N100.casadi');
+% UR_N100 = Function.load('CasADi_Formulation/UR_N100.casadi');
 
 %% Include and create custom messages
 
@@ -21,7 +21,7 @@ Initializations
 %% Offline Loop
 
 % Iteration 
-i = 5;
+i = 1;
 
 
 
@@ -52,15 +52,24 @@ i = 5;
     % Guardar trayectoria en un archivo
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
-    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test5" +...
+    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test11" +...
               "/trayectoria_" + i + ".csv";
     writetable(T, archivo) % char(archivo) para cambiar a comillas simples
 
-    %% Leer datos obtenidos (ejecutar después del movimientos del robot)
+    %% Ejecutar las rutinas de movimiento en el robot %%%%%%%%%%%%%%%%%%%%%
+    % En la terminal con ROS2 lanzar el robot y luego la trayectoria
+    %
+    % ros2 launch easy_ur_control easy_ur_launcher.launch.py robot_ip:=192.168.100.10 ur_type:=ur3e ctrl:=cartesian_compliance_controller;
+    % ros2 launch ur_motion_routines ur_motion_routines.launch.py i:=1;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    %% Leer datos obtenidos
 
     % Función para Leer los Datos (con la matriz de datos de salida)
     folderPathBag = fullfile("/home", "gustavo-fuentevilla",...
-                    "DefectsExp_UR", "Tests", "Test5",...
+                    "DefectsExp_UR", "Tests", "Test11",...
                     "synced_data_" + i + ".csv");
     full_data = csvReading(folderPathBag);
 
