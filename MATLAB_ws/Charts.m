@@ -4,8 +4,9 @@ close all
 clearvars -except UR_N100
 clc
 
-% Load data
-load("Results/output_1.mat")
+% Load data (Checar 2Def/output3 y output6)
+% 2Def/8 (se pierde un defecto xd)
+load("Results/2Def/output_10.mat")
 
 %% Extracción de datos rales
 

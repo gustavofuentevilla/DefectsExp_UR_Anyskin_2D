@@ -140,7 +140,7 @@ Priors = Model.Priors;
 % Calculate KL Divergence from Q (Prior) to P (Posterior)
 Q = Prev_Phi_hat_x;
 P = pdf(gmdistribution(Mu, Sigma, Priors), Omega);
-idx_P_Q = (Q ~= 0) & (P ~= 0);
+idx_P_Q = (abs(Q) >= 1e-10) & (abs(P) >= 1e-10);
 D_KL = sum( P(idx_P_Q) .* log(P(idx_P_Q) ./ Q(idx_P_Q)) )*dx_1*dx_2;
 
 %% Compute MinVariation constraint as a function of KL divergence

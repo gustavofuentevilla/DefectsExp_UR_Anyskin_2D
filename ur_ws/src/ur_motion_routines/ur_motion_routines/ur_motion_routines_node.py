@@ -83,8 +83,8 @@ class URMotionRoutinesNode(Node):
         self._recording = False
         self._record_buffer = []
         # output directory for CSV recordings and trajectory readings
-        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test14'
-        self._trajectory_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test14'
+        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/2Def/Test'
+        self._trajectory_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/2Def/Test'
         
 
     def start_rosbag(self, topics, output_dir=None):

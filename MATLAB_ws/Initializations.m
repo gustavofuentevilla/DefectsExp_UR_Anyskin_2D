@@ -31,31 +31,52 @@ Omega = [reshape(x_1_grid,[],1), reshape(x_2_grid,[],1)];
 
 %% Real PDF (Coins)
 
+% --------------------------3 Defectos
 % Centros de monedas reales
-Mu = [0.127, 0.035;
-      0.198, 0.163;
-      0.033, 0.140];
+% Mu = [0.127, 0.035;
+%       0.198, 0.163;
+%       0.033, 0.140];
+%
+% %diámetros de las monedas (2 cents of euro, 1 cent of euro)
+% coinsDiam = [18.75e-3; 16.25e-3; 16.25e-3];
+% 
+% coins_V = eye(2);
+% 
+% coins_D_1 = (coinsDiam(1)/2) * eye(2);
+% coins_D_2 = (coinsDiam(2)/2) * eye(2);
+% coins_D_3 = (coinsDiam(3)/2) * eye(2);
+% 
+% coins_S_d_1 = coins_V * coins_D_1 * coins_V' / 3;
+% coins_S_d_2 = coins_V * coins_D_2 * coins_V' / 3;
+% coins_S_d_3 = coins_V * coins_D_3 * coins_V' / 3;
+% 
+% Cov_1 = coins_S_d_1 * coins_S_d_1;
+% Cov_2 = coins_S_d_2 * coins_S_d_2;
+% Cov_3 = coins_S_d_3 * coins_S_d_3;
+% 
+% Sigma = cat(3, Cov_1, Cov_2, Cov_3);
+
+% -------------------------------2 Defectos
+Mu = [0.076, 0.126;
+      0.226, 0.056];
 
 n_def = height(Mu);
 
-% diámetros de las monedas (2 cents of euro, 1 cent of euro)
-coinsDiam = [18.75e-3; 16.25e-3; 16.25e-3];
+def_1_rad = [0.5e-2, 1e-2];
+def_2_rad = [1e-2, 0.5e-2];
 
-coins_V = eye(2);
+eig_V = eye(2);
 
-coins_D_1 = (coinsDiam(1)/2) * eye(2);
-coins_D_2 = (coinsDiam(2)/2) * eye(2);
-coins_D_3 = (coinsDiam(3)/2) * eye(2);
+def_D_1 = diag(def_1_rad);
+def_D_2 = diag(def_2_rad);
 
-coins_S_d_1 = coins_V * coins_D_1 * coins_V' / 3;
-coins_S_d_2 = coins_V * coins_D_2 * coins_V' / 3;
-coins_S_d_3 = coins_V * coins_D_3 * coins_V' / 3;
+def_Sd_1 = eig_V * def_D_1 * eig_V' / 3;
+def_Sd_2 = eig_V * def_D_2 * eig_V' / 3;
 
-Cov_1 = coins_S_d_1 * coins_S_d_1;
-Cov_2 = coins_S_d_2 * coins_S_d_2;
-Cov_3 = coins_S_d_3 * coins_S_d_3;
+Cov_1 = def_Sd_1 * def_Sd_1;
+Cov_2 = def_Sd_2 * def_Sd_2;
 
-Sigma = cat(3, Cov_1, Cov_2, Cov_3);
+Sigma = cat(3, Cov_1, Cov_2);
 
 % Real PDF
 gm_dist = gmdistribution(Mu, Sigma);
@@ -89,7 +110,7 @@ end
 % for j = 1:n_def
 %     plot(Elipse_Phi(:,1,j), Elipse_Phi(:,2,j), "w", "LineWidth",1.3)
 % end
-% plot(Mu(:,1), Mu(:,2), ".")
+% plot(Mu(:,1), Mu(:,2), ".", "MarkerSize",20)
 % hold off
 
 
@@ -134,7 +155,7 @@ T_s = t_f/N;        % Tiempo de muestreo
 t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]}
-z_0 = [0.21; 0; 0.1; 0]; 
+z_0 = [0.14; 0; 0.05; 0]; 
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2
@@ -147,7 +168,7 @@ T_s_spline = 1/freq_spline;
 t_spline = (0:T_s_spline:t_f)';
 
 %% Loop for the Search task
-n_iter_max = 10; % Offline mode -> n_iter_max = 1
+n_iter_max = 10; 
 
 % sensor uncertainty radius
 r_s = 2.36e-2; 
@@ -180,6 +201,7 @@ Par_PDF.nbDef_range = [1, n_def + 2];
 
 % Threshold definition
 thres_meas = 88.5239;
+% thres_meas = 107.1578;
 
 Par_PDF.Prev_Data = [];
 Par_PDF.Prev_numComponents = [];
@@ -194,11 +216,11 @@ n_iter = n_iter_max;
 
 Par_PDF.DataEscFact = 1;
 % Total variation condition to find a defect
-Par_PDF.Thres_Variation = max(coinsDiam) + 2*r_s + 0.002;
+Par_PDF.Thres_Variation = sum(def_1_rad, 2) + 2*r_s + 0.002;
 % Minimum axes lengths of gaussian elipses (0 = not using this constraint)
 Par_PDF.MinAxisLengths = 0; % 0 m.
 % Distance needed to consider more than one single defect
-Par_PDF.OneClustDistLimit = max(coinsDiam) + 2*r_s + 0.007;
+Par_PDF.OneClustDistLimit = 2*max(def_1_rad) + 2*r_s + 0.007;
 Par_PDF.flag_ExplorationStage = true;
 
 % Parameters definition for the Variation constraint function

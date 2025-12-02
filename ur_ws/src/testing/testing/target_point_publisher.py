@@ -130,7 +130,7 @@ class TargetPosePublisher(Node):
         # Pose actual del robot
         P_i = self.last_pose  # [x, y, z, qx, qy, qz, qw]
         # Pose objetivo del robot
-        P_f = np.array([0.033, 0.140, 0.0, *self.desiredQuat])
+        P_f = np.array([0.226, 0.056, 0.0, *self.desiredQuat])
         now = self.get_clock().now().seconds_nanoseconds()
         # Tiempo actual
         t_i = now[0] + now[1] * 1e-9

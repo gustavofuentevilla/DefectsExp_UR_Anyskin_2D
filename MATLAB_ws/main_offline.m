@@ -21,7 +21,7 @@ Initializations
 %% Offline Loop
 
 % Iteration 
-i = 1;
+i = 4;
 
 
 
@@ -52,7 +52,7 @@ i = 1;
     % Guardar trayectoria en un archivo
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
-    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests/Test11" +...
+    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests/2Def/Test" +...
               "/trayectoria_" + i + ".csv";
     writetable(T, archivo) % char(archivo) para cambiar a comillas simples
 
@@ -69,7 +69,7 @@ i = 1;
 
     % Función para Leer los Datos (con la matriz de datos de salida)
     folderPathBag = fullfile("/home", "gustavo-fuentevilla",...
-                    "DefectsExp_UR", "Tests", "Test11",...
+                    "DefectsExp_UR", "Tests", "2Def", "Test",...
                     "synced_data_" + i + ".csv");
     full_data = csvReading(folderPathBag);
 
@@ -188,4 +188,4 @@ Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 % legend("\hat{\Phi}", "X_e")
 
 % Guardar prueba
-% save(sprintf("Results/output_1.mat"), "-regexp", "^(?!(UR_N100)$).");
+% save(sprintf("Results/2Def/output_1.mat"), "-regexp", "^(?!(UR_N100)$).");
