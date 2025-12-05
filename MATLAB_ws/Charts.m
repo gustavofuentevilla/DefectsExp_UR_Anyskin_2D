@@ -6,7 +6,7 @@ clc
 
 % Load data (Checar 2Def/output3 y output6)
 % 2Def/8 (se pierde un defecto xd)
-load("Results/2Def/output_10.mat")
+load("Results/2Def/output_3.mat")
 
 %% Extracción de datos rales
 
@@ -419,7 +419,8 @@ for i = 1:n_iter
     figure(23)
     subplot(filas, columnas, i)
     scatter3(X_e_real_reg{i}(:,1), X_e_real_reg{i}(:,2), ...
-            V_real_reg{i}, 10, "black")
+            V_real_reg{i}, 10, V_real_reg{i},"filled")
+    colorbar
     xlim([L_1_l, L_1_u])
     ylim([L_2_l, L_2_u])
     title("Measurements on spatial domain, iteration " + i, ...
@@ -428,6 +429,7 @@ for i = 1:n_iter
     ylabel('$x_2$ [m]','Interpreter','latex')
     zlabel('$V_k$ [N]','Interpreter','latex')
     grid on
+    constantplane("z",thres_meas,"FaceAlpha",1)
 end
 
 %% Real PDF  vs  Estimated PDF: Resultados
