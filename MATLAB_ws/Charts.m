@@ -1,12 +1,12 @@
 %% Charts
 
 close all
-clearvars -except UR_N100
+clearvars -except UR_N100_v
 clc
 
 % Load data (Checar 2Def/output3 y output6)
-% 2Def/8 (se pierde un defecto xd)
-load("Results/2Def/output_3.mat")
+% 2Def/1 (se pierde un defecto xd)
+load("Results/N100/2Def/output_6.mat")
 
 %% Extracción de datos rales
 
@@ -193,9 +193,9 @@ end
 
 % Si el algoritmo no pudo encontrar todos los defectos, se calculan las
 % elipses de las estimaciones de los defectos no encontrados
-if ~Estim_sol(end).flag_done 
-    Sigma_not_found = Estim_sol(end).GMModel.Sigma;
-    Mu_not_found = Estim_sol(end).GMModel.mu;
+if ~Estim_sol{end}.flag_done 
+    Sigma_not_found = Estim_sol{end}.GMModel.Sigma;
+    Mu_not_found = Estim_sol{end}.GMModel.mu;
     n_def_not_found = size(Sigma_not_found, 3);
 
     stdev_notfound = zeros(size(Sigma_not_found));
@@ -217,13 +217,22 @@ contornos = 25;
 % For fig25
 iter_vec = (1:n_iter)';
 variaciones = zeros(size(iter_vec));
+
 for r = 1:n_iter
-    variaciones(r) = Estim_sol(r).MinVariation;
+    if Estim_sol{r}.flag_NoData
+        variaciones(r) = NaN;
+    else
+        variaciones(r) = Estim_sol{r}.MinVariation;
+    end
 end
 
 D_KL_reg = zeros(1, n_iter);
 for i = 1:n_iter
-    D_KL_reg(i) = Estim_sol(i).D_KL; 
+    if Estim_sol{i}.flag_NoData
+        D_KL_reg(i) = NaN;
+    else
+        D_KL_reg(i) = Estim_sol{i}.D_KL;
+    end
 end
 
 %For fig26
@@ -242,7 +251,7 @@ func(func >= nu_p*MaxVarCons) = nu_p*MaxVarCons;
 %%
 
 fig1h = figure(1);
-layout1h = tiledlayout(fig1h, 4, 1);
+layout1h = tiledlayout(fig1h, 5, 1);
 
 nexttile
 plot(t_total, X_e_total, 'LineWidth', 2)
@@ -258,6 +267,15 @@ title("Velocity States")
 xlabel('Time [s]')
 ylabel('Velocity [m/s]')
 legend('$\dot{x}_1$', '$\dot{x}_2$')
+grid on
+
+nexttile
+plot(t_total, sqrt(X_e_dot_total(:,1).^2 + X_e_dot_total(:,2).^2),...
+    'LineWidth', 2)
+title("Velocity Norm")
+xlabel('Time [s]')
+ylabel('Velocity [m/s]')
+legend('$|v|$')
 grid on
 
 nexttile
@@ -374,7 +392,7 @@ set(findall(fig4h, "-property", "FontSize"), "FontSize", 20)
 %% Charts about the GMM training
 
 columnas = 3;
-if Estim_sol(n_iter).flag_done
+if Estim_sol{n_iter}.flag_done
     limit_id = n_iter + 1;
     filas = ceil((n_iter + 1)/columnas);
 else
@@ -404,7 +422,8 @@ filas = ceil((n_iter)/columnas);
 for i = 1:n_iter
     figure(22)
     subplot(filas, columnas, i)
-    hist3(Estim_sol(i).Data_Xe_hist_V,'CDataMode','auto', ...
+    if ~Estim_sol{i}.flag_NoData
+    hist3(Estim_sol{i}.Data_Xe_hist_V,'CDataMode','auto', ...
         'FaceColor','interp',...
         "EdgeColor","none",'Nbins',[length(x_1)-1, length(x_2)-1])
     xlim([L_1_l, L_1_u])
@@ -415,6 +434,7 @@ for i = 1:n_iter
     ylabel('$x_2$ [m]','Interpreter','latex')
     zlabel('Measurement int','Interpreter','latex')
     grid on
+    end
 
     figure(23)
     subplot(filas, columnas, i)
@@ -458,7 +478,7 @@ if n_def_found >= 1
     foundplot = 1;
 end
 %Grafica los defectos no encontrados (si los hay)
-if ~Estim_sol(end).flag_done 
+if ~Estim_sol{end}.flag_done 
         for i = 1:n_def_not_found
             patch(Elipse_not_found(:,1,i), Elipse_not_found(:,2,i), ...
                 NotFoundDef_color,'LineWidth', 1.5, 'EdgeColor', ...
@@ -483,7 +503,7 @@ end
 plot(Mu(:,1),Mu(:,2),'.k','MarkerSize',8)
 plot(Mu_found(:,1), Mu_found(:,2), '+', ...
     'LineWidth', 1.5, 'color', FoundDef_color);
-if ~Estim_sol(end).flag_done 
+if ~Estim_sol{end}.flag_done 
     plot(Mu_not_found(:,1), Mu_not_found(:,2), '+', ...
         'LineWidth', 1.5, 'color', NotFoundDef_color);
 end
@@ -567,7 +587,7 @@ xlabel("Information [nat]")
 ylabel("Distance [m]")
 xtickformat('%.1f')
 ytickformat('%.3f')
-xlim([0 7])
+% xlim([0 10])
 % ylim([0 0.1])
 grid on
 % hold on
@@ -659,7 +679,7 @@ end
 plot(Mu(:,1),Mu(:,2),'.','MarkerSize',15, "Color", RealDef_color)
 plot(Mu_found(:,1), Mu_found(:,2), '+', ...
     'LineWidth', 3, 'color', FoundDef_color);
-if ~Estim_sol(end).flag_done 
+if ~Estim_sol{end}.flag_done 
     plot(Mu_not_found(:,1), Mu_not_found(:,2), '+', ...
         'LineWidth', 3, 'color', NotFoundDef_color);
 end
@@ -675,7 +695,7 @@ if n_def_found >= 1
 end
 
 %Grafica los defectos no encontrados (si los hay)
-if ~Estim_sol(end).flag_done 
+if ~Estim_sol{end}.flag_done 
         for i = 1:n_def_not_found
             NF_def_ax(i) = patch(Elipse_not_found(:,1,i), Elipse_not_found(:,2,i), ...
                 NotFoundDef_color,'LineWidth', 3, 'EdgeColor', ...
@@ -685,7 +705,7 @@ if ~Estim_sol(end).flag_done
 end
 
 % Asignar leyendas
-% if ~Estim_sol(end).flag_done
+% if ~Estim_sol{end}.flag_done
 %     lgd = legend([R_def_ax(1)  F_def_ax(1) NF_def_ax(1)],...
 %             {'Real Defects','Found Defects', 'Not Found Defects'});
 % else
@@ -725,6 +745,11 @@ title(layout31h, "Evolution of real robot on space",...
     "interpreter", "latex", "FontSize", 30)
 
 for i = 1:n_iter
+    SigF_tmp(i).Sigma_found = Estim_sol{i}.Sigma_found;
+    MuF_tmp(i).Mu_found = Estim_sol{i}.Mu_found;
+end
+
+for i = 1:n_iter
 
     nexttile(layout31h)
 
@@ -752,8 +777,8 @@ for i = 1:n_iter
     if i > 1
         nbDrawingSeg = 100;
         tmp_vec = linspace(-pi, pi, nbDrawingSeg)';
-        Sigma_tmp = cat(3, Estim_sol(1:i-1).Sigma_found);
-        Mu_tmp = cat(1, Estim_sol(1:i-1).Mu_found);
+        Sigma_tmp = cat(3, SigF_tmp(1:i-1).Sigma_found);
+        Mu_tmp = cat(1, MuF_tmp(1:i-1).Mu_found);
         if ~isempty(Sigma_tmp)
             stdev_tmp = zeros(size(Sigma_tmp));
             Sigma_ast_tmp = zeros(size(Sigma_tmp));
@@ -822,7 +847,7 @@ end
 plot(Mu(:,1),Mu(:,2),'.','MarkerSize',15, "Color", RealDef_color)
 plot(Mu_found(:,1), Mu_found(:,2), '+', ...
     'LineWidth', 3, 'color', FoundDef_color);
-if ~Estim_sol(end).flag_done 
+if ~Estim_sol{end}.flag_done 
     plot(Mu_not_found(:,1), Mu_not_found(:,2), '+', ...
         'LineWidth', 3, 'color', NotFoundDef_color);
 end
@@ -838,7 +863,7 @@ if n_def_found >= 1
 end
 
 %Grafica los defectos no encontrados (si los hay)
-if ~Estim_sol(end).flag_done 
+if ~Estim_sol{end}.flag_done 
         for i = 1:n_def_not_found
             NF_def_ax(i) = patch(Elipse_not_found(:,1,i), Elipse_not_found(:,2,i), ...
                 NotFoundDef_color,'LineWidth', 3, 'EdgeColor', ...
@@ -848,7 +873,7 @@ if ~Estim_sol(end).flag_done
 end
 
 % Asignar leyendas
-% if ~Estim_sol(end).flag_done
+% if ~Estim_sol{end}.flag_done
 %     lgd = legend([R_def_ax(1)  F_def_ax(1) NF_def_ax(1)],...
 %             {'Real Defects','Found Defects', 'Not Found Defects'});
 % else
@@ -905,7 +930,7 @@ end
 plot(Mu(:,1),Mu(:,2),'.','MarkerSize',15, "Color", RealDef_color)
 plot(Mu_found(:,1), Mu_found(:,2), '+', ...
     'LineWidth', 3, 'color', FoundDef_color);
-if ~Estim_sol(end).flag_done 
+if ~Estim_sol{end}.flag_done 
     plot(Mu_not_found(:,1), Mu_not_found(:,2), '+', ...
         'LineWidth', 3, 'color', NotFoundDef_color);
 end

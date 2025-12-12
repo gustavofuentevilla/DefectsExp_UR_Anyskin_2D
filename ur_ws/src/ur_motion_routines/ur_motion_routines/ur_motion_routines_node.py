@@ -69,6 +69,7 @@ class URMotionRoutinesNode(Node):
             0.0000,
             0.0000
         ])
+        #0.0002, -0.0041
         self.desiredQuat = self.desiredOrientation.copy()
         self.last_Orientation = None
         # default target wrench (Ceros): [fx, fy, fz, tx, ty, tz]
@@ -83,8 +84,9 @@ class URMotionRoutinesNode(Node):
         self._recording = False
         self._record_buffer = []
         # output directory for CSV recordings and trajectory readings
-        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/2Def/Test'
-        self._trajectory_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/2Def/Test'
+        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/N100/2Def/Test'
+        self._trajectory_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/N100/2Def/Test'
+        self.desiredZ = None
         
 
     def start_rosbag(self, topics, output_dir=None):
@@ -389,6 +391,13 @@ class URMotionRoutinesNode(Node):
         
         if np.dot(self.last_Orientation, self.desiredOrientation) < 0:
             self.desiredQuat = -self.desiredOrientation
+
+        A = -0.00857
+        B = -0.007878
+        C = 1.428
+        D = 0.02975
+        self.desiredZ = -(A*pose.position.x + B*pose.position.y + D)/C + 0.0025
+        #-0.0175
             
     def rest_to_rest_trajectory(self, P_i, P_f, t_i, mvr_time, t, n):
         """
@@ -605,12 +614,12 @@ class URMotionRoutinesNode(Node):
         P_i = current_pose[0:3]
         # self.get_logger().info(f'Pi: {P_i}')
         # Pose de contacto deseada con las coordenadas x,y iguales a las iniciales P_i
-        # A = -0.0489
-        # B = -0.1113
-        # C = 10.0303 
-        # D = 0.2506
-        # desiresZ = -(A*P_i[0] + B*P_i[1] + D)/C
-        P_f = np.array([current_pose[0], current_pose[1], -0.01874])
+        # A = -0.00857
+        # B = -0.007878
+        # C = 1.428
+        # D = 0.02975
+        # desiredZ = -(A*P_i[0] + B*P_i[1] + D)/C
+        P_f = np.array([current_pose[0], current_pose[1], self.desiredZ]) #-0.0193
         # Imprimir P_f
         self.get_logger().info(f'Pf: {P_f}')
         now = self.get_clock().now().seconds_nanoseconds()
@@ -729,7 +738,7 @@ class URMotionRoutinesNode(Node):
             pose_msg.header.frame_id = "world"
             pose_msg.pose.position.x = float(trajectory[0, i])
             pose_msg.pose.position.y = float(trajectory[1, i])
-            pose_msg.pose.position.z = -0.01874
+            pose_msg.pose.position.z = self.desiredZ #-0.0193
             pose_msg.pose.orientation.x = self.desiredQuat[0]
             pose_msg.pose.orientation.y = self.desiredQuat[1]
             pose_msg.pose.orientation.z = self.desiredQuat[2]
@@ -889,7 +898,6 @@ def main(args=None):
     spin_thread.start()
 
     node.execute_motion()
-    # rclpy.spin(node)
 
     # Shutdown ROS and wait briefly for the spin thread to exit
     rclpy.shutdown()

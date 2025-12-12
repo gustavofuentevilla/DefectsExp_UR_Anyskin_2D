@@ -23,6 +23,7 @@ eps = Par_PDF.eps;
 Thres_PostVariation = Par_PDF.Thres_Variation;
 OneClustDistLimit = Par_PDF.OneClustDistLimit;
 flag_ExplorationStage = Par_PDF.flag_ExplorationStage;
+NoDataIterCounter = Par_PDF.NoDataIterCounter;
 
 % Remove initial element 
 % (which was stablished outside only to define dimensions)
@@ -138,16 +139,16 @@ Priors = Model.Priors;
 
 %% Kullback–Leibler divergence (Relative entropy)
 % Calculate KL Divergence from Q (Prior) to P (Posterior)
-Q = Prev_Phi_hat_x;
-P = pdf(gmdistribution(Mu, Sigma, Priors), Omega);
-idx_P_Q = (abs(Q) >= 1e-10) & (abs(P) >= 1e-10);
+Q = Prev_Phi_hat_x + 1e-30;
+P = pdf(gmdistribution(Mu, Sigma, Priors), Omega) + 1e-30;
+idx_P_Q = (abs(Q) >= 1e-31) & (abs(P) >= 1e-31);
 D_KL = sum( P(idx_P_Q) .* log(P(idx_P_Q) ./ Q(idx_P_Q)) )*dx_1*dx_2;
 
 %% Compute MinVariation constraint as a function of KL divergence
 
 Variation_thres_eps = Thres_PostVariation - eps;
 
-if iteration == 1
+if (iteration == 1) || (iteration == 2 && NoDataIterCounter == 1)
     D_KL_bar_u = D_KL;
 end
 

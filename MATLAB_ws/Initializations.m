@@ -155,7 +155,7 @@ T_s = t_f/N;        % Tiempo de muestreo
 t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]}
-z_0 = [0.14; 0; 0.05; 0]; 
+z_0 = [0.23; 0; 0.10; 0]; 
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2
@@ -199,9 +199,14 @@ Par_PDF.dx_2 = dx_2;
 % Range of possible Number of defects to be found
 Par_PDF.nbDef_range = [1, n_def + 2]; 
 
-% Threshold definition
-thres_meas = 88.5239;
-% thres_meas = 107.1578;
+% Threshold definitions
+thres_meas = 60.0541;
+thres_meas_stg2 = thres_meas; %88.5239;
+thres_meas_stg1 = thres_meas; %69.8821 considerando algunos drifts
+thres_vel = 0.0501;
+thres_absD = 45.8505;
+
+Thresholds = [thres_meas_stg1; thres_meas_stg2; thres_vel; thres_absD];
 
 Par_PDF.Prev_Data = [];
 Par_PDF.Prev_numComponents = [];
@@ -210,7 +215,7 @@ Par_PDF.Prev_numComponents = [];
 % initial value (these has to be removed at the end)
 Par_PDF.Prev_Mu_found = [0, 0];
 Par_PDF.Prev_Sigma_found = [0, 0; 0, 0];
-NoDataIterCounter = 0;
+Par_PDF.NoDataIterCounter = 0;
 
 n_iter = n_iter_max;
 
@@ -228,6 +233,7 @@ Par_PDF.flag_ExplorationStage = true;
 % Porcentage of max variation constraint, 
 % porcentage of MaxVarCons to match with the first D_KL value
 nu_p = 0.35;
+% nu_p = 0.75;
 % Another way to compute the MaxVarCons is define the number of times of
 % Variation Threshold we want to cover per defect, \eta times.
 % eta = 6;

@@ -5,7 +5,7 @@ clc
 load("Results/2Def/output_3.mat")
 
 %% 
-iter = 4;
+iter = 6;
 
 idx_Time = ~isnan(Data_t_Xe_V_reg(:,1,iter));
 
@@ -72,11 +72,19 @@ Gamma_absD = 45.8505; % a_absD + 3*sigma_absD;
 %47.1475
 %49.8792
 
-%% Filtering the signal for defect detection
+%% Compute velocity norm of planned trajectory
 
-% Leaving Measurements above threshold
-def_signal = clean_signal;
-def_signal(~idx_aboveThreshold) = NaN;
+v_Norm = sqrt(sum(X_e_dot_reg(:,:,iter).^2, 2));
+v_Norm_spline = spline(t, v_Norm, Timestamps);
+
+% idx_vel = (Timestamps >= 1.62 & Timestamps <= 2.52);
+% a_v_Norm = mean(v_Norm_spline(idx_vel));
+% stdev_v_Norm = std(v_Norm_spline(idx_vel));
+thres_vel = 0.0501; %a_v_Norm + 3*stdev_v_Norm;
+
+idx_almostZero_vel = v_Norm_spline < thres_vel;
+
+%% Filtering the signal for defect detection
 
 % Identify indices for measurements affected by drift
 idx_drift = movingAvgAbsDerivative < Gamma_absD;
@@ -90,10 +98,21 @@ for i = half_window+1:length(idx_drift)
         idx_drift_compensated(i-half_window:i+half_window) = 1;
     end
 end
-idx_drift_compensated(end-half_window+1:end) = [];
+if length(idx_drift_compensated) > length(idx_drift)
+    len_c = length(idx_drift_compensated) - length(idx_drift);
+    idx_drift_compensated(end-len_c+1:end) = [];
+end
 
-% Remove measurements affected by drift
-def_signal(idx_drift_compensated) = NaN; 
+% Leaving Measurements above threshold
+def_signal = clean_signal;
+def_signal(~idx_aboveThreshold) = NaN;
+
+% Erase non-defective measurements (Drifts)
+vel_samples = round(0.4/Ts); % medio segundo
+idx_almostZero_vel(1:vel_samples) = 0;
+idx_almostZero_vel(end-vel_samples:end) = 0;
+idx_eraseDrift = idx_drift_compensated & ~idx_almostZero_vel;
+def_signal(idx_eraseDrift) = NaN;
 
 
 %% Plots
@@ -113,17 +132,12 @@ legend('Original Signal', 'Clean Signal');
 grid on
 hold off
 
-nexttile
-plot(Timestamps, derivative_signal, 'LineWidth', 2);
-title('Derivative of the Clean Signal');
-xlabel('Time');
-ylabel('Derivative');
-grid on
-hold on
-% yline([a, a-3*sigma, a+3*sigma], ":", ...
-%     ["\mu", "$\Gamma_V^- = \mu- 3\sigma$", "$\Gamma_V^+ = \mu + 3\sigma$"], ...
-%     "Color", "r", "FontWeight", "bold", "LineWidth", 3)
-hold off
+% nexttile
+% plot(Timestamps, derivative_signal, 'LineWidth', 2);
+% title('Derivative of the Clean Signal');
+% xlabel('Time');
+% ylabel('Derivative');
+% grid on
 
 nexttile
 plot(Timestamps, abs_derivative_signal, 'LineWidth', 2);
@@ -134,6 +148,16 @@ grid on
 hold on
 plot(Timestamps, movingAvgAbsDerivative, 'LineWidth', 2);
 yline(Gamma_absD, "Color", "green","LineWidth",2)
+hold off
+
+nexttile
+plot(Timestamps, v_Norm_spline, "LineWidth", 2)
+title("Planned Velocity Norm")
+xlabel("Time")
+ylabel("|v|")
+grid on
+hold on
+yline(thres_vel, "LineWidth",2)
 hold off
  
 nexttile

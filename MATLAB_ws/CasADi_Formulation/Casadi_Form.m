@@ -1,6 +1,6 @@
 close all
 % clear
-clearvars -except UR_N100
+clearvars -except UR_N100_v
 clc
 
 import casadi.*
@@ -213,10 +213,12 @@ Lambda_k = (1 + vecnorm(K_cal, p, 1)').^(-(n + 1)/2);
 % opti.subject_to( -50 <= u <= 50 );
 % opti.subject_to( L_1_l <= z(1,:) <= L_1_u );    % x_1 boundaries
 % opti.subject_to( L_2_l <= z(3,:) <= L_2_u );    % x_2 boundaries
+% % Velocity norm (numerical instability when using sqrt(.) function)
+% v_norm = z(2,:).^2 + z(4,:).^2;
+% opti.subject_to( v_norm <= 0.3^2 )
 % 
 % % constrain the derivate of control inputs
 % for k = 1:N-1
-%     % opti.subject_to( abs(u(:,k+1) - u(:,k))/T_s <= 18 );
 %     opti.subject_to( abs(u(:,k+1) - u(:,k))/T_s <= 30 ); %25
 % end
 % 
@@ -246,15 +248,15 @@ Lambda_k = (1 + vecnorm(K_cal, p, 1)').^(-(n + 1)/2);
 % % Function mapping: contains IPOPT method embedded and
 % % integration method RK4
 % 
-% UR_N100 = opti.to_function('UR_N100',...
+% UR_N100_v = opti.to_function('UR_N100_v',...
 %             {z_0_sym, phi_k_sym}, {z, u},...
 %             {'z_0','phi_k'}, {'z','u'});
 
 %% Saving and loading casadi function object
 
-% UR_N100.save('UR_N100.casadi');
+% UR_N100_v.save('UR_N100_v.casadi');
 
-% UR_N100 = Function.load('UR_N100.casadi');
+% UR_N100_v = Function.load('UR_N100_v.casadi');
 
 %% vector to add more points on the trajectory and get more data from sensor
 
@@ -280,7 +282,7 @@ phi_k_act = phi_k_reg;
 
 for i = 1:n_iter
 
-    [Z, U] = UR_N100(z_act, phi_k_act);
+    [Z, U] = UR_N100_v(z_act, phi_k_act);
     Z = full(Z)';
     U = full(U)';
 
@@ -395,21 +397,28 @@ for i = 1:n_iter
 end
 %%
 figure(1)
-subplot(3,1,1)
+subplot(4,1,1)
 plot(t_total, X_e_total, 'LineWidth', 1.5)
 title("Position States",'Interpreter','latex')
 xlabel('Time [s]','Interpreter','latex')
 ylabel('Position [m]','Interpreter','latex')
 legend('$x_1$', '$x_2$','Interpreter','latex')
 grid on
-subplot(3,1,2)
+subplot(4,1,2)
 plot(t_total, X_e_dot_total, 'LineWidth', 1.5)
 title("Velocity States",'Interpreter','latex')
 xlabel('Time [s]','Interpreter','latex')
 ylabel('Velocity [m/s]','Interpreter','latex')
 legend('$\dot{x}_1$', '$\dot{x}_2$','Interpreter','latex')
 grid on
-subplot(3,1,3)
+subplot(4,1,3)
+plot(t_total, sqrt(X_e_dot_total(:,1).^2 + X_e_dot_total(:,2).^2), 'LineWidth', 1.5)
+title("Velocity Norm",'Interpreter','latex')
+xlabel('Time [s]','Interpreter','latex')
+ylabel('Velocity [m/s]','Interpreter','latex')
+legend('$|v|$','Interpreter','latex')
+grid on
+subplot(4,1,4)
 plot(t_total, u_total, 'LineWidth', 1.5) %stairs
 title("Control actions",'Interpreter','latex')
 xlabel('Time [s]','Interpreter','latex')
@@ -491,3 +500,25 @@ for i = 1:n_iter
         'Interpreter','latex','Location','northeastoutside')
     hold off
 end
+
+figure(6)
+pcolor(x_1_grid, x_2_grid,...
+        reshape(Phi_hat_x(:,1), length(x_2), length(x_1)),...
+        "EdgeColor","none","FaceColor","interp")
+xlim([L_1_l, L_1_u])
+ylim([L_2_l, L_2_u])
+xlabel('$x_1$ [m]','Interpreter','latex')
+ylabel('$x_2$ [m]','Interpreter','latex')
+axis tight equal
+grid on
+hold on
+plot(X_e_reg(:,1,1), X_e_reg(:,2,1),...
+        'LineWidth',2, 'Color', 'black')
+plot(X_e_reg(1,1,1), X_e_reg(1,2,1),...
+        'ksq','MarkerSize',7,'LineWidth',2)
+
+vertcs_x = [-0.02; 0; 0.02] + X_e_reg(:,1,1)';
+vertcs_y = [-0.02; 0.023; -0.02] + X_e_reg(:,2,1)';
+patch(vertcs_x, vertcs_y, "yellow", "FaceAlpha", 0.5, "EdgeColor", "none")
+
+hold off
