@@ -21,7 +21,7 @@ Initializations
 %% Offline Loop
 
 % Iteration 
-i = 3;
+i = 6;
 
     % Soluciones
     [Z, U] = UR_N100_v(z_act, phi_k_act); 
@@ -51,7 +51,7 @@ i = 3;
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
     archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests/N100/" + ...
-                "2Def/Test/trayectoria_" + i + ".csv";
+                "1Def/Test/trayectoria_" + i + ".csv";
     writetable(T, archivo) % char(archivo) para cambiar a comillas simples
 
     %% Ejecutar las rutinas de movimiento en el robot %%%%%%%%%%%%%%%%%%%%%
@@ -67,7 +67,7 @@ i = 3;
 
     % Función para Leer los Datos (con la matriz de datos de salida)
     folderPathBag = fullfile("/home", "gustavo-fuentevilla",...
-                    "DefectsExp_UR", "Tests", "N100", "2Def", "Test",...
+                    "DefectsExp_UR", "Tests", "N100", "1Def", "Test",...
                     "synced_data_" + i + ".csv");
     full_data = csvReading(folderPathBag);
 
@@ -169,27 +169,62 @@ i = 3;
 Mu_found = Par_PDF.Prev_Mu_found(2:end, :);
 Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 
+% ------------Guardar prueba
+% save(sprintf("Results/N100/1Def/output_1.mat"), "-regexp", "^(?!(UR_N100_v)$).");
+% save(sprintf("Results/N150/1Def/output_1.mat"), "-regexp", "^(?!(UR_N150_v)$).");
 
-%% For plotting the trajectory (testing)
+%% Random Initial conditions
 
-% figure(1)
+%----2 Def
+
+% z_1 = [0.05, 0.05];
+% z_2 = [0.23, 0.05];
+% z_3 = [0.23, 0.15];
+% z_4 = [0.05, 0.15];
+% z_5 = [0.05, 0.10];
+% z_6 = [0.14, 0.05];
+% z_7 = [0.23, 0.10];
+% z_8 = [0.14, 0.15];
+% z_9 = [0.07, 0.10];
+% z_10 = [0.21, 0.10];
+
+%----1 Defect
+
+% z_1 = [0.23, 0.14];
+% z_2 = [0.05, 0.06];
+% z_3 = [0.10, 0.12];
+% z_4 = [0.06, 0.13];
+% z_5 = [0.05, 0.12];
+% z_6 = [0.13, 0.13];
+% z_7 = [0.18, 0.15];
+% z_8 = [0.22, 0.07];
+% z_9 = [0.18, 0.05];
+% z_10 = [0.03, 0.13];
+
+%% Defects location generator
+
+% clear
+% close all
+% clc
 % 
-% plot(t_spline, X_e_d_spline)
-% grid on
-% legend("x_1", "x_2")
-% figure(2)
-% pcolor(x_1_grid, x_2_grid, ...
-%             reshape(Phi_hat_x_next, length(x_2), length(x_1)),...
-%             "EdgeColor","none", "FaceColor","interp")
-% hold on
-% plot(X_e_d_spline(:,1), X_e_d_spline(:,2), "LineWidth", 3, "Color", "black")
-% plot(X_e_d_spline(1,1), X_e_d_spline(1,2),...
-%     "ksq", "MarkerSize",15, "LineWidth", 3)
+% L_1_l = 0.0;
+% L_1_u = 0.28;
+% 
+% L_2_l = 0.0;
+% L_2_u = 0.20;
+% 
+% L_i_l = [L_1_l, L_2_l];
+% L_i_u = [L_1_u, L_2_u];
+% 
+% offset = 0.03; 
+% Mu = [];
+% for i = 1:10
+%     Mu_tmp = (L_i_l + offset) + ((L_i_u - offset) - ...
+%              (L_i_l + offset)).*rand(1,2);
+%     Mu = cat(1, Mu, Mu_tmp); 
+% end
+% 
+% scatter(Mu(:,1), Mu(:,2), 35, "black", "filled", "o")
 % xlim([L_1_l, L_1_u])
 % ylim([L_2_l, L_2_u])
-% axis equal tight
-% hold off
-% legend("\hat{\Phi}", "X_e")
-
-% Guardar prueba
-% save(sprintf("Results/N100/2Def/output_1.mat"), "-regexp", "^(?!(UR_N100_v)$).");
+% grid on

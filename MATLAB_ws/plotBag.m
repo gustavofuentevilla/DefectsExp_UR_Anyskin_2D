@@ -62,7 +62,7 @@ xlabel('Time (s)')
 ylabel('Measurements')
 legend('data for training')
 grid on
-xlim([0, 12])
+xlim([0, 16])
 
 nexttile(4, [4 3])
 patch([Poses_x; NaN], [Poses_y; NaN], [Mediciones; NaN],...

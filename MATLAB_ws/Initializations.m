@@ -57,26 +57,42 @@ Omega = [reshape(x_1_grid,[],1), reshape(x_2_grid,[],1)];
 % Sigma = cat(3, Cov_1, Cov_2, Cov_3);
 
 % -------------------------------2 Defectos
-Mu = [0.076, 0.126;
-      0.226, 0.056];
+% Mu = [0.076, 0.126;
+%       0.226, 0.056];
+% n_def = height(Mu);
+% 
+% def_1_rad = [0.5e-2, 1e-2];
+% def_2_rad = [1e-2, 0.5e-2];
+% 
+% eig_V = eye(2);
+% 
+% def_D_1 = diag(def_1_rad);
+% def_D_2 = diag(def_2_rad);
+% 
+% def_Sd_1 = eig_V * def_D_1 * eig_V' / 3;
+% def_Sd_2 = eig_V * def_D_2 * eig_V' / 3;
+% 
+% Cov_1 = def_Sd_1 * def_Sd_1;
+% Cov_2 = def_Sd_2 * def_Sd_2;
+% 
+% Sigma = cat(3, Cov_1, Cov_2);
+
+% ---------------------------- 1 Defecto
+Mu = [0.14, 0.10];
 
 n_def = height(Mu);
 
-def_1_rad = [0.5e-2, 1e-2];
-def_2_rad = [1e-2, 0.5e-2];
+def_1_rad = [18.75e-3/2, 18.75e-3/2]; %Moneda de 2 cent
 
 eig_V = eye(2);
 
 def_D_1 = diag(def_1_rad);
-def_D_2 = diag(def_2_rad);
 
 def_Sd_1 = eig_V * def_D_1 * eig_V' / 3;
-def_Sd_2 = eig_V * def_D_2 * eig_V' / 3;
 
 Cov_1 = def_Sd_1 * def_Sd_1;
-Cov_2 = def_Sd_2 * def_Sd_2;
 
-Sigma = cat(3, Cov_1, Cov_2);
+Sigma = Cov_1;
 
 % Real PDF
 gm_dist = gmdistribution(Mu, Sigma);
@@ -88,7 +104,7 @@ for j = 1:n_def
     Sigma_ast_Phi(:,:,j) = 3*sqrtm(Sigma(:,:,j)); 
 end
 
-% plotting
+% ------------plotting
 % nbDrawingSeg = 1000;
 % tmp_vec = linspace(-pi, pi, nbDrawingSeg)';
 % Elipse_Phi = zeros(height(tmp_vec), 2, n_def); % Elipse
@@ -155,7 +171,7 @@ T_s = t_f/N;        % Tiempo de muestreo
 t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]}
-z_0 = [0.23; 0; 0.10; 0]; 
+z_0 = [0.03; 0; 0.13; 0];
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2
@@ -225,7 +241,7 @@ Par_PDF.Thres_Variation = sum(def_1_rad, 2) + 2*r_s + 0.002;
 % Minimum axes lengths of gaussian elipses (0 = not using this constraint)
 Par_PDF.MinAxisLengths = 0; % 0 m.
 % Distance needed to consider more than one single defect
-Par_PDF.OneClustDistLimit = 2*max(def_1_rad) + 2*r_s + 0.007;
+Par_PDF.OneClustDistLimit = 2*max(def_1_rad) + 2*r_s + 0.015;
 Par_PDF.flag_ExplorationStage = true;
 
 % Parameters definition for the Variation constraint function
