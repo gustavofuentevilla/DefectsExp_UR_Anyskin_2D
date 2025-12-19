@@ -1,6 +1,6 @@
 close all
 % clear
-clearvars -except UR_N100_v
+clearvars -except UR_N150_v
 clc
 
 import casadi.*
@@ -107,14 +107,14 @@ Par_struct.L_i_u = L_i_u;
 [phi_k_reg, f_k_reg, h_k_reg] = FourierCoef_RefPDF(Phi_hat_x(:,1), Par_struct);
 
 %% Optimization problem parameters
-N = 100;            % Número de puntos de trayectoria óptima
-t_f = 10;           % Tiempo final por iteración
+N = 150;            % Número de puntos de trayectoria óptima
+t_f = 15;           % Tiempo final por iteración
 T_s = t_f/N;        % Tiempo de muestreo
 t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
 % Peso sobre controles
 R = [1e-0, 0;
-     0, 1e-0 ]*(1/T_s); % N = 100
+     0, 1e-0 ]*(1/T_s);
 
 % Peso sobre métrica ergódica
 gamma = 1;
@@ -215,7 +215,7 @@ Lambda_k = (1 + vecnorm(K_cal, p, 1)').^(-(n + 1)/2);
 % opti.subject_to( L_2_l <= z(3,:) <= L_2_u );    % x_2 boundaries
 % % Velocity norm (numerical instability when using sqrt(.) function)
 % v_norm = z(2,:).^2 + z(4,:).^2;
-% opti.subject_to( v_norm <= 0.3^2 )
+% opti.subject_to( v_norm <= 0.2^2 )
 % 
 % % constrain the derivate of control inputs
 % for k = 1:N-1
@@ -248,15 +248,15 @@ Lambda_k = (1 + vecnorm(K_cal, p, 1)').^(-(n + 1)/2);
 % % Function mapping: contains IPOPT method embedded and
 % % integration method RK4
 % 
-% UR_N100_v = opti.to_function('UR_N100_v',...
+% UR_N150_v = opti.to_function('UR_N150_v',...
 %             {z_0_sym, phi_k_sym}, {z, u},...
 %             {'z_0','phi_k'}, {'z','u'});
 
 %% Saving and loading casadi function object
 
-% UR_N100_v.save('UR_N100_v.casadi');
+% UR_N150_v.save('UR_N150_v.casadi');
 
-% UR_N100_v = Function.load('UR_N100_v.casadi');
+% UR_N150_v = Function.load('UR_N150_v.casadi');
 
 %% vector to add more points on the trajectory and get more data from sensor
 
@@ -282,7 +282,7 @@ phi_k_act = phi_k_reg;
 
 for i = 1:n_iter
 
-    [Z, U] = UR_N100_v(z_act, phi_k_act);
+    [Z, U] = UR_N150_v(z_act, phi_k_act);
     Z = full(Z)';
     U = full(U)';
 

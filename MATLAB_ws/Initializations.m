@@ -29,32 +29,38 @@ L_2 = L_2_u - L_2_l;
 % Espacio de búsqueda discretizado
 Omega = [reshape(x_1_grid,[],1), reshape(x_2_grid,[],1)];
 
+% %diámetros de las monedas (2 cents of euro, 1 cent of euro)
+% coinsDiam = [18.75e-3; 16.25e-3; 16.25e-3];
+
 %% Real PDF (Coins)
 
 % --------------------------3 Defectos
-% Centros de monedas reales
-% Mu = [0.127, 0.035;
-%       0.198, 0.163;
-%       0.033, 0.140];
-%
-% %diámetros de las monedas (2 cents of euro, 1 cent of euro)
-% coinsDiam = [18.75e-3; 16.25e-3; 16.25e-3];
-% 
-% coins_V = eye(2);
-% 
-% coins_D_1 = (coinsDiam(1)/2) * eye(2);
-% coins_D_2 = (coinsDiam(2)/2) * eye(2);
-% coins_D_3 = (coinsDiam(3)/2) * eye(2);
-% 
-% coins_S_d_1 = coins_V * coins_D_1 * coins_V' / 3;
-% coins_S_d_2 = coins_V * coins_D_2 * coins_V' / 3;
-% coins_S_d_3 = coins_V * coins_D_3 * coins_V' / 3;
-% 
-% Cov_1 = coins_S_d_1 * coins_S_d_1;
-% Cov_2 = coins_S_d_2 * coins_S_d_2;
-% Cov_3 = coins_S_d_3 * coins_S_d_3;
-% 
-% Sigma = cat(3, Cov_1, Cov_2, Cov_3);
+
+Mu = [0.03, 0.05;
+      0.16, 0.03;
+      0.24, 0.17];
+
+n_def = height(Mu);
+
+def_1_rad = [16.25e-3/2, 16.25e-3/2];
+def_2_rad = def_1_rad;
+def_3_rad = def_1_rad;
+
+eig_V = eye(2);
+
+def_D_1 = diag(def_1_rad);
+def_D_2 = diag(def_2_rad);
+def_D_3 = diag(def_3_rad);
+
+def_Sd_1 = eig_V * def_D_1 * eig_V' / 3;
+def_Sd_2 = eig_V * def_D_2 * eig_V' / 3;
+def_Sd_3 = eig_V * def_D_3 * eig_V' / 3;
+
+Cov_1 = def_Sd_1 * def_Sd_1;
+Cov_2 = def_Sd_2 * def_Sd_2;
+Cov_3 = def_Sd_3 * def_Sd_3;
+
+Sigma = cat(3, Cov_1, Cov_2, Cov_3);
 
 % -------------------------------2 Defectos
 % Mu = [0.076, 0.126;
@@ -78,21 +84,21 @@ Omega = [reshape(x_1_grid,[],1), reshape(x_2_grid,[],1)];
 % Sigma = cat(3, Cov_1, Cov_2);
 
 % ---------------------------- 1 Defecto
-Mu = [0.14, 0.10];
-
-n_def = height(Mu);
-
-def_1_rad = [18.75e-3/2, 18.75e-3/2]; %Moneda de 2 cent
-
-eig_V = eye(2);
-
-def_D_1 = diag(def_1_rad);
-
-def_Sd_1 = eig_V * def_D_1 * eig_V' / 3;
-
-Cov_1 = def_Sd_1 * def_Sd_1;
-
-Sigma = Cov_1;
+% Mu = [0.14, 0.10];
+% 
+% n_def = height(Mu);
+% 
+% def_1_rad = [18.75e-3/2, 18.75e-3/2]; %Moneda de 2 cent
+% 
+% eig_V = eye(2);
+% 
+% def_D_1 = diag(def_1_rad);
+% 
+% def_Sd_1 = eig_V * def_D_1 * eig_V' / 3;
+% 
+% Cov_1 = def_Sd_1 * def_Sd_1;
+% 
+% Sigma = Cov_1;
 
 % Real PDF
 gm_dist = gmdistribution(Mu, Sigma);
@@ -171,7 +177,7 @@ T_s = t_f/N;        % Tiempo de muestreo
 t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]}
-z_0 = [0.03; 0; 0.13; 0];
+z_0 = [0.14; 0; 0.1; 0];
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2
@@ -237,7 +243,7 @@ n_iter = n_iter_max;
 
 Par_PDF.DataEscFact = 1;
 % Total variation condition to find a defect
-Par_PDF.Thres_Variation = sum(def_1_rad, 2) + 2*r_s + 0.002;
+Par_PDF.Thres_Variation = sum(def_1_rad, 2) + 2*r_s + 0.005;
 % Minimum axes lengths of gaussian elipses (0 = not using this constraint)
 Par_PDF.MinAxisLengths = 0; % 0 m.
 % Distance needed to consider more than one single defect
@@ -249,7 +255,7 @@ Par_PDF.flag_ExplorationStage = true;
 % Porcentage of max variation constraint, 
 % porcentage of MaxVarCons to match with the first D_KL value
 nu_p = 0.35;
-% nu_p = 0.75;
+
 % Another way to compute the MaxVarCons is define the number of times of
 % Variation Threshold we want to cover per defect, \eta times.
 % eta = 6;

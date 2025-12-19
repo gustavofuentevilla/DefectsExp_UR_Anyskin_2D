@@ -84,8 +84,8 @@ class URMotionRoutinesNode(Node):
         self._recording = False
         self._record_buffer = []
         # output directory for CSV recordings and trajectory readings
-        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/N100/1Def/Test'
-        self._trajectory_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/N100/1Def/Test'
+        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/N100/0Def/Test'
+        self._trajectory_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/N100/0Def/Test'
         self.desiredZ = None
         
 
@@ -562,7 +562,7 @@ class URMotionRoutinesNode(Node):
         # Tiempo actual
         t_i = now[0] + now[1] * 1e-9
         # Duración de la maniobra en segundos
-        mvr_time = 10.0  
+        mvr_time = 5.0  
         # Derivadas a cero en los extremos de trayectoria
         n_deriv = 2
         period = 1.0 / 100  # 100 Hz
@@ -626,7 +626,7 @@ class URMotionRoutinesNode(Node):
         # Tiempo actual
         t_i = now[0] + now[1] * 1e-9
         # Duración de la maniobra en segundos
-        mvr_time = 10.0
+        mvr_time = 5.0
         # Derivadas a cero en los extremos de trayectoria
         n_deriv = 2
         period = 1.0 / 100  # 100 Hz
@@ -681,7 +681,7 @@ class URMotionRoutinesNode(Node):
         # Tiempo actual
         t_i = now[0] + now[1] * 1e-9
         # Duración de la maniobra en segundos
-        mvr_time = 10.0
+        mvr_time = 5.0
         # Derivadas a cero en los extremos de trayectoria
         n_deriv = 2
         period = 1.0 / 100  # 100 Hz

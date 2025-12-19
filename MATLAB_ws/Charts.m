@@ -1,13 +1,14 @@
 %% Charts
 
 close all
-clearvars -except UR_N100_v
+clearvars -except UR_N150_v
 clc
 
 % Load data
 % N100/2Def/8 (se pierde un defecto xd)
-% N100/1Def/4 (doble exploración)
-load("Results/N100/1Def/output_1.mat")
+% N100/3Def/8 (se pierde un defecto xd)
+% N100/1Def/4,10 (doble exploración)
+load("Results/N150/0Def/output_1.mat")
 
 %% Extracción de datos rales
 

@@ -266,9 +266,9 @@ cartesian_compliance_controller:
         # rot_x: 10.0
         # rot_y: 10.0
         # rot_z: 10.0
-        trans_x: 3000.0
-        trans_y: 3000.0
-        trans_z: 3000.0
+        trans_x: 2000.0
+        trans_y: 2000.0
+        trans_z: 2000.0
         rot_x: 20.0
         rot_y: 20.0
         rot_z: 20.0

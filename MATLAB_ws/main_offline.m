@@ -21,7 +21,7 @@ Initializations
 %% Offline Loop
 
 % Iteration 
-i = 6;
+i = 2;
 
     % Soluciones
     [Z, U] = UR_N100_v(z_act, phi_k_act); 
@@ -51,7 +51,7 @@ i = 6;
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
     archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests/N100/" + ...
-                "1Def/Test/trayectoria_" + i + ".csv";
+                "0Def/Test/trayectoria_" + i + ".csv";
     writetable(T, archivo) % char(archivo) para cambiar a comillas simples
 
     %% Ejecutar las rutinas de movimiento en el robot %%%%%%%%%%%%%%%%%%%%%
@@ -67,7 +67,7 @@ i = 6;
 
     % Función para Leer los Datos (con la matriz de datos de salida)
     folderPathBag = fullfile("/home", "gustavo-fuentevilla",...
-                    "DefectsExp_UR", "Tests", "N100", "1Def", "Test",...
+                    "DefectsExp_UR", "Tests", "N100", "0Def", "Test",...
                     "synced_data_" + i + ".csv");
     full_data = csvReading(folderPathBag);
 
@@ -109,7 +109,7 @@ i = 6;
 
     if Par_PDF.NoDataIterCounter >= 2
         disp("No se registró ningún dato arriba del threshold en " + i + " iteraciones")
-        % n_iter = i;
+        n_iter = i;
         % break;
     end
 
@@ -170,13 +170,24 @@ Mu_found = Par_PDF.Prev_Mu_found(2:end, :);
 Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 
 % ------------Guardar prueba
-% save(sprintf("Results/N100/1Def/output_1.mat"), "-regexp", "^(?!(UR_N100_v)$).");
-% save(sprintf("Results/N150/1Def/output_1.mat"), "-regexp", "^(?!(UR_N150_v)$).");
+% save(sprintf("Results/N100/3Def/output_1.mat"), "-regexp", "^(?!(UR_N100_v)$).");
+% save(sprintf("Results/N150/3Def/output_1.mat"), "-regexp", "^(?!(UR_N150_v)$).");
 
 %% Random Initial conditions
 
-%----2 Def
+%----3 Def
+% z_1 = [0.09, 0.10];
+% z_2 = [0.24, 0.16];
+% z_3 = [0.06, 0.16];
+% z_4 = [0.24, 0.09];
+% z_5 = [0.20, 0.04];
+% z_6 = [0.12, 0.15];
+% z_7 = [0.20, 0.16];
+% z_8 = [0.17, 0.03];
+% z_9 = [0.21, 0.16];
+% z_10 = [0.17, 0.13];
 
+%----2 Def
 % z_1 = [0.05, 0.05];
 % z_2 = [0.23, 0.05];
 % z_3 = [0.23, 0.15];
@@ -189,7 +200,6 @@ Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 % z_10 = [0.21, 0.10];
 
 %----1 Defect
-
 % z_1 = [0.23, 0.14];
 % z_2 = [0.05, 0.06];
 % z_3 = [0.10, 0.12];
@@ -201,7 +211,7 @@ Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 % z_9 = [0.18, 0.05];
 % z_10 = [0.03, 0.13];
 
-%% Defects location generator
+%% Initial Condition generator
 
 % clear
 % close all
@@ -217,14 +227,14 @@ Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 % L_i_u = [L_1_u, L_2_u];
 % 
 % offset = 0.03; 
-% Mu = [];
+% X0 = [];
 % for i = 1:10
 %     Mu_tmp = (L_i_l + offset) + ((L_i_u - offset) - ...
 %              (L_i_l + offset)).*rand(1,2);
-%     Mu = cat(1, Mu, Mu_tmp); 
+%     X0 = cat(1, X0, Mu_tmp); 
 % end
 % 
-% scatter(Mu(:,1), Mu(:,2), 35, "black", "filled", "o")
+% scatter(X0(:,1), X0(:,2), 35, "black", "filled", "o")
 % xlim([L_1_l, L_1_u])
 % ylim([L_2_l, L_2_u])
 % grid on
