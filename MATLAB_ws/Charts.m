@@ -8,7 +8,7 @@ clc
 % N100/2Def/8 (se pierde un defecto xd)
 % N100/3Def/8 (se pierde un defecto xd)
 % N100/1Def/4,10 (doble exploración)
-load("Results/N150/0Def/output_1.mat")
+load("Results/N100/2Def/output_7.mat") %7 para publicar
 
 %% Extracción de datos rales
 
@@ -353,7 +353,7 @@ hold on
 yline(thres_meas, "-", "$\Gamma_V$", "LineWidth", 2.5);
 hold off
 grid on
-legend("$\bar{V}(t)$", "Threshold")
+legend("$V(t)$", "Threshold")
 
 subplot(3,1,2)
 plot(t_real_total, X_e_real_total, 'LineWidth', 1.5)
@@ -605,7 +605,7 @@ set(findall(fig26h, "-property", "FontSize"), "FontSize", 20)
 
 % Calcula el número de filas dependiendo del número de iteraciones
 % suponiendo un número de columnas totales
-FoundDef_color = hex2rgb("#d94801"); %hex2rgb("#08519c");
+FoundDef_color = hex2rgb("#238b45"); %hex2rgb("#d94801");
 NotFoundDef_color = "yellow";
 RealDef_color = "black";
 Trayectory_color = hex2rgb("#d94801");  %hex2rgb("#045a8d"); %"black";
@@ -739,7 +739,7 @@ colormap(brewermap(15,"-Blues"))
 % ---------- Real trajectories
 
 columnas = 4;
-filas = ceil((n_iter + 2)/columnas);
+filas = ceil((n_iter + 1)/columnas);
 
 fig31h = figure(31);
 layout31h = tiledlayout(fig31h, filas, columnas);
@@ -896,56 +896,56 @@ layout30h.Padding = 'compact';
 % layout30h.Children(5).YTick = [];
 
 % ----- Quitar incertidumbre geometrica del sensor en la estimación
-
-nbDrawingSeg = 100;
-tmp_vec = linspace(-pi, pi, nbDrawingSeg)';
-Sigma_found_r = ReadjustSigma(Sigma_found, -r_s, true);
-stdev_Phi_hat_r = zeros(size(Sigma_found_r));
-Sigma_ast_Phi_hat_r = zeros(size(Sigma_found_r));
-Elipse_Phi_hat_r = zeros(height(tmp_vec), 2, n_def_found); %Elipse
-for j = 1:n_def_found
-    stdev_Phi_hat_r(:,:,j) = sqrtm(Sigma_found_r(:,:,j));
-    Sigma_ast_Phi_hat_r(:,:,j) = 3*stdev_Phi_hat_r(:,:,j);
-    Elipse_Phi_hat_r(:,:,j) = [cos(tmp_vec), sin(tmp_vec)]* ...
-                            real(Sigma_ast_Phi_hat_r(:,:,j)) +...
-                            repmat(Mu_found(j,:), nbDrawingSeg, 1);
-end
-
-nexttile(layout31h)
-
-title("Result Removing the sensor geometric uncertainty",...
-        'Interpreter','latex')
-xtickformat('%.2f')
-ytickformat('%.2f')
-axis equal
-xlim([L_1_l, L_1_u])
-ylim([L_2_l, L_2_u])
-hold on
-
-%Grafica las elipses de defectos reales
-for j = 1:n_def
-    R_def_ax(j) = plot(Elipse_Phi(:,1,j), Elipse_Phi(:,2,j), "-.",...
-                        "LineWidth", 3, "Color", RealDef_color);
-end
-
-%Grafica los centroides
-plot(Mu(:,1),Mu(:,2),'.','MarkerSize',15, "Color", RealDef_color)
-plot(Mu_found(:,1), Mu_found(:,2), '+', ...
-    'LineWidth', 3, 'color', FoundDef_color);
-if ~Estim_sol{end}.flag_done 
-    plot(Mu_not_found(:,1), Mu_not_found(:,2), '+', ...
-        'LineWidth', 3, 'color', NotFoundDef_color);
-end
-hold off
-
-%Grafica los defectos encontrados (si los hay)
-if n_def_found >= 1
-    for j = 1:n_def_found
-        F_def_ax(j) = patch(Elipse_Phi_hat_r(:,1,j), Elipse_Phi_hat_r(:,2,j), ...
-            FoundDef_color,...
-            'LineWidth', 3, 'EdgeColor', FoundDef_color, "FaceAlpha",0.2);
-    end
-end
+%
+% nbDrawingSeg = 100;
+% tmp_vec = linspace(-pi, pi, nbDrawingSeg)';
+% Sigma_found_r = ReadjustSigma(Sigma_found, -r_s, true);
+% stdev_Phi_hat_r = zeros(size(Sigma_found_r));
+% Sigma_ast_Phi_hat_r = zeros(size(Sigma_found_r));
+% Elipse_Phi_hat_r = zeros(height(tmp_vec), 2, n_def_found); %Elipse
+% for j = 1:n_def_found
+%     stdev_Phi_hat_r(:,:,j) = sqrtm(Sigma_found_r(:,:,j));
+%     Sigma_ast_Phi_hat_r(:,:,j) = 3*stdev_Phi_hat_r(:,:,j);
+%     Elipse_Phi_hat_r(:,:,j) = [cos(tmp_vec), sin(tmp_vec)]* ...
+%                             real(Sigma_ast_Phi_hat_r(:,:,j)) +...
+%                             repmat(Mu_found(j,:), nbDrawingSeg, 1);
+% end
+% 
+% nexttile(layout31h)
+% 
+% title("Result Removing the sensor geometric uncertainty",...
+%         'Interpreter','latex')
+% xtickformat('%.2f')
+% ytickformat('%.2f')
+% axis equal
+% xlim([L_1_l, L_1_u])
+% ylim([L_2_l, L_2_u])
+% hold on
+% 
+% %Grafica las elipses de defectos reales
+% for j = 1:n_def
+%     R_def_ax(j) = plot(Elipse_Phi(:,1,j), Elipse_Phi(:,2,j), "-.",...
+%                         "LineWidth", 3, "Color", RealDef_color);
+% end
+% 
+% %Grafica los centroides
+% plot(Mu(:,1),Mu(:,2),'.','MarkerSize',15, "Color", RealDef_color)
+% plot(Mu_found(:,1), Mu_found(:,2), '+', ...
+%     'LineWidth', 3, 'color', FoundDef_color);
+% if ~Estim_sol{end}.flag_done 
+%     plot(Mu_not_found(:,1), Mu_not_found(:,2), '+', ...
+%         'LineWidth', 3, 'color', NotFoundDef_color);
+% end
+% hold off
+% 
+% %Grafica los defectos encontrados (si los hay)
+% if n_def_found >= 1
+%     for j = 1:n_def_found
+%         F_def_ax(j) = patch(Elipse_Phi_hat_r(:,1,j), Elipse_Phi_hat_r(:,2,j), ...
+%             FoundDef_color,...
+%             'LineWidth', 3, 'EdgeColor', FoundDef_color, "FaceAlpha",0.2);
+%     end
+% end
 
 xlabel(layout31h, '$x_1$ [m]','Interpreter','latex', "FontSize", 22)
 ylabel(layout31h, '$x_2$ [m]','Interpreter','latex', "FontSize", 22)
@@ -954,4 +954,37 @@ set(findall(fig31h,'-property','Interpreter'),'Interpreter','latex')
 set(findall(fig31h,'-property','TickLabelInterpreter'), ...
     'TickLabelInterpreter','latex')
 set(findall(fig31h, "-property", "FontSize"), "FontSize", 22)
+colormap(brewermap(15,"-Blues"))
+
+%% Sensor coverage plots
+
+Sensor_color = hex2rgb("#88419d");
+fig32h = figure(32);
+pcolor(x_1_grid, x_2_grid,...
+        reshape(Phi_hat_x(:,1), length(x_2), length(x_1)),...
+        "EdgeColor","none","FaceColor","interp")
+xlabel('$x_1$ [m]')
+ylabel('$x_2$ [m]')
+axis equal
+xlim([L_1_l, L_1_u])
+ylim([L_2_l, L_2_u])
+xtickformat('%.2f')
+ytickformat('%.2f')
+
+hold on
+plot(X_e_reg(:,1,1), X_e_reg(:,2,1),...
+        'LineWidth',2, 'Color', 'black')
+plot(X_e_reg(1,1,1), X_e_reg(1,2,1),...
+        'ksq','MarkerSize',17,'LineWidth',3)
+
+vertcs_x = [-0.02; 0; 0.02] + X_e_reg(:,1,1)';
+vertcs_y = [-0.02; 0.023; -0.02] + X_e_reg(:,2,1)';
+patch(vertcs_x, vertcs_y, Sensor_color, "FaceAlpha", 0.5, "EdgeColor", "none")
+
+hold off
+
+set(findall(fig32h,'-property','Interpreter'),'Interpreter','latex') 
+set(findall(fig32h,'-property','TickLabelInterpreter'), ...
+    'TickLabelInterpreter','latex')
+set(findall(fig32h, "-property", "FontSize"), "FontSize", 22)
 colormap(brewermap(15,"-Blues"))
