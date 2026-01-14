@@ -3,7 +3,7 @@ clear
 clc
 
 %N100/2Def/7
-load("Results/N150/2Def/output_2.mat")
+load("Results/N100/2Def/output_7.mat")
 
 %% Extracción de datos rales
 

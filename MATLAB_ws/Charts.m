@@ -70,7 +70,7 @@ for r = 1:n_iter
 
 end
 
-%  --------- trayectoria Real (PENDIENTE)
+%  --------- trayectoria Real
 
 Varepsilon_real_reg = cell(1, n_iter);
 C_x_real_reg = cell(1, n_iter);
@@ -161,8 +161,6 @@ for i = 2:n_iter
     V_real_total = cat(1, V_real_total, V_real_reg{i});
     Varepsilon_real_total = cat(1, Varepsilon_real_total, Varepsilon_real_reg{i});
 end
-
-% Varepsilon_real_reg (PENDIENTE de concatenar)
 
 %% Definitions
 % For Fig3

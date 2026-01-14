@@ -21,7 +21,7 @@ Initializations
 %% Offline Loop
 
 % Iteration 
-i = 2;
+i = 1;
 
     % Soluciones
     [Z, U] = UR_N100_v(z_act, phi_k_act); 
