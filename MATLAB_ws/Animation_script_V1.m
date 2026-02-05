@@ -112,17 +112,16 @@ if ~Estim_sol{end}.flag_done
     end
 end
 
-%% Phi_hat result (for last frame)
-GMM_hat = gmdistribution(Mu_found, Sigma_found);
-Phi_hat_final = pdf(GMM_hat, Omega);
-
 % Colores
 FoundDef_color = hex2rgb("#238b45");
 NotFoundDef_color = "yellow";
 RealDef_color = "black";
 Trayectory_color = hex2rgb("#d94801");
+Sensor_color = hex2rgb("#fd8d3c");
 
 %% First Frame
+
+it = 3;
 
 figh = figure;
 figh.Units = "centimeters";
@@ -132,18 +131,23 @@ figh.Units = "pixels";
 layouth = tiledlayout(figh, 4, 3);
 colormap(brewermap(15,"-Blues"))
 
+title(layouth, "Iteration " + it,...
+"interpreter", "latex", "FontSize", 30)
+
 % %%%%%%%%%%%%%%% Gráfica en el plano %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 plane_tile = nexttile(layouth, 1, [2, 3]);
+
 Est_PDF_plot = pcolor(x_1_grid, x_2_grid,...
-                reshape(Phi_hat_x_reg(:,:,1), length(x_2), length(x_1)),...
+                reshape(Phi_hat_x_reg(:,:,it), length(x_2), length(x_1)),...
                 "FaceColor","interp","EdgeColor","none");
-xlim([L_1_l, L_1_u])
-ylim([L_2_l, L_2_u])
 xlabel('$x_1$ [m]')
 ylabel('$x_2$ [m]')
 xtickformat('%.2f')
 ytickformat('%.2f')
-axis equal tight
+axis equal
+axis manual
+xlim([L_1_l, L_1_u])
+ylim([L_2_l, L_2_u])
 grid on
 hold on
 %Grafica las elipses de defectos reales
@@ -153,23 +157,104 @@ for j = 1:n_def
 end
 %Grafica los centroides
 plot(Mu(:,1),Mu(:,2),'.',"Color", RealDef_color,'MarkerSize',15)
-trayectoria_plot = plot(X_e_real_reg{1}(1,1), X_e_real_reg{1}(1,2),...
+
+% Gráfica de defectos ya encontrados
+for i = 1:n_iter
+    SigF_tmp(i).Sigma_found = Estim_sol{i}.Sigma_found;
+    MuF_tmp(i).Mu_found = Estim_sol{i}.Mu_found;
+end
+
+if it > 1
+    nbDrawingSeg = 100;
+    tmp_vec = linspace(-pi, pi, nbDrawingSeg)';
+    Sigma_tmp = cat(3, SigF_tmp(1:it-1).Sigma_found);
+    Mu_tmp = cat(1, MuF_tmp(1:it-1).Mu_found);
+    if ~isempty(Sigma_tmp)
+        stdev_tmp = zeros(size(Sigma_tmp));
+        Sigma_ast_tmp = zeros(size(Sigma_tmp));
+        Elipse_tmp = zeros(height(tmp_vec), 2, size(Sigma_tmp, 3));
+        for j = 1:size(Sigma_tmp, 3)
+            stdev_tmp(:,:,j) = sqrtm(Sigma_tmp(:,:,j));
+            Sigma_ast_tmp(:,:,j) = 3*stdev_tmp(:,:,j);
+            Elipse_tmp(:,:,j) = [cos(tmp_vec), sin(tmp_vec)]* ...
+                                    real(Sigma_ast_tmp(:,:,j)) +...
+                                    repmat(Mu_tmp(j,:), nbDrawingSeg, 1);
+        end
+        
+        for j = 1:size(Sigma_tmp, 3)
+            F_def_ax = patch(Elipse_tmp(:,1,j), Elipse_tmp(:,2,j),...
+                                FoundDef_color, 'LineWidth', 3,...
+                                'EdgeColor', FoundDef_color,...
+                                "FaceAlpha",0.2);
+        end
+        plot(Mu_tmp(:,1),Mu_tmp(:,2),'.',...
+            'MarkerSize',15, "Color", FoundDef_color)
+
+    end
+end
+
+% Gráfica de la geometría del sensor
+vertcs_x = [-0.02; 0; 0.02] + X_e_real_reg{it}(1,1)';
+vertcs_y = [-0.02; 0.023; -0.02] + X_e_real_reg{it}(1,2)';
+coverage_plot = patch(vertcs_x, vertcs_y, Sensor_color,...
+                    "FaceAlpha", 0.025, "EdgeColor", "none");
+sensor_plot = patch(vertcs_x, vertcs_y, Sensor_color,...
+                    "FaceAlpha", 0.4, "EdgeColor", "none");
+
+% Gráficas de la trayectoria
+trayectoria_plot = plot(X_e_real_reg{it}(1,1), X_e_real_reg{it}(1,2),...
                         "Color", Trayectory_color, 'LineWidth',3);
-X_e_0_plot = plot(X_e_real_reg{1}(1,1), X_e_real_reg{1}(1,2),'sq',...
+X_e_0_plot = plot(X_e_real_reg{it}(1,1), X_e_real_reg{it}(1,2),'sq',...
                 "Color", Trayectory_color,'MarkerSize',10,'LineWidth',10);
-X_e_act_plot = plot(X_e_real_reg{1}(1,1), X_e_real_reg{1}(1,2),"o",...
+X_e_act_plot = plot(X_e_real_reg{it}(1,1), X_e_real_reg{it}(1,2),"o",...
                     "Color", Trayectory_color,'MarkerSize',10,'LineWidth',3);
 hold off
-legend([Est_PDF_plot, RealDef_plot, trayectoria_plot, X_e_0_plot],...
-       {"PDF Estimation, $\hat{\Phi}(\mathbf{x})$",...
-       "Real defects",...
-       "$\mathbf{X_e}(t)$",...
-       "$\mathbf{X_e}(0)$"},...
-       'Location','northeastoutside')
+
+% Lógica para leyendas en el plano
+flag_legend = false;
+if it > 1 
+    if ~isempty(Sigma_tmp)
+        lgd = legend([Est_PDF_plot, RealDef_plot, trayectoria_plot,...
+               X_e_0_plot, sensor_plot, F_def_ax],...
+               {"PDF Estimation, $\hat{\Phi}(\mathbf{x})$",...
+               "Real defects",...
+               "$\mathbf{X_e}(t)$",...
+               "$\mathbf{X_e}(0)$",...
+               "Sensor footprint",...
+               'Found Defects'},...
+               'Location','northeastoutside');
+        flag_legend = true;
+    else
+        lgd = legend([Est_PDF_plot, RealDef_plot, trayectoria_plot,...
+                X_e_0_plot, sensor_plot],...
+               {"PDF Estimation, $\hat{\Phi}(\mathbf{x})$",...
+               "Real defects",...
+               "$\mathbf{X_e}(t)$",...
+               "$\mathbf{X_e}(0)$",...
+               "Sensor footprint"},...
+               'Location','northeastoutside');
+    end
+else
+lgd = legend([Est_PDF_plot, RealDef_plot, trayectoria_plot,...
+            X_e_0_plot, sensor_plot],...
+           {"PDF Estimation, $\hat{\Phi}(\mathbf{x})$",...
+           "Real defects",...
+           "$\mathbf{X_e}(t)$",...
+           "$\mathbf{X_e}(0)$",...
+           "Sensor footprint"},...
+           'Location','northeastoutside');
+end
+
+lgd.AutoUpdate = "off";
+
+tiempo_act = t_real_reg{it}(1);
+title(plane_tile,"Time: " + num2str(tiempo_act, "%.2f") + " sec",...
+        "interpreter", "latex", "FontSize", 30)
 
 % Gráficas de las señales %%%%%%%%%%%%%%%%%%%%
 signal_tile = nexttile(layouth, 7, [1, 3]);
-signal_plot = plot(t_real_reg{1}(1), V_real_reg{1}(1), 'LineWidth', 2);
+signal_plot = plot(t_real_reg{it}(1), V_real_reg{it}(1),...
+                   "k-", 'LineWidth', 2);
 title("Sensor Signal")
 xlabel('Time [s]')
 ylabel('Magnetic Flux [$\mu~T$]')
@@ -180,7 +265,7 @@ grid on
 xlim([0, 10])
 
 epsilon_tile = nexttile(layouth, 10, [1, 3]);
-epsilon_plot = plot(t_real_reg{1}(1), Varepsilon_real_reg{1}(1),...
+epsilon_plot = plot(t_real_reg{it}(1), Varepsilon_real_reg{it}(1),...
                     "k-", "LineWidth",2);
 title("Real Ergodic Metric")
 xlabel('Time [s]')
@@ -194,7 +279,6 @@ set(findall(figh,'-property','TickLabelInterpreter'),'TickLabelInterpreter','lat
 set(findall(figh, "-property", "FontSize"), "FontSize", 22)
 
 %% Eliminar datos para tener menos frames
-it = 4;
 
 for eliminar_datos = 1:1 %Elimina la mitad de datos en cada ciclo
     N_steps = length(t_real_reg{it});
@@ -208,118 +292,87 @@ end
 
 %% %%%%%%%%%%%%%% Frames Pre-allocation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%MovieVector(length(t_real_total)) = struct("cdata", [], "colormap", []);
 MovieVector(length(t_real_reg{it})) = struct("cdata", [], "colormap", []);
 
 %% Loop
 
-tmp_counter = 0;
+% Guardar primer frame 
+MovieVector(1) = getframe(figh);
 
-% for it = 1:n_iter
+for i = 2:length(t_real_reg{it})
+    % Delay (if needed)
+    % pause(0.0001)
 
-    title(layouth, "Iteration " + it,...
-    "interpreter", "latex", "FontSize", 30)
+    % Update title to have the evolution of Time
+    tiempo_act = t_real_reg{it}(i);
+    title(plane_tile,"Time: " + num2str(tiempo_act, "%.2f") + " sec",...
+        "interpreter", "latex", "FontSize", 15)
 
-    % Actualizar Phi_hat
-    Est_PDF_plot.CData = reshape(Phi_hat_x_reg(:,:,it), length(x_2), length(x_1));
+    % Actualizar el coverage
+    vertcs_x = [-0.02; 0; 0.02] + X_e_real_reg{it}(1:i,1)';
+    vertcs_y = [-0.02; 0.023; -0.02] + X_e_real_reg{it}(1:i,2)';
+    coverage_plot.XData = vertcs_x;
+    coverage_plot.YData = vertcs_y;
+
+    % Actualizar posición del sensor
+    vertcs_x = [-0.02; 0; 0.02] + X_e_real_reg{it}(i,1)';
+    vertcs_y = [-0.02; 0.023; -0.02] + X_e_real_reg{it}(i,2)';
+    sensor_plot.XData = vertcs_x;
+    sensor_plot.YData = vertcs_y;
+
+    % Actualizar trayectoria y señales
+    trayectoria_plot.XData(end + 1) = X_e_real_reg{it}(i,1);
+    trayectoria_plot.YData(end + 1) = X_e_real_reg{it}(i,2);
+    signal_plot.XData(end + 1) = t_real_reg{it}(i);
+    signal_plot.YData(end + 1) = V_real_reg{it}(i);
+    epsilon_plot.XData(end + 1) = t_real_reg{it}(i);
+    epsilon_plot.YData(end + 1) = Varepsilon_real_reg{it}(i);
     
-    % Actualizar punto inicial de trayectoria
-    X_e_0_plot.XData = X_e_real_reg{it}(1,1);
-    X_e_0_plot.YData = X_e_real_reg{it}(1,2);
+    % Actualizar la posición actual
+    X_e_act_plot.XData = X_e_real_reg{it}(i,1);
+    X_e_act_plot.YData = X_e_real_reg{it}(i,2);
 
-    for i = 1:length(t_real_reg{it})
-        % Delay (if needed)
-        % pause(0.0001)
-
-        % Update title to have the evolution of Time
-        tiempo_act = t_real_reg{it}(i);
-        title(plane_tile,"Time: " + num2str(tiempo_act, "%.2f") + " sec",...
-            "interpreter", "latex", "FontSize", 26)
-        
-        % Aumentar los datos de trayectoria
-        if i == 1 % Si es el inicio, limpia la trayectoria y grafica solo el punto inicial
-            trayectoria_plot.XData = X_e_real_reg{it}(i,1);
-            trayectoria_plot.YData = X_e_real_reg{it}(i,2);
-            signal_plot.XData = t_real_reg{it}(i);
-            signal_plot.YData = V_real_reg{it}(i);
-            epsilon_plot.XData = t_real_reg{it}(i);
-            epsilon_plot.YData = Varepsilon_real_reg{it}(i);
-        else
-            trayectoria_plot.XData(end + 1) = X_e_real_reg{it}(i,1);
-            trayectoria_plot.YData(end + 1) = X_e_real_reg{it}(i,2);
-            signal_plot.XData(end + 1) = t_real_reg{it}(i);
-            signal_plot.YData(end + 1) = V_real_reg{it}(i);
-            epsilon_plot.XData(end + 1) = t_real_reg{it}(i);
-            epsilon_plot.YData(end + 1) = Varepsilon_real_reg{it}(i);
+    % Graficar estimación de defectos encontrados en la iteración actual
+    % (en el último frame de la iteración actual)
+    if ~isempty(Estim_sol{it}.Mu_found) && (i == length(t_real_reg{it}))
+        n_def_found = size(Estim_sol{it}.Sigma_found, 3);
+        nbDrawingSeg = 100;
+        tmp_vec = linspace(-pi, pi, nbDrawingSeg)';
+        SD_DefFound = zeros(size(Estim_sol{it}.Sigma_found));
+        Sigma_ast_DefFound = zeros(size(Estim_sol{it}.Sigma_found));
+        Ellipse_DefFound = zeros(height(tmp_vec), 2, n_def_found);
+        for r = 1:n_def_found
+            SD_DefFound(:,:,r) = sqrtm(Estim_sol{it}.Sigma_found(:,:,r));
+            Sigma_ast_DefFound(:,:,r) = 3*SD_DefFound(:,:,r);
+            Ellipse_DefFound(:,:,r) = [cos(tmp_vec), sin(tmp_vec)] * real(Sigma_ast_DefFound(:,:,r)) +...
+                    repmat(Estim_sol{it}.Mu_found(r,:), nbDrawingSeg, 1);
         end
-        
-        % Actualizar la posición actual
-        X_e_act_plot.XData = X_e_real_reg{it}(i,1);
-        X_e_act_plot.YData = X_e_real_reg{it}(i,2);
-
-        % Graficar estimación de defectos encontrados en la iteración actual
-        if ~isempty(Estim_sol{it}.Mu_found) && (i == length(t_real_reg{it}))
-            n_def_found = size(Estim_sol{it}.Sigma_found, 3);
-            nbDrawingSeg = 100;
-            tmp_vec = linspace(-pi, pi, nbDrawingSeg)';
-            SD_DefFound = zeros(size(Estim_sol{it}.Sigma_found));
-            Sigma_ast_DefFound = zeros(size(Estim_sol{it}.Sigma_found));
-            Ellipse_DefFound = zeros(height(tmp_vec), 2, n_def_found);
-            for r = 1:n_def_found
-                SD_DefFound(:,:,r) = sqrtm(Estim_sol{it}.Sigma_found(:,:,r));
-                Sigma_ast_DefFound(:,:,r) = 3*SD_DefFound(:,:,r);
-                Ellipse_DefFound(:,:,r) = [cos(tmp_vec), sin(tmp_vec)] * real(Sigma_ast_DefFound(:,:,r)) +...
-                        repmat(Estim_sol{it}.Mu_found(r,:), nbDrawingSeg, 1);
-            end
-            figh.CurrentAxes = plane_tile;
-            hold on
-            for r = 1:n_def_found
-                p1 = patch(Ellipse_DefFound(:,1,r), Ellipse_DefFound(:,2,r), FoundDef_color,...
-                        'LineWidth', 2, 'EdgeColor', FoundDef_color, "FaceAlpha",0.2);
-                plot(Estim_sol{it}.Mu_found(r,1), Estim_sol{it}.Mu_found(r,2),...
-                    '+','LineWidth', 2, 'color', FoundDef_color);
-            end
-            hold off
-            legend([Est_PDF_plot, RealDef_plot, trayectoria_plot, X_e_0_plot, p1],...
+        figh.CurrentAxes = plane_tile;
+        hold on
+        for r = 1:n_def_found
+            F_def_ax = patch(Ellipse_DefFound(:,1,r), Ellipse_DefFound(:,2,r), FoundDef_color,...
+                    'LineWidth', 3, 'EdgeColor', FoundDef_color, "FaceAlpha",0.2);
+        end
+        plot(MuF_tmp(it).Mu_found(:,1), MuF_tmp(it).Mu_found(:,2),'.',...
+            'MarkerSize',15, "Color", FoundDef_color)
+        hold off
+        if ~flag_legend
+            legend([Est_PDF_plot, RealDef_plot, trayectoria_plot,...
+                    X_e_0_plot, sensor_plot, F_def_ax],...
                    {"PDF Estimation, $\hat{\Phi}(\mathbf{x})$",...
                    "Real defects",...
                    "$\mathbf{X_e}(t)$",...
                    "$\mathbf{X_e}(0)$",...
+                   "Sensor footprint",...
                    "Found Defects"},...
                    'Location','northeastoutside')
         end
-        
-        % Grafica los defectos No encontrados pero estimados, si los hay
-        if (it == n_iter) && (i == length(t_real_reg{it})) && ~Estim_sol{end}.flag_done
-            figh.CurrentAxes = plane_tile;
-            hold on
-            for r = 1:n_def_not_found
-                p2 = patch(Ellipse_DefNotFound(:,1,r), Ellipse_DefNotFound(:,2,r),...
-                    NotFoundDef_color,'LineWidth', 1.5, 'EdgeColor',...
-                    NotFoundDef_color, "FaceAlpha",0.2);
-            end
-            plot(Mu_not_found(:,1), Mu_not_found(:,2), '+',...
-                'LineWidth', 1.5, 'color', NotFoundDef_color);
-            hold off
-            legend([Est_PDF_plot, RealDef_plot, trayectoria_plot,...
-                   X_e_0_plot, p1, p2],...
-                   {"PDF Estimation, $\hat{\Phi}(\mathbf{x})$",...
-                   "Real defects",...
-                   "$\mathbf{X_e}(t)$",...
-                   "$\mathbf{X_e}(0)$",...
-                   "Found Defects",...
-                   "Not Found Defects"},...
-                   'Location','northeastoutside')
-        end
-        
-        % Guardar frames
-        MovieVector(i + tmp_counter) = getframe(figh);
-    
     end
+    
+    % Guardar frames
+    MovieVector(i) = getframe(figh);
 
-    % tmp_counter = tmp_counter + length(t_real_reg{it});
-
-% end 
+end
 
 % Para reproducir "n" número de veces vez (n = 1)
 % movie(MovieVector, 1, 60)
@@ -334,9 +387,9 @@ f_rate = round(length(t_real_reg{it}) / t_real_reg{it}(end));
 % MovieVector = MakeMovieVectorFramesSameSize(MovieVector);
 
 % *Save animation
-myWriter = VideoWriter("Animacion_it_" + it, "Motion JPEG AVI");
-myWriter.FrameRate = f_rate;
-myWriter.Quality = 95;
-open(myWriter);
-writeVideo(myWriter, MovieVector);
-close(myWriter);
+% myWriter = VideoWriter("Video/Animacion_it" + it + "_V1", "Motion JPEG AVI");
+% myWriter.FrameRate = f_rate;
+% myWriter.Quality = 95;
+% open(myWriter);
+% writeVideo(myWriter, MovieVector);
+% close(myWriter);
