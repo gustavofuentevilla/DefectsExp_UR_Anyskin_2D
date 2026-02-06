@@ -3,7 +3,7 @@ clear
 clc
 
 %% Load data
-load('output_7.mat')
+load("Results/N100/2Def/output_7.mat")
 
 %% Preliminary computations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -66,25 +66,6 @@ for r = 1:n_iter
 
 end
 
-% Concatenación de señales a través de todas las iteraciones
-% --------- Concatenación de los datos reales
-%
-% sizesData = zeros(1, n_iter);
-% for i = 1:n_iter
-%     sizesData(i) = size(t_real_reg{i}, 1);
-% end
-% 
-% t_real_total = t_real_reg{1};
-% X_e_real_total = X_e_real_reg{1};
-% V_real_total = V_real_reg{1};
-% Varepsilon_real_total = Varepsilon_real_reg{1};
-% for i = 2:n_iter
-%     t_real_total = cat(1, t_real_total, t_f*(i-1) + t_real_reg{i});
-%     X_e_real_total = cat(1, X_e_real_total, X_e_real_reg{i});
-%     V_real_total = cat(1, V_real_total, V_real_reg{i});
-%     Varepsilon_real_total = cat(1, Varepsilon_real_total, Varepsilon_real_reg{i});
-% end
-
 % Real defect ellipses
 nbDrawingSeg = 100;
 tmp_vec = linspace(-pi, pi, nbDrawingSeg)';
@@ -112,6 +93,37 @@ if ~Estim_sol{end}.flag_done
     end
 end
 
+% Puntos para generar la geometría del sensor tomando el centro como (0,0)
+P_s = [-9.11, -20;
+       -11.8, -19.7;
+       -14.34, -18.81;
+       -16.62, -17.38;
+       -18.53, -15.47;
+       -19.98, -13.19;
+       -20.87, -10.65;
+       -21.18, -7.97;
+       -20.9, -5.28;
+       -20.01, -2.73;
+       -10.66, 16.89;
+       -8.83, 19.65;
+       -6.30, 21.80;
+       -3.28, 23.16;
+       0, 23.62;
+       3.28, 23.16;
+       6.30, 21.80;
+       8.83, 19.65;
+       10.66, 16.89;
+       20.01, -2.73;
+       20.9, -5.28;
+       21.18, -7.97;
+       20.87, -10.65;
+       19.98, -13.19;
+       18.53, -15.47;
+       16.62, -17.38;
+       14.34, -18.81;
+       11.8, -19.7;
+       9.11, -20]*1e-3;
+
 % Colores
 FoundDef_color = hex2rgb("#238b45");
 NotFoundDef_color = "yellow";
@@ -121,18 +133,18 @@ Sensor_color = hex2rgb("#fd8d3c");
 
 %% First Frame
 
-it = 1;
+it = 4;
 
 figh = figure;
 figh.Units = "centimeters";
-figh.Position = [1, 1, 24, 16];
+figh.Position = [5, 5, 50, 50];
 figh.Units = "pixels";
 
 layouth = tiledlayout(figh, 4, 3);
 colormap(brewermap(15,"-Blues"))
 
 title(layouth, "Iteration " + it,...
-"interpreter", "latex", "FontSize", 20)
+"interpreter", "latex", "FontSize", 30)
 
 % %%%%%%%%%%%%%%% Gráfica en el plano %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 plane_tile = nexttile(layouth, 1, [2, 3]);
@@ -153,10 +165,10 @@ hold on
 %Grafica las elipses de defectos reales
 for j = 1:n_def
     RealDef_plot = plot(Elipse_Phi(:,1,j), Elipse_Phi(:,2,j),...
-                        "-.", "Color", RealDef_color, "LineWidth", 2);
+                        "-.", "Color", RealDef_color, "LineWidth", 3);
 end
 %Grafica los centroides
-plot(Mu(:,1),Mu(:,2),'.',"Color", RealDef_color,'MarkerSize',10)
+plot(Mu(:,1),Mu(:,2),'.',"Color", RealDef_color,'MarkerSize',15)
 
 % Gráfica de defectos ya encontrados
 for i = 1:n_iter
@@ -193,20 +205,21 @@ if it > 1
     end
 end
 
-% Gráfica de la geometría del sensor
-vertcs_x = [-0.02; 0; 0.02] + X_e_real_reg{it}(1,1)';
-vertcs_y = [-0.02; 0.023; -0.02] + X_e_real_reg{it}(1,2)';
-sensor_plot = patch(vertcs_x, vertcs_y, Sensor_color,...
+% Gráficas de la geometría del sensor
+vertcs_x = P_s(:,1) + X_e_real_reg{it}(1,1)';
+vertcs_y = P_s(:,2) + X_e_real_reg{it}(1,2)';
+coverage_plot = patch(vertcs_x, vertcs_y, Sensor_color,...
                     "FaceAlpha", 0.025, "EdgeColor", "none");
+sensor_plot = patch(vertcs_x, vertcs_y, Sensor_color,...
+                    "FaceAlpha", 0.4, "EdgeColor", "none");
 
 % Gráficas de la trayectoria
 trayectoria_plot = plot(X_e_real_reg{it}(1,1), X_e_real_reg{it}(1,2),...
-                        "Color", Trayectory_color, 'LineWidth',2);
+                        "Color", Trayectory_color, 'LineWidth',3);
 X_e_0_plot = plot(X_e_real_reg{it}(1,1), X_e_real_reg{it}(1,2),'sq',...
-                "Color", Trayectory_color,'MarkerSize',5,'LineWidth',3);
+                "Color", Trayectory_color,'MarkerSize',10,'LineWidth',10);
 X_e_act_plot = plot(X_e_real_reg{it}(1,1), X_e_real_reg{it}(1,2),"o",...
-                    "Color", Trayectory_color,'MarkerSize',5,'LineWidth',2);
-
+                    "Color", Trayectory_color,'MarkerSize',10,'LineWidth',3);
 hold off
 
 % Lógica para leyendas en el plano
@@ -214,40 +227,46 @@ flag_legend = false;
 if it > 1 
     if ~isempty(Sigma_tmp)
         lgd = legend([Est_PDF_plot, RealDef_plot, trayectoria_plot,...
-               X_e_0_plot, F_def_ax],...
+               X_e_0_plot, sensor_plot, F_def_ax],...
                {"PDF Estimation, $\hat{\Phi}(\mathbf{x})$",...
                "Real defects",...
                "$\mathbf{X_e}(t)$",...
                "$\mathbf{X_e}(0)$",...
+               "Sensor footprint",...
                'Found Defects'},...
                'Location','northeastoutside');
         flag_legend = true;
     else
-        lgd = legend([Est_PDF_plot, RealDef_plot, trayectoria_plot, X_e_0_plot],...
+        lgd = legend([Est_PDF_plot, RealDef_plot, trayectoria_plot,...
+                X_e_0_plot, sensor_plot],...
                {"PDF Estimation, $\hat{\Phi}(\mathbf{x})$",...
                "Real defects",...
                "$\mathbf{X_e}(t)$",...
-               "$\mathbf{X_e}(0)$"},...
+               "$\mathbf{X_e}(0)$",...
+               "Sensor footprint"},...
                'Location','northeastoutside');
     end
 else
-lgd = legend([Est_PDF_plot, RealDef_plot, trayectoria_plot, X_e_0_plot],...
-       {"PDF Estimation, $\hat{\Phi}(\mathbf{x})$",...
-       "Real defects",...
-       "$\mathbf{X_e}(t)$",...
-       "$\mathbf{X_e}(0)$"},...
-       'Location','northeastoutside');
+lgd = legend([Est_PDF_plot, RealDef_plot, trayectoria_plot,...
+            X_e_0_plot, sensor_plot],...
+           {"PDF Estimation, $\hat{\Phi}(\mathbf{x})$",...
+           "Real defects",...
+           "$\mathbf{X_e}(t)$",...
+           "$\mathbf{X_e}(0)$",...
+           "Sensor footprint"},...
+           'Location','northeastoutside');
 end
 
 lgd.AutoUpdate = "off";
 
 tiempo_act = t_real_reg{it}(1);
 title(plane_tile,"Time: " + num2str(tiempo_act, "%.2f") + " sec",...
-        "interpreter", "latex", "FontSize", 15)
+        "interpreter", "latex", "FontSize", 30)
 
 % Gráficas de las señales %%%%%%%%%%%%%%%%%%%%
 signal_tile = nexttile(layouth, 7, [1, 3]);
-signal_plot = plot(t_real_reg{it}(1), V_real_reg{it}(1), 'LineWidth', 2);
+signal_plot = plot(t_real_reg{it}(1), V_real_reg{it}(1),...
+                   "k-", 'LineWidth', 2);
 title("Sensor Signal")
 xlabel('Time [s]')
 ylabel('Magnetic Flux [$\mu~T$]')
@@ -269,7 +288,7 @@ xlim([0, 10])
 % %%%%%%%%%%%%%% Setting general plot properties %%%%%%%%%%%%%%%%%%%%%%%%%%
 set(findall(figh,'-property','Interpreter'),'Interpreter','latex') 
 set(findall(figh,'-property','TickLabelInterpreter'),'TickLabelInterpreter','latex')
-set(findall(figh, "-property", "FontSize"), "FontSize", 12)
+set(findall(figh, "-property", "FontSize"), "FontSize", 22)
 
 %% Eliminar datos para tener menos frames
 
@@ -301,10 +320,15 @@ for i = 2:length(t_real_reg{it})
     title(plane_tile,"Time: " + num2str(tiempo_act, "%.2f") + " sec",...
         "interpreter", "latex", "FontSize", 15)
 
-    % Actualizar la geometría del sensor
-    vertcs_x = [-0.02; 0; 0.02] + X_e_real_reg{it}(1:i,1)';
-    vertcs_y = [-0.02; 0.023; -0.02] + X_e_real_reg{it}(1:i,2)';
-    
+    % Actualizar el coverage
+    vertcs_x = P_s(:,1) + X_e_real_reg{it}(1:i,1)';
+    vertcs_y = P_s(:,2) + X_e_real_reg{it}(1:i,2)';
+    coverage_plot.XData = vertcs_x;
+    coverage_plot.YData = vertcs_y;
+
+    % Actualizar posición del sensor
+    vertcs_x = P_s(:,1) + X_e_real_reg{it}(i,1)';
+    vertcs_y = P_s(:,2) + X_e_real_reg{it}(i,2)';
     sensor_plot.XData = vertcs_x;
     sensor_plot.YData = vertcs_y;
 
@@ -339,17 +363,19 @@ for i = 2:length(t_real_reg{it})
         hold on
         for r = 1:n_def_found
             F_def_ax = patch(Ellipse_DefFound(:,1,r), Ellipse_DefFound(:,2,r), FoundDef_color,...
-                    'LineWidth', 2, 'EdgeColor', FoundDef_color, "FaceAlpha",0.2);
+                    'LineWidth', 3, 'EdgeColor', FoundDef_color, "FaceAlpha",0.2);
         end
         plot(MuF_tmp(it).Mu_found(:,1), MuF_tmp(it).Mu_found(:,2),'.',...
             'MarkerSize',15, "Color", FoundDef_color)
         hold off
         if ~flag_legend
-            legend([Est_PDF_plot, RealDef_plot, trayectoria_plot, X_e_0_plot, F_def_ax],...
+            legend([Est_PDF_plot, RealDef_plot, trayectoria_plot,...
+                    X_e_0_plot, sensor_plot, F_def_ax],...
                    {"PDF Estimation, $\hat{\Phi}(\mathbf{x})$",...
                    "Real defects",...
                    "$\mathbf{X_e}(t)$",...
                    "$\mathbf{X_e}(0)$",...
+                   "Sensor footprint",...
                    "Found Defects"},...
                    'Location','northeastoutside')
         end
@@ -364,18 +390,18 @@ end
 % movie(MovieVector, 1, 60)
 
 %% Compute frame rate to match real-time
-% f_rate = round(length(t_real_reg{it}) / t_real_reg{it}(end));
+f_rate = round(length(t_real_reg{it}) / t_real_reg{it}(end));
 
 %% Crear y guardar animación
 
 % *Solution for "All 'cdata' fields in FRAMES must be the same size" error
 % *Use the following custom function to resize
-% MovieVector = MakeMovieVectorFramesSameSize(MovieVector);
+MovieVector = MakeMovieVectorFramesSameSize(MovieVector);
 
 % *Save animation
-% myWriter = VideoWriter("Animacion_it_" + it, "Motion JPEG AVI");
-% myWriter.FrameRate = f_rate;
-% myWriter.Quality = 95;
-% open(myWriter);
-% writeVideo(myWriter, MovieVector);
-% close(myWriter);
+myWriter = VideoWriter("Video/Animacion_it_" + it, "Motion JPEG AVI");
+myWriter.FrameRate = f_rate;
+myWriter.Quality = 95;
+open(myWriter);
+writeVideo(myWriter, MovieVector);
+close(myWriter);
