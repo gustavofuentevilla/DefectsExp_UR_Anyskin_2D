@@ -122,6 +122,7 @@ FoundDef_color = hex2rgb("#238b45"); %hex2rgb("#d94801");
 NotFoundDef_color = "yellow";
 RealDef_color = "black";
 Trayectory_color = hex2rgb("#d94801");  %hex2rgb("#045a8d"); %"black";
+Sensor_color = hex2rgb("#fd8d3c");
 
 %% Graficación
 
@@ -287,7 +288,36 @@ colormap(brewermap(15,"-Blues"))
 
 %% Sensor coverage plots
 
-Sensor_color = hex2rgb("#88419d");
+% Puntos para generar la geometría del sensor tomando el centro como (0,0)
+P_s = [-9.11, -20;
+       -11.8, -19.7;
+       -14.34, -18.81;
+       -16.62, -17.38;
+       -18.53, -15.47;
+       -19.98, -13.19;
+       -20.87, -10.65;
+       -21.18, -7.97;
+       -20.9, -5.28;
+       -20.01, -2.73;
+       -10.66, 16.89;
+       -8.83, 19.65;
+       -6.30, 21.80;
+       -3.28, 23.16;
+       0, 23.62;
+       3.28, 23.16;
+       6.30, 21.80;
+       8.83, 19.65;
+       10.66, 16.89;
+       20.01, -2.73;
+       20.9, -5.28;
+       21.18, -7.97;
+       20.87, -10.65;
+       19.98, -13.19;
+       18.53, -15.47;
+       16.62, -17.38;
+       14.34, -18.81;
+       11.8, -19.7;
+       9.11, -20]*1e-3;
 
 fig2h = figure(2);
 tiledlayout(fig2h, 4, 6);
@@ -305,14 +335,16 @@ xtickformat('%.2f')
 ytickformat('%.2f')
 
 hold on
-plot(X_e_reg(:,1,1), X_e_reg(:,2,1),...
-        'LineWidth',2, 'Color', 'black')
-plot(X_e_reg(1,1,1), X_e_reg(1,2,1),...
-        'ksq','MarkerSize',17,'LineWidth',3)
 
-vertcs_x = [-0.02; 0; 0.02] + X_e_reg(:,1,1)';
-vertcs_y = [-0.02; 0.023; -0.02] + X_e_reg(:,2,1)';
-patch(vertcs_x, vertcs_y, Sensor_color, "FaceAlpha", 0.5, "EdgeColor", "none")
+vertcs_x = P_s(:,1) + X_e_reg(:,1,1)';
+vertcs_y = P_s(:,2) + X_e_reg(:,2,1)';
+patch(vertcs_x, vertcs_y, Sensor_color,...
+      "FaceAlpha", 0.3, "EdgeColor", "none")
+
+plot(X_e_reg(:,1,1), X_e_reg(:,2,1),...
+        'LineWidth',2, 'Color', Trayectory_color)
+plot(X_e_reg(1,1,1), X_e_reg(1,2,1),...
+        'sq','MarkerSize',17,'LineWidth',3, 'Color',Trayectory_color)
 
 hold off
 
