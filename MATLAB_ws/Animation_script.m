@@ -133,7 +133,7 @@ Sensor_color = hex2rgb("#fd8d3c");
 
 %% First Frame
 
-it = 4;
+it = 2;
 
 figh = figure;
 figh.Units = "centimeters";
@@ -304,7 +304,10 @@ end
 
 %% %%%%%%%%%%%%%% Frames Pre-allocation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-MovieVector(length(t_real_reg{it})) = struct("cdata", [], "colormap", []);
+% bias para repetir último frame
+bias = 2; 
+
+MovieVector(length(t_real_reg{it}) + bias) = struct("cdata", [], "colormap", []);
 
 %% Loop
 
@@ -384,6 +387,10 @@ for i = 2:length(t_real_reg{it})
     % Guardar frames
     MovieVector(i) = getframe(figh);
 
+end
+
+for j = 1:bias
+    MovieVector(length(t_real_reg{it}) + j) = getframe(figh);
 end
 
 % Para reproducir "n" número de veces vez (n = 1)

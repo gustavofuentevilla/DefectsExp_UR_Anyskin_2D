@@ -139,10 +139,9 @@ Priors = Model.Priors;
 
 %% Kullback–Leibler divergence (Relative entropy)
 % Calculate KL Divergence from Q (Prior) to P (Posterior)
-Q = Prev_Phi_hat_x + 1e-30;
-P = pdf(gmdistribution(Mu, Sigma, Priors), Omega) + 1e-30;
-idx_P_Q = (abs(Q) >= 1e-31) & (abs(P) >= 1e-31);
-D_KL = sum( P(idx_P_Q) .* log(P(idx_P_Q) ./ Q(idx_P_Q)) )*dx_1*dx_2;
+Q = Prev_Phi_hat_x + 1e-10;
+P = pdf(gmdistribution(Mu, Sigma, Priors), Omega) + 1e-10;
+D_KL = sum( P .* log(P ./ Q) )*dx_1*dx_2;
 
 %% Compute MinVariation constraint as a function of KL divergence
 

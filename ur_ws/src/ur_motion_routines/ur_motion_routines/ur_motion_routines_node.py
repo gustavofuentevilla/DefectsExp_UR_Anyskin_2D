@@ -69,7 +69,7 @@ class URMotionRoutinesNode(Node):
             0.0000,
             0.0000
         ])
-        #0.0002, -0.0041
+        
         self.desiredQuat = self.desiredOrientation.copy()
         self.last_Orientation = None
         # default target wrench (Ceros): [fx, fy, fz, tx, ty, tz]
@@ -84,8 +84,8 @@ class URMotionRoutinesNode(Node):
         self._recording = False
         self._record_buffer = []
         # output directory for CSV recordings and trajectory readings
-        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/N100/0Def/Test'
-        self._trajectory_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests/N100/0Def/Test'
+        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N150/3Def/Test'
+        self._trajectory_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N150/3Def/Test'
         self.desiredZ = None
         
 
@@ -392,12 +392,12 @@ class URMotionRoutinesNode(Node):
         if np.dot(self.last_Orientation, self.desiredOrientation) < 0:
             self.desiredQuat = -self.desiredOrientation
 
-        A = -0.00857
-        B = -0.007878
-        C = 1.428
-        D = 0.02975
-        self.desiredZ = -(A*pose.position.x + B*pose.position.y + D)/C + 0.0025
-        #-0.0175
+        A = -0.1415
+        B = -0.04078
+        C = 18.86
+        D = 0.393
+        self.desiredZ = -(A*pose.position.x + B*pose.position.y + D)/C + 0.002
+        
             
     def rest_to_rest_trajectory(self, P_i, P_f, t_i, mvr_time, t, n):
         """
@@ -569,7 +569,7 @@ class URMotionRoutinesNode(Node):
         self.get_logger().info('Iniciando rutina de movimiento suave a la posición inicial')
         t_f = t_i + mvr_time
         next_time = time.time() + period
-        hold_time = 10.0
+        hold_time = 5.0
         while rclpy.ok():
             # process incoming messages so subscriber callbacks update last_pose
             # rclpy.spin_once(self, timeout_sec=0.0)
@@ -633,7 +633,7 @@ class URMotionRoutinesNode(Node):
         self.get_logger().info('Iniciando rutina de movimiento suave a la posición de contacto')
         t_f = t_i + mvr_time
         next_time = time.time() + period
-        hold_time = 10.0
+        hold_time = 5.0
         while rclpy.ok():
             # process incoming messages so subscriber callbacks update last_pose
             rclpy.spin_once(self, timeout_sec=0.0)

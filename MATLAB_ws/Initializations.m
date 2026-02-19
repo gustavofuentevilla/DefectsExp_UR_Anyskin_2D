@@ -36,8 +36,8 @@ Omega = [reshape(x_1_grid,[],1), reshape(x_2_grid,[],1)];
 
 % --------------------------3 Defectos
 
-Mu = [0.03, 0.05;
-      0.16, 0.03;
+Mu = [0.14, 0.04;
+      0.03, 0.17;
       0.24, 0.17];
 
 n_def = height(Mu);
@@ -171,13 +171,21 @@ Par_struct.L_i_u = L_i_u;
 
 %% Condiciones Iniciales y parámetros
 
-N = 100;            % Número de muestras por iteración
-t_f = 10;           % Tiempo final por iteración
+N = 150;            % Número de muestras por iteración
+t_f = 15;           % Tiempo final por iteración
 T_s = t_f/N;        % Tiempo de muestreo
 t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]}
-z_0 = [0.14; 0; 0.1; 0];
+z_0 = [0.24; 0; 0.09; 0];
+
+% z_4 = [0.24, 0.09];
+% z_5 = [0.20, 0.04];
+% z_6 = [0.12, 0.15];
+% z_7 = [0.20, 0.16];
+% z_8 = [0.17, 0.03];
+% z_9 = [0.21, 0.16];
+% z_10 = [0.17, 0.13];
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2

@@ -1,6 +1,6 @@
 close all
 % clear
-clearvars -except UR_N150_v
+clearvars -except UR_N200_v2
 clc
 
 import casadi.*
@@ -107,8 +107,8 @@ Par_struct.L_i_u = L_i_u;
 [phi_k_reg, f_k_reg, h_k_reg] = FourierCoef_RefPDF(Phi_hat_x(:,1), Par_struct);
 
 %% Optimization problem parameters
-N = 150;            % Número de puntos de trayectoria óptima
-t_f = 15;           % Tiempo final por iteración
+N = 200;            % Número de puntos de trayectoria óptima
+t_f = 20;           % Tiempo final por iteración
 T_s = t_f/N;        % Tiempo de muestreo
 t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
@@ -207,20 +207,19 @@ Lambda_k = (1 + vecnorm(K_cal, p, 1)').^(-(n + 1)/2);
 % opti.subject_to( z(4,1:2) == 0 );
 % opti.subject_to( z(2,end-1:end) == 0 ); % velocidades finales cero
 % opti.subject_to( z(4,end-1:end) == 0 );
-% % opti.subject_to( u(:,1) == u_0_sym ); % controles (aceleraciones) iniciales
 % 
 % % Inequality Constraints
-% opti.subject_to( -50 <= u <= 50 );
+% opti.subject_to( -1 <= u <= 1 ); % Acceleration boundaries
 % opti.subject_to( L_1_l <= z(1,:) <= L_1_u );    % x_1 boundaries
 % opti.subject_to( L_2_l <= z(3,:) <= L_2_u );    % x_2 boundaries
 % % Velocity norm (numerical instability when using sqrt(.) function)
 % v_norm = z(2,:).^2 + z(4,:).^2;
-% opti.subject_to( v_norm <= 0.2^2 )
+% opti.subject_to( v_norm <= 0.1^2 )
 % 
 % % constrain the derivate of control inputs
-% for k = 1:N-1
-%     opti.subject_to( abs(u(:,k+1) - u(:,k))/T_s <= 30 ); %25
-% end
+% % for k = 1:N-1
+% %     opti.subject_to( abs(u(:,k+1) - u(:,k))/T_s <= 30 );
+% % end
 % 
 % % Solver definition
 % % p_opts = struct('expand',true);
@@ -248,19 +247,19 @@ Lambda_k = (1 + vecnorm(K_cal, p, 1)').^(-(n + 1)/2);
 % % Function mapping: contains IPOPT method embedded and
 % % integration method RK4
 % 
-% UR_N150_v = opti.to_function('UR_N150_v',...
+% UR_N200_v2 = opti.to_function('UR_N200_v2',...
 %             {z_0_sym, phi_k_sym}, {z, u},...
 %             {'z_0','phi_k'}, {'z','u'});
 
 %% Saving and loading casadi function object
 
-% UR_N150_v.save('UR_N150_v.casadi');
+% UR_N200_v2.save('UR_N200_v2.casadi');
 
-% UR_N150_v = Function.load('UR_N150_v.casadi');
+% UR_N200_v2 = Function.load('UR_N200_v2.casadi');
 
 %% vector to add more points on the trajectory and get more data from sensor
 
-t_spline = (0:0.01:t_f)'; %Time vector por spline in one iteration
+t_spline = (0:1/200:t_f)'; %Time vector por spline in one iteration
 
 %% Loop for the Search task
 
@@ -282,7 +281,7 @@ phi_k_act = phi_k_reg;
 
 for i = 1:n_iter
 
-    [Z, U] = UR_N150_v(z_act, phi_k_act);
+    [Z, U] = UR_N200_v2(z_act, phi_k_act);
     Z = full(Z)';
     U = full(U)';
 
@@ -397,33 +396,43 @@ for i = 1:n_iter
 end
 %%
 figure(1)
-subplot(4,1,1)
+subplot(5,1,1)
 plot(t_total, X_e_total, 'LineWidth', 1.5)
 title("Position States",'Interpreter','latex')
 xlabel('Time [s]','Interpreter','latex')
 ylabel('Position [m]','Interpreter','latex')
 legend('$x_1$', '$x_2$','Interpreter','latex')
 grid on
-subplot(4,1,2)
+subplot(5,1,2)
 plot(t_total, X_e_dot_total, 'LineWidth', 1.5)
 title("Velocity States",'Interpreter','latex')
 xlabel('Time [s]','Interpreter','latex')
 ylabel('Velocity [m/s]','Interpreter','latex')
 legend('$\dot{x}_1$', '$\dot{x}_2$','Interpreter','latex')
 grid on
-subplot(4,1,3)
+subplot(5,1,3)
 plot(t_total, sqrt(X_e_dot_total(:,1).^2 + X_e_dot_total(:,2).^2), 'LineWidth', 1.5)
 title("Velocity Norm",'Interpreter','latex')
 xlabel('Time [s]','Interpreter','latex')
 ylabel('Velocity [m/s]','Interpreter','latex')
 legend('$|v|$','Interpreter','latex')
 grid on
-subplot(4,1,4)
+subplot(5,1,4)
 plot(t_total, u_total, 'LineWidth', 1.5) %stairs
 title("Control actions",'Interpreter','latex')
 xlabel('Time [s]','Interpreter','latex')
 ylabel('Force [N]','Interpreter','latex')
 legend('$u_1$', '$u_2$','Interpreter','latex')
+grid on
+subplot(5,1,5)
+plot(t_total, gradient(u_total(:,1),T_s), 'LineWidth', 1.5)
+hold on
+plot(t_total, gradient(u_total(:,2),T_s), 'LineWidth', 1.5)
+hold off
+title("Jerks",'Interpreter','latex')
+xlabel('Time [s]','Interpreter','latex')
+ylabel('Jerk [m/s^3]','Interpreter','latex')
+legend('$du_1$', '$du_2$','Interpreter','latex')
 grid on
 
 figure(2)
@@ -501,6 +510,38 @@ for i = 1:n_iter
     hold off
 end
 
+% Puntos para generar la geometría del sensor tomando el centro como (0,0)
+P_s = [-9.11, -20;
+       -11.8, -19.7;
+       -14.34, -18.81;
+       -16.62, -17.38;
+       -18.53, -15.47;
+       -19.98, -13.19;
+       -20.87, -10.65;
+       -21.18, -7.97;
+       -20.9, -5.28;
+       -20.01, -2.73;
+       -10.66, 16.89;
+       -8.83, 19.65;
+       -6.30, 21.80;
+       -3.28, 23.16;
+       0, 23.62;
+       3.28, 23.16;
+       6.30, 21.80;
+       8.83, 19.65;
+       10.66, 16.89;
+       20.01, -2.73;
+       20.9, -5.28;
+       21.18, -7.97;
+       20.87, -10.65;
+       19.98, -13.19;
+       18.53, -15.47;
+       16.62, -17.38;
+       14.34, -18.81;
+       11.8, -19.7;
+       9.11, -20]*1e-3;
+
+
 figure(6)
 pcolor(x_1_grid, x_2_grid,...
         reshape(Phi_hat_x(:,1), length(x_2), length(x_1)),...
@@ -517,8 +558,8 @@ plot(X_e_reg(:,1,1), X_e_reg(:,2,1),...
 plot(X_e_reg(1,1,1), X_e_reg(1,2,1),...
         'ksq','MarkerSize',7,'LineWidth',2)
 
-vertcs_x = [-0.02; 0; 0.02] + X_e_reg(:,1,1)';
-vertcs_y = [-0.02; 0.023; -0.02] + X_e_reg(:,2,1)';
+vertcs_x = P_s(:,1) + X_e_reg(:,1,1)';
+vertcs_y = P_s(:,2) + X_e_reg(:,2,1)';
 patch(vertcs_x, vertcs_y, "yellow", "FaceAlpha", 0.5, "EdgeColor", "none")
 
 hold off
