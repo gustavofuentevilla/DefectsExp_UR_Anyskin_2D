@@ -84,8 +84,8 @@ class URMotionRoutinesNode(Node):
         self._recording = False
         self._record_buffer = []
         # output directory for CSV recordings and trajectory readings
-        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N150/3Def/Test'
-        self._trajectory_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N150/3Def/Test'
+        self._record_output_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N100/2Def/Test'
+        self._trajectory_dir = '/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N100/2Def/Test'
         self.desiredZ = None
         
 

@@ -1,6 +1,6 @@
 close all
 % clear
-clearvars -except UR_N150_v2
+clearvars -except UR_N100_v2
 clc
 
 % CasADi 
@@ -29,7 +29,7 @@ i = 1;
 
     % Soluciones
     t_erg_init = tic;
-    [Z, U] = UR_N150_v2(z_act, phi_k_act); 
+    [Z, U] = UR_N100_v2(z_act, phi_k_act); 
     T_ErgC_i(i) = toc(t_erg_init);
     Z = full(Z)';
     U = full(U)';
@@ -56,8 +56,8 @@ i = 1;
     % Guardar trayectoria en un archivo
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
-    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N150/" + ...
-                "3Def/Test/trayectoria_" + i + ".csv";
+    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N100/" + ...
+                "2Def/Test/trayectoria_" + i + ".csv";
     writetable(T, archivo) % char(archivo) para cambiar a comillas simples
 
     %% Ejecutar las rutinas de movimiento en el robot %%%%%%%%%%%%%%%%%%%%%
@@ -73,7 +73,7 @@ i = 1;
 
     % Función para Leer los Datos (con la matriz de datos de salida)
     folderPathBag = fullfile("/home", "gustavo-fuentevilla",...
-                    "DefectsExp_UR", "Tests2", "N150", "3Def", "Test",...
+                    "DefectsExp_UR", "Tests2", "N100", "2Def", "Test",...
                     "synced_data_" + i + ".csv");
     full_data = csvReading(folderPathBag);
 
@@ -90,7 +90,8 @@ i = 1;
     Data_t_Xe_V = [full_data, Preprocess_struct(i).clean_signal];
 
     % Plot Bag
-    plotBag(Data_t_Xe_V, Thresholds, Preprocess_struct(i), Par_PDF.flag_ExplorationStage)
+    plotBag(Data_t_Xe_V, Thresholds, Preprocess_struct(i), X_e_d,...
+            Par_PDF.flag_ExplorationStage)
 
     %% Registers
     z_reg(:,:,i) = Z;
@@ -179,8 +180,9 @@ Mu_found = Par_PDF.Prev_Mu_found(2:end, :);
 Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 
 % ------------Guardar prueba
-% save(sprintf("Results2/N200/3Def/output_1.mat"), "-regexp", "^(?!(UR_N200_v2)$).");
-% save(sprintf("Results2/N150/3Def/output_1.mat"), "-regexp", "^(?!(UR_N150_v2)$).");
+% save(sprintf("Results2/N200/3Def/output_.mat"), "-regexp", "^(?!(UR_N200_v2)$).");
+% save(sprintf("Results2/N150/3Def/output_.mat"), "-regexp", "^(?!(UR_N150_v2)$).");
+% save(sprintf("Results2/N100/3Def/output_.mat"), "-regexp", "^(?!(UR_N100_v2)$).");
 
 %% Random Initial conditions
 
@@ -197,16 +199,16 @@ Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 % z_10 = [0.17, 0.13];
 
 %----2 Def
-% z_1 = [0.05, 0.05];
-% z_2 = [0.23, 0.05];
-% z_3 = [0.23, 0.15];
-% z_4 = [0.05, 0.15];
-% z_5 = [0.05, 0.10];
-% z_6 = [0.14, 0.05];
-% z_7 = [0.23, 0.10];
-% z_8 = [0.14, 0.15];
-% z_9 = [0.07, 0.10];
-% z_10 = [0.21, 0.10];
+% z_1 = [0.23, 0.18];
+% z_2 = [0.00, 0.10];
+% z_3 = [0.18, 0.07];
+% z_4 = [0.18, 0.15];
+% z_5 = [0.16, 0.12];
+% z_6 = [0.07, 0.16];
+% z_7 = [0.11, 0.12];
+% z_8 = [0.23, 0.05];
+% z_9 = [0.10, 0.10];
+% z_10 = [0.12, 0.01];
 
 %----1 Defect
 % z_1 = [0.23, 0.14];
@@ -235,7 +237,7 @@ Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 % L_i_l = [L_1_l, L_2_l];
 % L_i_u = [L_1_u, L_2_u];
 % 
-% offset = 0.03; 
+% offset = 0.0; 
 % X0 = [];
 % for i = 1:10
 %     Mu_tmp = (L_i_l + offset) + ((L_i_u - offset) - ...

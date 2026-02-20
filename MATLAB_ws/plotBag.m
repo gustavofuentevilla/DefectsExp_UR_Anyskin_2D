@@ -1,4 +1,4 @@
-function plotBag(Data_t_Xe_V, Thresholds, Preprocess_struct, flag_exp)
+function plotBag(Data_t_Xe_V, Thresholds, Preprocess_struct, X_e_d, flag_exp)
 
 Timestamps = Data_t_Xe_V(:, 1);
 Poses_x = Data_t_Xe_V(:, 2);
@@ -62,9 +62,43 @@ xlabel('Time (s)')
 ylabel('Measurements')
 legend('data for training')
 grid on
-xlim([0, 16])
+xlim([0, 12])
+
+P_s = [-9.11, -20;
+    -11.8, -19.7;
+    -14.34, -18.81;
+    -16.62, -17.38;
+    -18.53, -15.47;
+    -19.98, -13.19;
+    -20.87, -10.65;
+    -21.18, -7.97;
+    -20.9, -5.28;
+    -20.01, -2.73;
+    -10.66, 16.89;
+    -8.83, 19.65;
+    -6.30, 21.80;
+    -3.28, 23.16;
+    0, 23.62;
+    3.28, 23.16;
+    6.30, 21.80;
+    8.83, 19.65;
+    10.66, 16.89;
+    20.01, -2.73;
+    20.9, -5.28;
+    21.18, -7.97;
+    20.87, -10.65;
+    19.98, -13.19;
+    18.53, -15.47;
+    16.62, -17.38;
+    14.34, -18.81;
+    11.8, -19.7;
+    9.11, -20]*1e-3;
+vertcs_x = P_s(:,1) + X_e_d(:,1)';
+vertcs_y = P_s(:,2) + X_e_d(:,2)';
 
 nexttile(4, [4 3])
+patch(vertcs_x, vertcs_y, "blue", "FaceAlpha", 0.03, "EdgeColor", "none")
+hold on
 patch([Poses_x; NaN], [Poses_y; NaN], [Mediciones; NaN],...
       'EdgeColor','interp',"LineWidth", 3)
 cb = colorbar;
@@ -72,14 +106,13 @@ cb.Label.String = '$V_k$';
 cb.Label.Interpreter = "latex";
 xlabel('$x_1$')
 ylabel('$x_2$')
-legend('$X_e(t)$')
 grid on
 axis equal
 xlim([0, 0.28])
 ylim([0, 0.2])
-hold on
 plot(Poses_x(1), Poses_y(1), "bsq", "MarkerSize",16)
 hold off
+legend("footprint",'$X_e(t)$', "$X_e(0)$")
 
 set(findall(figh,'-property','Interpreter'),'Interpreter','latex') 
 set(findall(figh,'-property','TickLabelInterpreter'), ...

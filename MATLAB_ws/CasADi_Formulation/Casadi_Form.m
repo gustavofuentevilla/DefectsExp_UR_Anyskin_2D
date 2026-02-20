@@ -1,6 +1,6 @@
 close all
 % clear
-clearvars -except UR_N200_v2
+clearvars -except UR_N100_v2 UR_N150_v2 UR_N200_v2
 clc
 
 import casadi.*
@@ -107,8 +107,8 @@ Par_struct.L_i_u = L_i_u;
 [phi_k_reg, f_k_reg, h_k_reg] = FourierCoef_RefPDF(Phi_hat_x(:,1), Par_struct);
 
 %% Optimization problem parameters
-N = 200;            % Número de puntos de trayectoria óptima
-t_f = 20;           % Tiempo final por iteración
+N = 100;            % Número de puntos de trayectoria óptima
+t_f = 10;           % Tiempo final por iteración
 T_s = t_f/N;        % Tiempo de muestreo
 t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
@@ -120,7 +120,7 @@ R = [1e-0, 0;
 gamma = 1;
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]
-z_0 = [0.05; 0.0; 0.05; 0.0];
+z_0 = [0.23; 0.0; 0.10; 0.0];
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2
@@ -247,15 +247,15 @@ Lambda_k = (1 + vecnorm(K_cal, p, 1)').^(-(n + 1)/2);
 % % Function mapping: contains IPOPT method embedded and
 % % integration method RK4
 % 
-% UR_N200_v2 = opti.to_function('UR_N200_v2',...
+% UR_N100_v2 = opti.to_function('UR_N100_v2',...
 %             {z_0_sym, phi_k_sym}, {z, u},...
 %             {'z_0','phi_k'}, {'z','u'});
 
 %% Saving and loading casadi function object
 
-% UR_N200_v2.save('UR_N200_v2.casadi');
+% UR_N100_v2.save('UR_N100_v2.casadi');
 
-% UR_N200_v2 = Function.load('UR_N200_v2.casadi');
+% UR_N100_v2 = Function.load('UR_N100_v2.casadi');
 
 %% vector to add more points on the trajectory and get more data from sensor
 
@@ -281,7 +281,7 @@ phi_k_act = phi_k_reg;
 
 for i = 1:n_iter
 
-    [Z, U] = UR_N200_v2(z_act, phi_k_act);
+    [Z, U] = UR_N150_v2(z_act, phi_k_act);
     Z = full(Z)';
     U = full(U)';
 

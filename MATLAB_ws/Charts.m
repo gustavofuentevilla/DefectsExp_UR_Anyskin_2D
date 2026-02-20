@@ -5,10 +5,7 @@ clearvars -except UR_N150_v2
 clc
 
 % Load data
-% N100/2Def/8 (se pierde un defecto xd)
-% N100/3Def/8 (se pierde un defecto xd)
-% N100/1Def/4,10 (doble exploración)
-load("Results2/N150/3Def/output_1.mat") %7 para publicar
+load("Results2/N150/3Def/output_3.mat")
 
 %% Extracción de datos rales
 
@@ -975,8 +972,38 @@ plot(X_e_reg(:,1,1), X_e_reg(:,2,1),...
 plot(X_e_reg(1,1,1), X_e_reg(1,2,1),...
         'ksq','MarkerSize',17,'LineWidth',3)
 
-vertcs_x = [-0.02; 0; 0.02] + X_e_reg(:,1,1)';
-vertcs_y = [-0.02; 0.023; -0.02] + X_e_reg(:,2,1)';
+P_s = [-9.11, -20;
+       -11.8, -19.7;
+       -14.34, -18.81;
+       -16.62, -17.38;
+       -18.53, -15.47;
+       -19.98, -13.19;
+       -20.87, -10.65;
+       -21.18, -7.97;
+       -20.9, -5.28;
+       -20.01, -2.73;
+       -10.66, 16.89;
+       -8.83, 19.65;
+       -6.30, 21.80;
+       -3.28, 23.16;
+       0, 23.62;
+       3.28, 23.16;
+       6.30, 21.80;
+       8.83, 19.65;
+       10.66, 16.89;
+       20.01, -2.73;
+       20.9, -5.28;
+       21.18, -7.97;
+       20.87, -10.65;
+       19.98, -13.19;
+       18.53, -15.47;
+       16.62, -17.38;
+       14.34, -18.81;
+       11.8, -19.7;
+       9.11, -20]*1e-3;
+
+vertcs_x = P_s(:,1) + X_e_reg(:,1,1)';
+vertcs_y = P_s(:,2) + X_e_reg(:,2,1)';
 patch(vertcs_x, vertcs_y, Sensor_color, "FaceAlpha", 0.5, "EdgeColor", "none")
 
 hold off
