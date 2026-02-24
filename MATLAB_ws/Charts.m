@@ -5,7 +5,8 @@ clearvars -except UR_N150_v2
 clc
 
 % Load data
-load("Results2/N150/3Def/output_3.mat")
+% load("Results2/N100/2Def/output_8.mat")
+load("Tmp/output_1.mat")
 
 %% Extracción de datos rales
 

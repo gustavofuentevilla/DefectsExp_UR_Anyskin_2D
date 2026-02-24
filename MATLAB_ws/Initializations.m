@@ -63,44 +63,44 @@ Omega = [reshape(x_1_grid,[],1), reshape(x_2_grid,[],1)];
 % Sigma = cat(3, Cov_1, Cov_2, Cov_3);
 
 % -------------------------------2 Defectos
-
-Mu = [0.07, 0.13;
-      0.22, 0.06];
-
-n_def = height(Mu);
-
-def_1_rad = [0.5e-2, 1e-2];
-def_2_rad = [1e-2, 0.5e-2];
-
-eig_V = eye(2);
-
-def_D_1 = diag(def_1_rad);
-def_D_2 = diag(def_2_rad);
-
-def_Sd_1 = eig_V * def_D_1 * eig_V' / 3;
-def_Sd_2 = eig_V * def_D_2 * eig_V' / 3;
-
-Cov_1 = def_Sd_1 * def_Sd_1;
-Cov_2 = def_Sd_2 * def_Sd_2;
-
-Sigma = cat(3, Cov_1, Cov_2);
-
-% ---------------------------- 1 Defecto
-% Mu = [0.14, 0.10];
+%
+% Mu = [0.0675, 0.1310;
+%       0.2180, 0.0610];
 % 
 % n_def = height(Mu);
 % 
-% def_1_rad = [18.75e-3/2, 18.75e-3/2]; %Moneda de 2 cent
+% def_1_rad = [0.5e-2, 1e-2];
+% def_2_rad = [1e-2, 0.5e-2];
 % 
 % eig_V = eye(2);
 % 
 % def_D_1 = diag(def_1_rad);
+% def_D_2 = diag(def_2_rad);
 % 
 % def_Sd_1 = eig_V * def_D_1 * eig_V' / 3;
+% def_Sd_2 = eig_V * def_D_2 * eig_V' / 3;
 % 
 % Cov_1 = def_Sd_1 * def_Sd_1;
+% Cov_2 = def_Sd_2 * def_Sd_2;
 % 
-% Sigma = Cov_1;
+% Sigma = cat(3, Cov_1, Cov_2);
+
+% ---------------------------- 1 Defecto
+Mu = [0.14, 0.10];
+
+n_def = height(Mu);
+
+def_1_rad = [18.75e-3/2, 18.75e-3/2]; %Moneda de 2 cent
+
+eig_V = eye(2);
+
+def_D_1 = diag(def_1_rad);
+
+def_Sd_1 = eig_V * def_D_1 * eig_V' / 3;
+
+Cov_1 = def_Sd_1 * def_Sd_1;
+
+Sigma = Cov_1;
 
 % Real PDF
 gm_dist = gmdistribution(Mu, Sigma);
@@ -173,25 +173,25 @@ Par_struct.L_i_u = L_i_u;
 
 %% Condiciones Iniciales y parámetros
 
-N = 100;            % Número de muestras por iteración
-t_f = 10;           % Tiempo final por iteración
+N = 150;            % Número de muestras por iteración
+t_f = 15;           % Tiempo final por iteración
 T_s = t_f/N;        % Tiempo de muestreo
 t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]}
-z_0 = [0.23; 0; 0.18; 0];
+z_0 = [0.03; 0; 0.13; 0];
 
-%----2 Def
-% z_1 = [0.23, 0.18];
-% z_2 = [0.00, 0.10];
-% z_3 = [0.18, 0.07];
-% z_4 = [0.18, 0.15];
-% z_5 = [0.16, 0.12];
-% z_6 = [0.07, 0.16];
-% z_7 = [0.11, 0.12];
-% z_8 = [0.23, 0.05];
-% z_9 = [0.10, 0.10];
-% z_10 = [0.12, 0.01];
+%----1 Def
+% z_1 = [0.23, 0.14];
+% z_2 = [0.05, 0.06];
+% z_3 = [0.10, 0.12];
+% z_4 = [0.06, 0.13];
+% z_5 = [0.05, 0.12];
+% z_6 = [0.13, 0.13];
+% z_7 = [0.18, 0.15];
+% z_8 = [0.22, 0.07];
+% z_9 = [0.18, 0.05];
+% z_10 = [0.03, 0.13];
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2
@@ -237,8 +237,8 @@ Par_PDF.nbDef_range = [1, n_def + 2];
 
 % Threshold definitions
 thres_meas = 60.0541;
-thres_meas_stg2 = thres_meas; %88.5239;
-thres_meas_stg1 = thres_meas; %69.8821 considerando algunos drifts
+thres_meas_stg2 = thres_meas;
+thres_meas_stg1 = thres_meas; 
 thres_vel = 0.0501;
 thres_absD = 45.8505;
 

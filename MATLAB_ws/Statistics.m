@@ -48,10 +48,10 @@ clear
 clc
 
 % N100 = 10 sec; N150 = 15 sec; N200 = 20 sec
-planner = "N200";
+planner = "N100";
 
 % Number of defects
-def = 3;
+def = 1;
 
 % Number of tests per case
 totalOut = 10;
@@ -65,22 +65,21 @@ T_iter = cell(totalOut, 1);         % Times per iteration
 Mu_buffer = cell(totalOut, 1);
 Mu_found_buffer = cell(totalOut, 1);
 
-checkidx = false(totalOut, 1);
-
+dblCheck = zeros(totalOut, 1);
 
 for out_i = 1:totalOut
     % Loading file and extract variables
     filename = "Results2/" + planner + "/" + def +...
                 "Def/output_" + out_i + ".mat";
     load(filename, "n_iter", "Mu_found", "Estim_sol",...
-         "T_ErgC_i", "T_PDF_i", "Mu")
+         "T_ErgC_i", "T_PDF_i", "Mu", "Par_PDF")
 
     % Save data into a vector
     nbIter(out_i) = n_iter;
     nbMu(out_i) = height(Mu_found);
 
-    % Checking
-    checkidx(out_i) = height(Estim_sol{end}.Mu_found) ~= def;
+    % double check
+    dblCheck(out_i) = Par_PDF.NoDataIterCounter;
 
     % Times
     T_traj{out_i} = T_ErgC_i;
@@ -124,3 +123,5 @@ end
 
 avgLocationError = mean(e_centers);
 stdLocationError = std(e_centers);
+
+

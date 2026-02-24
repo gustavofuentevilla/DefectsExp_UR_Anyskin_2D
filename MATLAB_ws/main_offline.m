@@ -1,13 +1,13 @@
 close all
 % clear
-clearvars -except UR_N100_v2
+clearvars -except UR_N150_v2
 clc
 
 % CasADi 
 import casadi.*
 
 % loading casadi function object (comment if it's already loaded)
-% UR_N200_v2 = Function.load('CasADi_Formulation/UR_N200_v2.casadi');
+% UR_N150_v2 = Function.load('CasADi_Formulation/UR_N150_v2.casadi');
 
 %% Include and create custom messages
 
@@ -29,7 +29,7 @@ i = 1;
 
     % Soluciones
     t_erg_init = tic;
-    [Z, U] = UR_N100_v2(z_act, phi_k_act); 
+    [Z, U] = UR_N150_v2(z_act, phi_k_act); 
     T_ErgC_i(i) = toc(t_erg_init);
     Z = full(Z)';
     U = full(U)';
@@ -56,8 +56,8 @@ i = 1;
     % Guardar trayectoria en un archivo
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
-    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N100/" + ...
-                "2Def/Test/trayectoria_" + i + ".csv";
+    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N150/" + ...
+                "1Def/Test/trayectoria_" + i + ".csv";
     writetable(T, archivo) % char(archivo) para cambiar a comillas simples
 
     %% Ejecutar las rutinas de movimiento en el robot %%%%%%%%%%%%%%%%%%%%%
@@ -73,7 +73,7 @@ i = 1;
 
     % Función para Leer los Datos (con la matriz de datos de salida)
     folderPathBag = fullfile("/home", "gustavo-fuentevilla",...
-                    "DefectsExp_UR", "Tests2", "N100", "2Def", "Test",...
+                    "DefectsExp_UR", "Tests2", "N150", "1Def", "Test",...
                     "synced_data_" + i + ".csv");
     full_data = csvReading(folderPathBag);
 
@@ -180,9 +180,9 @@ Mu_found = Par_PDF.Prev_Mu_found(2:end, :);
 Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 
 % ------------Guardar prueba
-% save(sprintf("Results2/N200/3Def/output_.mat"), "-regexp", "^(?!(UR_N200_v2)$).");
-% save(sprintf("Results2/N150/3Def/output_.mat"), "-regexp", "^(?!(UR_N150_v2)$).");
-% save(sprintf("Results2/N100/3Def/output_.mat"), "-regexp", "^(?!(UR_N100_v2)$).");
+% save(sprintf("Results2/N200/1Def/output_.mat"), "-regexp", "^(?!(UR_N200_v2)$).");
+% save(sprintf("Results2/N150/1Def/output_.mat"), "-regexp", "^(?!(UR_N150_v2)$).");
+% save(sprintf("Results2/N100/1Def/output_.mat"), "-regexp", "^(?!(UR_N100_v2)$).");
 
 %% Random Initial conditions
 
@@ -203,7 +203,7 @@ Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 % z_2 = [0.00, 0.10];
 % z_3 = [0.18, 0.07];
 % z_4 = [0.18, 0.15];
-% z_5 = [0.16, 0.12];
+% z_5 = [0.16, 0.10];
 % z_6 = [0.07, 0.16];
 % z_7 = [0.11, 0.12];
 % z_8 = [0.23, 0.05];
