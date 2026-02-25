@@ -1,13 +1,13 @@
 close all
 % clear
-clearvars -except UR_N150_v2
+clearvars -except UR_N100_v2
 clc
 
 % CasADi 
 import casadi.*
 
 % loading casadi function object (comment if it's already loaded)
-% UR_N150_v2 = Function.load('CasADi_Formulation/UR_N150_v2.casadi');
+% UR_N100_v2 = Function.load('CasADi_Formulation/UR_N100_v2.casadi');
 
 %% Include and create custom messages
 
@@ -25,11 +25,11 @@ T_PDF_i = zeros(n_iter_max, 1);
 %% Offline Loop
 
 % Iteration 
-i = 1;
+i = 2;
 
     % Soluciones
     t_erg_init = tic;
-    [Z, U] = UR_N150_v2(z_act, phi_k_act); 
+    [Z, U] = UR_N100_v2(z_act, phi_k_act); 
     T_ErgC_i(i) = toc(t_erg_init);
     Z = full(Z)';
     U = full(U)';
@@ -56,8 +56,8 @@ i = 1;
     % Guardar trayectoria en un archivo
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
-    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N150/" + ...
-                "1Def/Test/trayectoria_" + i + ".csv";
+    archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N100/" + ...
+                "0Def/Test/trayectoria_" + i + ".csv";
     writetable(T, archivo) % char(archivo) para cambiar a comillas simples
 
     %% Ejecutar las rutinas de movimiento en el robot %%%%%%%%%%%%%%%%%%%%%
@@ -73,7 +73,7 @@ i = 1;
 
     % Función para Leer los Datos (con la matriz de datos de salida)
     folderPathBag = fullfile("/home", "gustavo-fuentevilla",...
-                    "DefectsExp_UR", "Tests2", "N150", "1Def", "Test",...
+                    "DefectsExp_UR", "Tests2", "N100", "0Def", "Test",...
                     "synced_data_" + i + ".csv");
     full_data = csvReading(folderPathBag);
 
@@ -212,7 +212,7 @@ Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 
 %----1 Defect
 % z_1 = [0.23, 0.14];
-% z_2 = [0.05, 0.06];
+% z_2 = [0.0, 0.0];
 % z_3 = [0.10, 0.12];
 % z_4 = [0.06, 0.13];
 % z_5 = [0.05, 0.12];
@@ -221,6 +221,9 @@ Sigma_found = Par_PDF.Prev_Sigma_found(:,:,2:end);
 % z_8 = [0.22, 0.07];
 % z_9 = [0.18, 0.05];
 % z_10 = [0.03, 0.13];
+
+%----0 Defect
+%z_1 = [0.14, 0.10];
 
 %% Initial Condition generator
 

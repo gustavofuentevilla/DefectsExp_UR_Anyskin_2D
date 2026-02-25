@@ -48,7 +48,7 @@ clear
 clc
 
 % N100 = 10 sec; N150 = 15 sec; N200 = 20 sec
-planner = "N100";
+planner = "N200";
 
 % Number of defects
 def = 1;

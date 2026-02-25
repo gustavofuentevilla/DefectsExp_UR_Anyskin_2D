@@ -173,25 +173,13 @@ Par_struct.L_i_u = L_i_u;
 
 %% Condiciones Iniciales y parámetros
 
-N = 150;            % Número de muestras por iteración
-t_f = 15;           % Tiempo final por iteración
+N = 100;            % Número de muestras por iteración
+t_f = 10;           % Tiempo final por iteración
 T_s = t_f/N;        % Tiempo de muestreo
 t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]}
-z_0 = [0.03; 0; 0.13; 0];
-
-%----1 Def
-% z_1 = [0.23, 0.14];
-% z_2 = [0.05, 0.06];
-% z_3 = [0.10, 0.12];
-% z_4 = [0.06, 0.13];
-% z_5 = [0.05, 0.12];
-% z_6 = [0.13, 0.13];
-% z_7 = [0.18, 0.15];
-% z_8 = [0.22, 0.07];
-% z_9 = [0.18, 0.05];
-% z_10 = [0.03, 0.13];
+z_0 = [0.14; 0; 0.10; 0];
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2

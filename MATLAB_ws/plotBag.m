@@ -62,7 +62,7 @@ xlabel('Time (s)')
 ylabel('Measurements')
 legend('data for training')
 grid on
-xlim([0, 12])
+xlim([0, 25])
 
 P_s = [-9.11, -20;
     -11.8, -19.7;
