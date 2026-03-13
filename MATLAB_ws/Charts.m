@@ -1,12 +1,11 @@
 %% Charts
 
 close all
-clearvars -except UR_N150_v2
+clearvars -except UR_N100_v2
 clc
 
 % Load data
-% load("Results2/N100/2Def/output_8.mat")
-load("Tmp/output_1.mat")
+load("Results2/N150/2Def/output_2.mat")
 
 %% Extracción de datos rales
 
@@ -606,7 +605,7 @@ NotFoundDef_color = "yellow";
 RealDef_color = "black";
 Trayectory_color = hex2rgb("#d94801");  %hex2rgb("#045a8d"); %"black";
 
-columnas = 4;
+columnas = 5;
 filas = ceil((n_iter + 1)/columnas);
 
 % ---------- Planned trajectories
@@ -734,7 +733,7 @@ colormap(brewermap(15,"-Blues"))
 
 % ---------- Real trajectories
 
-columnas = 4;
+columnas = 5;
 filas = ceil((n_iter + 1)/columnas);
 
 fig31h = figure(31);

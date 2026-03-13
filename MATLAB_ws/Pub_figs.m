@@ -2,8 +2,7 @@ close all
 clear
 clc
 
-%N100/2Def/7
-load("Results/N100/2Def/output_7.mat")
+load("Results2/N150/2Def/output_2.mat")
 
 %% Extracción de datos rales
 
@@ -141,6 +140,12 @@ for i = 1:n_iter
     probmap_ax = pcolor(x_1_grid, x_2_grid, ...
             reshape(Phi_hat_x_reg(:,:,i), length(x_2), length(x_1)),...
             "EdgeColor","none", "FaceColor","interp");
+    if i == n_iter
+        c = colorbar;
+        c.Label.String = "Probability";
+        c.Ticks = [0,1000];
+        c.TickLabels = {"Low", "High"};
+    end
     title("Iteration " + i)
     % xlabel('$x_1$ [m]')
     % ylabel('$x_2$ [m]')
@@ -205,6 +210,9 @@ for i = 1:n_iter
     % lgd.Location = "northeastoutside";
 
     hold off
+
+    xticks([L_1_l, L_1/2, L_1_u])
+    yticks([L_2_l, L_2/2, L_2_u])
 end
 
 nexttile(layout1h)
@@ -215,6 +223,8 @@ nexttile(layout1h)
 title("Result",'Interpreter','latex')
 % xlabel('$x_1$ [m]','Interpreter','latex')
 % ylabel('$x_2$ [m]','Interpreter','latex')
+xticks([L_1_l, L_1/2, L_1_u])
+yticks([L_2_l, L_2/2, L_2_u])
 xtickformat('%.2f')
 ytickformat('%.2f')
 axis equal
@@ -331,6 +341,8 @@ ylabel('$x_2$ [m]')
 axis equal
 xlim([L_1_l, L_1_u])
 ylim([L_2_l, L_2_u])
+xticks([L_1_l, L_1/2, L_1_u])
+yticks([L_2_l, L_2/2, L_2_u])
 xtickformat('%.2f')
 ytickformat('%.2f')
 
@@ -368,7 +380,7 @@ yline(thres_meas, "-", "$\Gamma_V$", "LineWidth", 2.5);
 hold off
 grid on
 legend("$V(t)$", "Threshold")
-xlim([0, 40])
+xlim([0, 60])
 
 nexttile(7, [1 3])
 plot(t_real_total, X_e_real_total, 'LineWidth', 1.5)
@@ -377,15 +389,15 @@ xlabel('Time [s]','Interpreter','latex')
 ylabel('Position [m]','Interpreter','latex')
 legend('$x_1$', '$x_2$','Interpreter','latex')
 grid on
-xlim([0, 40])
+xlim([0, 60])
 
 nexttile(13, [1 3])
 plot(t_real_total, Varepsilon_real_total, "k-", "LineWidth",3)
 % title("Real Ergodic Metric")
 xlabel('Time [s]')
-ylabel('$\varepsilon \left( \mathbf{X_e}(t), \Phi(\mathbf{x}) \right) $')
+ylabel('$\varepsilon \left( \hat{\Phi}(\mathbf{x}), \mathbf{x}(t) \right) $')
 grid on
-xlim([0, 40])
+xlim([0, 60])
 
 set(findall(fig4h,'-property','Interpreter'),'Interpreter','latex') 
 set(findall(fig4h,'-property','TickLabelInterpreter'), ...
@@ -394,7 +406,7 @@ set(findall(fig4h, "-property", "FontSize"), "FontSize", 20)
 
 %% Preprocessing figs
 
-%load("Results/N150/2Def/output_2.mat"); it = 3, 4;
+%load("Results2/N150/2Def/output_6.mat"); it = 4;
 
 it = 3;
 
@@ -472,14 +484,16 @@ patch([X_e_real_reg{it}(:,1); NaN], [X_e_real_reg{it}(:,2); NaN],...
 cb = colorbar;
 cb.Label.String = '$V(t)$';
 cb.Label.Interpreter = "latex";
-xlabel('$x_1$')
-ylabel('$x_2$')
+xlabel('$x_1$ [m]')
+ylabel('$x_2$ [m]')
 axis equal
 xlim([0, 0.28])
 ylim([0, 0.2])
 plot(X_e_real_reg{it}(1,1), X_e_real_reg{it}(1,2), "bsq",...
     "MarkerSize",16, "LineWidth",3)
 hold off
+xticks([L_1_l, L_1/2, L_1_u])
+yticks([L_2_l, L_2/2, L_2_u])
 xtickformat('%.2f')
 ytickformat('%.2f')
 % legend('$X_e(t)$', "$X_e(0)$")
@@ -535,7 +549,7 @@ set(findall(figh, "-property", "FontSize"), "FontSize", 18)
 % clear
 % clc
 % 
-% load("Results/N100/0Def/output_1.mat")
+% load("Results/N150/0Def/output_1.mat")
 % 
 % t_real_reg = cell(1, n_iter);
 % X_e_real_reg = cell(1, n_iter);
@@ -636,6 +650,8 @@ set(findall(figh, "-property", "FontSize"), "FontSize", 18)
 %             reshape(Phi_hat_x_reg(:,:,i), length(x_2), length(x_1)),...
 %             "EdgeColor","none", "FaceColor","interp");
 %     title("Iteration " + i)
+%     xticks([L_1_l, L_1/2, L_1_u])
+%     yticks([L_2_l, L_2/2, L_2_u])
 %     xtickformat('%.2f')
 %     ytickformat('%.2f')
 %     axis equal tight
@@ -658,11 +674,13 @@ set(findall(figh, "-property", "FontSize"), "FontSize", 18)
 % nexttile(layout1h)
 % 
 % title("Result",'Interpreter','latex')
-% xtickformat('%.2f')
-% ytickformat('%.2f')
 % axis equal
 % xlim([L_1_l, L_1_u])
 % ylim([L_2_l, L_2_u])
+% xticks([L_1_l, L_1/2, L_1_u])
+% yticks([L_2_l, L_2/2, L_2_u])
+% xtickformat('%.2f')
+% ytickformat('%.2f')
 % 
 % layout1h.TileSpacing = 'compact';
 % layout1h.Padding = 'compact';
@@ -694,16 +712,16 @@ set(findall(figh, "-property", "FontSize"), "FontSize", 18)
 % hold off
 % grid on
 % % legend("$V(t)$", "Threshold")
-% xlim([0, 20])
+% xlim([0, 30])
 % ylim([10, 75])
 % 
 % nexttile(7, [1 3])
 % plot(t_real_total, Varepsilon_real_total, "k-", "LineWidth",3)
 % % title("Real Ergodic Metric")
 % xlabel('Time [s]')
-% ylabel('$\varepsilon \left( \mathbf{X_e}(t), \Phi(\mathbf{x}) \right) $')
+% ylabel('$\varepsilon \left( \hat{\Phi}(\mathbf{x}), \mathbf{x}(t) \right) $')
 % grid on
-% xlim([0, 20])
+% xlim([0, 30])
 % 
 % set(findall(figh,'-property','Interpreter'),'Interpreter','latex') 
 % set(findall(figh,'-property','TickLabelInterpreter'), ...

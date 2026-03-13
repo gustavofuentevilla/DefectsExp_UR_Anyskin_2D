@@ -63,54 +63,54 @@ Omega = [reshape(x_1_grid,[],1), reshape(x_2_grid,[],1)];
 % Sigma = cat(3, Cov_1, Cov_2, Cov_3);
 
 % -------------------------------2 Defectos
-%
-% Mu = [0.0675, 0.1310;
-%       0.2180, 0.0610];
-% 
-% n_def = height(Mu);
-% 
-% def_1_rad = [0.5e-2, 1e-2];
-% def_2_rad = [1e-2, 0.5e-2];
-% 
-% eig_V = eye(2);
-% 
-% def_D_1 = diag(def_1_rad);
-% def_D_2 = diag(def_2_rad);
-% 
-% def_Sd_1 = eig_V * def_D_1 * eig_V' / 3;
-% def_Sd_2 = eig_V * def_D_2 * eig_V' / 3;
-% 
-% Cov_1 = def_Sd_1 * def_Sd_1;
-% Cov_2 = def_Sd_2 * def_Sd_2;
-% 
-% Sigma = cat(3, Cov_1, Cov_2);
 
-% ---------------------------- 1 Defecto
-Mu = [0.14, 0.10];
+Mu = [0.0675, 0.1310;
+      0.2180, 0.0610];
 
 n_def = height(Mu);
 
-def_1_rad = [18.75e-3/2, 18.75e-3/2]; %Moneda de 2 cent
+def_1_rad = [0.5e-2, 1e-2];
+def_2_rad = [1e-2, 0.5e-2];
 
 eig_V = eye(2);
 
 def_D_1 = diag(def_1_rad);
+def_D_2 = diag(def_2_rad);
 
 def_Sd_1 = eig_V * def_D_1 * eig_V' / 3;
+def_Sd_2 = eig_V * def_D_2 * eig_V' / 3;
 
 Cov_1 = def_Sd_1 * def_Sd_1;
+Cov_2 = def_Sd_2 * def_Sd_2;
 
-Sigma = Cov_1;
+Sigma = cat(3, Cov_1, Cov_2);
 
-% Real PDF
-gm_dist = gmdistribution(Mu, Sigma);
-Phi_x = pdf(gm_dist, Omega);
-
-Sigma_ast_Phi = zeros(size(Sigma));
-for j = 1:n_def
-    % 3*Standard deviation that represents 99% of data
-    Sigma_ast_Phi(:,:,j) = 3*sqrtm(Sigma(:,:,j)); 
-end
+% ---------------------------- 1 Defecto
+% Mu = [0.14, 0.10];
+% 
+% n_def = height(Mu);
+% 
+% def_1_rad = [18.75e-3/2, 18.75e-3/2]; %Moneda de 2 cent
+% 
+% eig_V = eye(2);
+% 
+% def_D_1 = diag(def_1_rad);
+% 
+% def_Sd_1 = eig_V * def_D_1 * eig_V' / 3;
+% 
+% Cov_1 = def_Sd_1 * def_Sd_1;
+% 
+% Sigma = Cov_1;
+% 
+% % Real PDF
+% gm_dist = gmdistribution(Mu, Sigma);
+% Phi_x = pdf(gm_dist, Omega);
+% 
+% Sigma_ast_Phi = zeros(size(Sigma));
+% for j = 1:n_def
+%     % 3*Standard deviation that represents 99% of data
+%     Sigma_ast_Phi(:,:,j) = 3*sqrtm(Sigma(:,:,j)); 
+% end
 
 % ------------plotting
 % nbDrawingSeg = 1000;
@@ -179,7 +179,7 @@ T_s = t_f/N;        % Tiempo de muestreo
 t = (0:T_s:t_f)';   % Vector de tiempo por iteración
 
 % Estado inicial z = [z_1; z_2; z_3; z_4] = [x_1; x_1_dot; x_2; x_2_dot]}
-z_0 = [0.14; 0; 0.10; 0];
+z_0 = [0.0; 0; 0.10; 0];
 
 %Pre-cálculo de Lambda
 p = 2; %norma 2

@@ -25,7 +25,7 @@ T_PDF_i = zeros(n_iter_max, 1);
 %% Offline Loop
 
 % Iteration 
-i = 2;
+i = 1;
 
     % Soluciones
     t_erg_init = tic;
@@ -57,8 +57,8 @@ i = 2;
     ErgodicTraj = [t_spline, X_e_d_spline];
     T = array2table(ErgodicTraj, 'VariableNames', {'Tiempo', 'x_ee', 'y_ee'});
     archivo = "/home/gustavo-fuentevilla/DefectsExp_UR/Tests2/N100/" + ...
-                "0Def/Test/trayectoria_" + i + ".csv";
-    writetable(T, archivo) % char(archivo) para cambiar a comillas simples
+                "2Def/Test/trayectoria_" + i + ".csv";
+    % writetable(T, archivo) % char(archivo) para cambiar a comillas simples
 
     %% Ejecutar las rutinas de movimiento en el robot %%%%%%%%%%%%%%%%%%%%%
     % En la terminal con ROS2 lanzar el robot y luego la trayectoria
@@ -73,7 +73,7 @@ i = 2;
 
     % Función para Leer los Datos (con la matriz de datos de salida)
     folderPathBag = fullfile("/home", "gustavo-fuentevilla",...
-                    "DefectsExp_UR", "Tests2", "N100", "0Def", "Test",...
+                    "DefectsExp_UR", "Tests2", "N100", "2Def", "Test",...
                     "synced_data_" + i + ".csv");
     full_data = csvReading(folderPathBag);
 

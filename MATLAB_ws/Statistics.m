@@ -48,10 +48,10 @@ clear
 clc
 
 % N100 = 10 sec; N150 = 15 sec; N200 = 20 sec
-planner = "N200";
+planner = "N150";
 
 % Number of defects
-def = 1;
+def = 2;
 
 % Number of tests per case
 totalOut = 10;
