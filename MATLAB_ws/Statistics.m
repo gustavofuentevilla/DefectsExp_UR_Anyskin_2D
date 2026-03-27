@@ -48,10 +48,10 @@ clear
 clc
 
 % N100 = 10 sec; N150 = 15 sec; N200 = 20 sec
-planner = "N150";
+planner = "N200";
 
 % Number of defects
-def = 2;
+def = 3;
 
 % Number of tests per case
 totalOut = 10;
@@ -107,6 +107,16 @@ end
 
 avgTimePerIter = mean(TimePerIter);
 stdTimePerIter = std(TimePerIter);
+
+% Time to compute trajectory
+TimeTraj = [];
+for out_i = 1:totalOut
+    TimeTraj = [TimeTraj;
+                T_traj{out_i}(1:nbIter(out_i))];
+end
+
+avgTimeTraj = mean(TimeTraj);
+stdTimeTraj = std(TimeTraj);
 
 % Mean error distance between estimated and real defect locations
 e_centers = [];
